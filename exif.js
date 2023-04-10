@@ -131,7 +131,13 @@
       0x0110 : "Model",
       0x0131 : "Software",
       0x013B : "Artist",
-      0x8298 : "Copyright"
+      0x8298 : "Copyright",
+      
+      // lens tags
+      0xA432 : "LensSpecification",       // 4 rational values giving focal and aperture ranges
+      0xA433 : "LensMake",
+      0xA434 : "LensModel",
+      0xA435 : "LensSerialNumber"
   };
 
   var GPSTags = EXIF.GPSTags = {
@@ -376,7 +382,7 @@
           img.iptcdata = iptcdata || {};
           if (EXIF.isXmpEnabled) {
              var xmpdata= findXMPinJPEG(binFile);
-             img.xmpdata = xmpdata || {};               
+             img.xmpdata = xmpdata || {}; 
           }
           if (callback) {
               callback.call(img);
@@ -977,12 +983,11 @@
   }
 
   EXIF.getData = function(img, callback) {
-/*      if (((self.Image && img instanceof self.Image)
+      /*if (((self.Image && img instanceof self.Image)
           || (self.HTMLImageElement && img instanceof self.HTMLImageElement))
           && !img.complete)
           return false;
 */
-console.log('test3');
       if (!imageHasData(img)) {
           getImageData(img, callback);
       } else {

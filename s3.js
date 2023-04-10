@@ -157,14 +157,17 @@ function showImage(image) {
 
 function showMeta(image) {
     var meta = document.getElementById('meta');
+    EXIF.enableXmp();
     EXIF.getData(image, function() {
-        var partist = EXIF.getTag(this, "Artist");
+        var alldata = EXIF.getAllTags(this);
+        console.log(alldata);
         let tagsAvailable = {
             ...EXIF.Tags,
             ...EXIF.TiffTags,
             ...EXIF.GPSTags,
             ...EXIF.IFD1Tags
         }
+        console.log(EXIF.getTag(this, "ShutterSpeedValue"));
         for (let i in tagsAvailable) {
             var item = document.createElement('li');
             var tagdata = EXIF.getTag(this, tagsAvailable[i]);

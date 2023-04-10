@@ -5,140 +5,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Photos.Sowrey.Org</title>
-    <script src="exif.js"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1353.0.min.js"></script>
-    <!--script src="s3.js"></script-->
+    <script src="/s3-v2.js"></script>
+    <script src="/exif.js"></script>
     <script>
-        console.log(window.location);
+
     </script>
 </head>
 <body>
-
-    <div id="viewer">
-        test
-    </div>
-    <div id="image">
-        <img id="hero" />
-        <ul id="meta"></ul>
-    </div>
-
+    <header>
+        <h1>1000 Words: Photos by Geoff Sowrey</h1>
+    </header>
+    <nav>
+        <!-- bread crumb menu -->
+        <ul></ul>
+    </nav>
+    <main>
+        <section id="albums">
+            <!-- Displays albums from S3 -->
+            <h2>Albums</h2>
+            <div id="albumlist"><span>Loading...</span></div>
+        </section>
+        <section id="contents">
+            <!-- Displays contents of an album -->
+            <h2><span>Album</span> Pictures</h2>
+            <div id="pictures"><span>Loading...</span></div>
+        </section>
+        <section id="details">
+            <!-- Displays the details of a specific photo -->
+            <div>
+                <img id="hero" />
+                <h2><span>Loading...</span></h2>
+                <p></p>
+            </div>
+            <div>
+                <table id="photometa">
+                    <tr>
+                        <td>Capture Date and Time</td>
+                        <td id="DateTimeOriginal">Unspecified</td>
+                    </tr>
+                    <tr>
+                        <td>Camera Model</td>
+                        <td id="Model">Unspecified</td>
+                    </tr>
+                    <tr>
+                        <td>Lens</td>
+                        <td id="LensData">Unspecified</td>
+                    </tr>
+                    <tr>
+                        <td>ISO</td>
+                        <td id="ISOSpeedRatings">Unspecified</td>
+                    </tr>
+                    <tr>
+                        <td>Focal Length</td>
+                        <td id="FocalLength">Unspecified</td>
+                    </tr>
+                    <tr>
+                        <td>Aperature</td>
+                        <td id="FNumber">Unspecified</td>
+                    </tr>
+                    <tr>
+                        <td>Exposure Time</td>
+                        <td id="ExposureTime">Unspecified</td>
+                    </tr>
+                    <tr>
+                        <td>Exposure Program</td>
+                        <td id="ExposureProgram">Unspecified</td>
+                    </tr>
+                    <tr>
+                        <td>Exposure Bias</td>
+                        <td id="ExposureBias">Unspecified</td>
+                    </tr>
+                    <tr>
+                        <td>Metering</td>
+                        <td id="MeteringMode">Unspecified</td>
+                    </tr>
+                    <tr>
+                        <td>White Balance</td>
+                        <td id="WhiteBalance">Unspecified</td>
+                    </tr>
+                </table>
+                <div id="photogeo">
+                    <!-- Google Maps Static location -->
+                    <img id="map6" />
+                    <img id="map10" />
+                    <img id="map16" />
+                    <!-- https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=600&height=400&center=lonlat:-122.304378,47.526022&zoom=14&marker=lonlat:-122.304378,47.526022;color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5 -->
+                    <!-- zoom 6, 10, 16-->
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>© Geoff Sowrey</p>
+        <p>Uses the EXIF library and AWS SDK</p>
+    </footer>
     <script>
-/*        var albumBucketName = 'photos.sowrey.org';
-        // Initialize the Amazon Cognito credentials provider
-        AWS.config.region = 'us-east-2'; // Region
-        //AWS.config.s3 = { endpoint: 'photos.sowrey.org.s3.ca-central-1.amazonaws.com' };
-        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-            IdentityPoolId: 'us-east-2:0806a01f-c913-4f3c-babb-f9cb6af8cdcf',
-        });
-
-        // Create a new service object
-        var s3 = new AWS.S3({
-            apiVersion: '2006-03-01',
-            params: {Bucket: albumBucketName}
-        });
-
-        // A utility function to create HTML.
-        function getHtml(template) {
-            return template.join('\n');
-        }
-
-        // List the photo albums that exist in the bucket.
-        function listAlbums() {
-            s3.endpoint.host = 'photos.sowrey.org.s3.ca-central-1.amazonaws.com';
-            s3.endpoint.hostname = 'photos.sowrey.org.s3.ca-central-1.amazonaws.com';
-            s3.config.endpoint = 'photos.sowrey.org.s3.ca-central-1.amazonaws.com';
-            s3.config.s3BucketEndpoint = true;
-            s3.listObjects({Delimiter: '/'}, function(err, data) {
-                if (err) {
-                    return alert('There was an error listing your albums: ' + err.message);
-                } else {
-                    var albums = data.CommonPrefixes.map(function(commonPrefix) {
-                        var prefix = commonPrefix.Prefix;
-                        var albumName = decodeURIComponent(prefix.replace('/', ''));
-                        return getHtml([
-                        '<li>',
-                            '<button style="margin:5px;" onclick="viewAlbum(\'' + albumName + '\')">',
-                            albumName,
-                            '</button>',
-                        '</li>'
-                        ]);
-                    });
-                    var message = albums.length ?
-                        getHtml([
-                        '<p>Click on an album name to view it.</p>',
-                        ]) :
-                        '<p>You do not have any albums. Please Create album.';
-                    var htmlTemplate = [
-                        '<h2>Albums</h2>',
-                        message,
-                        '<ul>',
-                        getHtml(albums),
-                        '</ul>',
-                    ]
-                    document.getElementById('viewer').innerHTML = getHtml(htmlTemplate);
-                }
-            });
-        }
-
-        // Show the photos that exist in an album.
-        function viewAlbum(albumName) {
-            var albumPhotosKey = encodeURIComponent(albumName) + '/';
-            s3.listObjects({Prefix: albumPhotosKey}, function(err, data) {
-                if (err) {
-                return alert('There was an error viewing your album: ' + err.message);
-                }
-                // 'this' references the AWS.Request instance that represents the response
-                var href = this.request.httpRequest.endpoint.href;
-                var bucketUrl = href + albumBucketName + '/';
-
-                var photos = data.Contents.map(function(photo) {
-                var photoKey = photo.Key;
-                var photoUrl = bucketUrl + encodeURIComponent(photoKey);
-                return getHtml([
-                    '<span>',
-                    '<div>',
-                        '<br/>',
-                        '<img style="width:128px;height:128px;" src="' + photoUrl + '"/>',
-                    '</div>',
-                    '<div>',
-                        '<span>',
-                        photoKey.replace(albumPhotosKey, ''),
-                        '</span>',
-                    '</div>',
-                    '</span>',
-                ]);
-                });
-                var message = photos.length ?
-                '<p>The following photos are present.</p>' :
-                '<p>There are no photos in this album.</p>';
-                var htmlTemplate = [
-                '<div>',
-                    '<button onclick="listAlbums()">',
-                    'Back To Albums',
-                    '</button>',
-                '</div>',
-                '<h2>',
-                    'Album: ' + albumName,
-                '</h2>',
-                message,
-                '<div>',
-                    getHtml(photos),
-                '</div>',
-                '<h2>',
-                    'End of Album: ' + albumName,
-                '</h2>',
-                '<div>',
-                    '<button onclick="listAlbums()">',
-                    'Back To Albums',
-                    '</button>',
-                '</div>',
-                ]
-                document.getElementById('viewer').innerHTML = getHtml(htmlTemplate);
-                document.getElementsByTagName('img')[0].setAttribute('style', 'display:none;');
-            });
-        }
-
-        window.onload=listAlbums;*/
+ 
     </script>
 </body>
 </html>
