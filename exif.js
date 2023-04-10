@@ -1,3 +1,6 @@
+// Obtained from https://github.com/exif-js/exif-js
+// All credit and props to https://github.com/exif-js/exif-js/graphs/contributors
+
 (function() {
 
   var debug = false;
@@ -366,7 +369,7 @@
   }
 
   function getImageData(img, callback) {
-      function handleBinaryFile(binFile) {
+    function handleBinaryFile(binFile) {
           var data = findEXIFinJPEG(binFile);
           img.exifdata = data || {};
           var iptcdata = findIPTCinJPEG(binFile);
@@ -974,11 +977,12 @@
   }
 
   EXIF.getData = function(img, callback) {
-      if (((self.Image && img instanceof self.Image)
+/*      if (((self.Image && img instanceof self.Image)
           || (self.HTMLImageElement && img instanceof self.HTMLImageElement))
           && !img.complete)
           return false;
-
+*/
+console.log('test3');
       if (!imageHasData(img)) {
           getImageData(img, callback);
       } else {
