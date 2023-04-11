@@ -46,9 +46,12 @@
         section,nav {
             margin: 1rem;
         }
+        section {
+            display: none;
+        }
         nav li {
             display: inline-block;
-            margin-left: 10px;
+            margin-left: 5px;
         }
         nav li:first-child {
             margin-left: 0;
@@ -60,17 +63,92 @@
             content: '';
         }
         nav li a {
-            padding: 10px;
-            background-color: #efefef;
-            border: solid 1px black;
-            margin-right: 10px;
-            text-decoration: none;
+            padding: 0.5em;
+            margin-right: 5px;
+            color: red;
+        }
+        #albumlist ul {
+            display: grid;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 0fr));
+            grid-gap: 1rem;
+
+        }
+        #albumlist li {
+            background: #eee;
+            text-align: center;
+            padding-bottom: 1em;
+        }
+        #albumlist li a {
             color: red;
         }
         #pictures ul li {
             display: inline-block;
             padding: .1rem;
+        }
+        #details > div:first-child {
+            background: #777;
+            text-align: center;
+            max-height: calc(75vh - 100px);
+            margin: 0;
+            margin-bottom: 5rem;
+        }
+        img#hero {
+            display: flex;
+            margin: 0 auto;
+            width: auto;
+            height: calc(75vh - 100px);
         }    
+        #details > div:last-child {
+            margin-top: 5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(45vw, 1fr));
+            grid-gap: 1rem;
+        }
+        #details table, #photogeo {
+            width: calc(45vw);
+            min-width: 300px;
+        }
+        #photometa thead td {
+            border-bottom:  solid 2px black;
+        }
+        #photometa thead td h3 {
+            margin-bottom: 0;
+        }
+        #photometa tbody tr td:first-child {
+            padding-right: 1em;
+            white-space: nowrap;
+        } 
+        #photogeo img {
+            display: none;
+            width:  300px;
+            height: 200px;
+        }
+        #photogeo img#map6 {
+            display: block;
+        }
+        #photogeo ul {
+            width:  300px;
+            text-align: center;
+        }
+        #photogeo li {
+            padding: 1rem 1rem;
+            display: inline-block;
+            font-size: 0.75em;
+            color: red;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        footer {
+            margin: 2rem 0 1rem;
+            padding-top: 1rem;
+            border-top: solid 1px black;
+            text-align: center;
+        }
+        footer * {
+            font-size: 0.75rem;
+            margin: 0;
+        }
     </style>
 </head>
 <body>
@@ -96,64 +174,79 @@
         <section id="details">
             <!-- Displays the details of a specific photo -->
             <div>
-                <img id="hero" />
+                <div><span id="prev"></span><img id="hero" /><span id="next"></span></div>
                 <h2><span>Loading...</span></h2>
                 <p></p>
             </div>
             <div>
                 <table id="photometa">
-                    <tr>
-                        <td>Capture Date and Time</td>
-                        <td id="DateTimeOriginal">Unspecified</td>
-                    </tr>
-                    <tr>
-                        <td>Camera Model</td>
-                        <td id="Model">Unspecified</td>
-                    </tr>
-                    <tr>
-                        <td>Lens</td>
-                        <td id="LensData">Unspecified</td>
-                    </tr>
-                    <tr>
-                        <td>ISO</td>
-                        <td id="ISOSpeedRatings">Unspecified</td>
-                    </tr>
-                    <tr>
-                        <td>Focal Length</td>
-                        <td id="FocalLength">Unspecified</td>
-                    </tr>
-                    <tr>
-                        <td>Aperature</td>
-                        <td id="FNumber">Unspecified</td>
-                    </tr>
-                    <tr>
-                        <td>Exposure Time</td>
-                        <td id="ExposureTime">Unspecified</td>
-                    </tr>
-                    <tr>
-                        <td>Exposure Program</td>
-                        <td id="ExposureProgram">Unspecified</td>
-                    </tr>
-                    <tr>
-                        <td>Exposure Bias</td>
-                        <td id="ExposureBias">Unspecified</td>
-                    </tr>
-                    <tr>
-                        <td>Metering</td>
-                        <td id="MeteringMode">Unspecified</td>
-                    </tr>
-                    <tr>
-                        <td>White Balance</td>
-                        <td id="WhiteBalance">Unspecified</td>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <td colspan="2"><h3>EXIF Data</h3></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Capture Date</td>
+                            <td id="DateTimeOriginal">Unspecified</td>
+                        </tr>
+                        <tr>
+                            <td>Camera Model</td>
+                            <td id="Model">Unspecified</td>
+                        </tr>
+                        <tr>
+                            <td>Lens</td>
+                            <td id="LensData">Unspecified</td>
+                        </tr>
+                        <tr>
+                            <td>ISO</td>
+                            <td id="ISOSpeedRatings">Unspecified</td>
+                        </tr>
+                        <tr>
+                            <td>Focal Length</td>
+                            <td id="FocalLength">Unspecified</td>
+                        </tr>
+                        <tr>
+                            <td>Aperature</td>
+                            <td id="FNumber">Unspecified</td>
+                        </tr>
+                        <tr>
+                            <td>Exposure Time</td>
+                            <td id="ExposureTime">Unspecified</td>
+                        </tr>
+                        <tr>
+                            <td>Exposure Program</td>
+                            <td id="ExposureProgram">Unspecified</td>
+                        </tr>
+                        <tr>
+                            <td>Exposure Bias</td>
+                            <td id="ExposureBias">Unspecified</td>
+                        </tr>
+                        <tr>
+                            <td>Metering</td>
+                            <td id="MeteringMode">Unspecified</td>
+                        </tr>
+                        <tr>
+                            <td>White Balance</td>
+                            <td id="WhiteBalance">Unspecified</td>
+                        </tr>
+                    </tbody>
                 </table>
                 <div id="photogeo">
-                    <!-- Google Maps Static location -->
-                    <img id="map6" />
-                    <img id="map10" />
-                    <img id="map16" />
-                    <!-- https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=600&height=400&center=lonlat:-122.304378,47.526022&zoom=14&marker=lonlat:-122.304378,47.526022;color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5 -->
-                    <!-- zoom 6, 10, 16-->
+                    <h3>Location</h3>
+                    <div>
+                        <!-- Google Maps Static location -->
+                        <img id="map6" />
+                        <img id="map10" />
+                        <img id="map16" />
+                        <!-- https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=600&height=400&center=lonlat:-122.304378,47.526022&zoom=14&marker=lonlat:-122.304378,47.526022;color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5 -->
+                        <!-- zoom 6, 10, 16-->
+                        <ul id="grover">
+                            <li>Near</li>
+                            <li>(Pant,pant)</li>
+                            <li>Far!</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </section>

@@ -3,7 +3,7 @@
 
 (function() {
 
-  var debug = false;
+  var debug = true;
 
   var root = this;
 
@@ -855,6 +855,7 @@
           return;
       }
       var dataView = new DataView(file);
+      if (debug) console.log(dataView);
 
       if (debug) console.log("Got file of length " + file.byteLength);
       if ((dataView.getUint8(0) != 0xFF) || (dataView.getUint8(1) != 0xD8)) {
@@ -936,6 +937,7 @@
   }
 
   function xml2Object(xml) {
+    console.log(xml);
       try {
           var obj = {};
           if (xml.children.length > 0) {

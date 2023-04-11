@@ -58,7 +58,7 @@ function toFraction(x, tolerance) {
 function updatePage() {
     correctARN(); // gotta do this first
     var components = window.location.pathname.split('/');
-    var menu = '<li><a href="/">Album List</a></li>'; // will always be present
+    var menu = '<li><a href="/">All Albums</a></li>'; // will always be present
     var callback = 'listAlbums';
     var args = '';
 
@@ -87,7 +87,33 @@ function updatePage() {
         nav[0].innerHTML = menu; // update the nav
     }
 
+    grover(); // Near! (pant pant pant) Far!
+
     window[callback](args); // call the appropriate update function
+}
+
+function grover() {
+    document.querySelector('#grover').addEventListener(
+        "mouseover",
+        (event) => {
+            var showMap = '';
+            switch (event.target.textContent) {
+                case "Near":
+                    showMap = "map16";
+                    break;
+                case "(Pant,pant)":
+                    showMap = "map10";
+                    break;
+                case "Far!":
+                    showMap = "map6";
+                    break;
+            }
+            if (showMap !== '') {
+                var nearfar = document.getElementById('photogeo').getElementsByTagName('img');
+                for (var i=0; i<nearfar.length; i++ ) {nearfar[i].style.display = 'none';}
+                document.getElementById(showMap).style.display = 'block';
+            }
+    });
 }
 
 // List the photo albums that exist in the bucket.
@@ -103,11 +129,12 @@ function listAlbums() {
             var albums = data.CommonPrefixes.map(function(commonPrefix) {
                 var prefix = commonPrefix.Prefix;
                 var albumName = decodeURIComponent(prefix.replace('/', ''));
+                var thumbPath = 'thumb_' + albumName.replace(/\s/g,'_');
                 var albumPath = decodeURIComponent(albumName.replace(' ', '+'));
                 return getHtml([
                 '<li>',
                     '<a href="/' + albumPath + '/">',
-                        '<img src="//' + s3Endpoint + '/thumb_' + albumName + '.jpg" height="100" width="100" />',
+                        '<img src="//' + s3Endpoint + '/' + thumbPath + '.jpg" height="250" width="250" />',
                         '<br />' + albumName,
                     '</a>',
                 '</li>'
@@ -167,6 +194,7 @@ function viewAlbum(albumName) {
         document.getElementById('pictures').innerHTML = getHtml(htmlTemplate);
         document.getElementById('contents').style.display = "block";
     });
+    console.log(imageList);
 }
 
 function showImage(image) {
@@ -184,22 +212,35 @@ function showImage(image) {
     .then(function(response) {
         hero.src = response.url;
         showMeta(hero);
-        document.getElementById('details').style.display = "block";
     })
     .catch(function(error) {
-        console.log(error);
+        hero.style.display = 'none';
+        var details = document.querySelector('#details > div');
+        details.style.height = 'auto';
+        details.style.backgroundColor = '#fff';
+        document.querySelector('#details div p').textContent = error;
+        //document.querySelector('#details div:last-child').style.display = 'none';
     });
+
+    document.getElementById('details').style.display = "block";
 }
 
 function showMeta(image) {
-    var meta = document.getElementById('meta');
     EXIF.enableXmp();
     EXIF.getData(image, function() {
         var tagsAvailable = EXIF.getAllTags(this);
+        var hasTitle, hasCaption = false;
         for (let i in tagsAvailable) {
             var elem = document.getElementById(i);
             var tagdata = tagsAvailable[i];
+            //console.log(tagsAvailable);
             switch(i) {
+                case 'DateTimeOriginal':
+                    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+                    var tdinfo = tagdata.split(' ');
+                    var dateinfo = tdinfo[0].split(':');
+                    tagdata = '' + (parseInt(dateinfo[2])) + ' ' + months[parseInt(dateinfo[1])-1] + ' ' + dateinfo[0];
+                    break;
                 case 'ExposureTime':
                     var exposure = Math.trunc(tagdata);
                     if (exposure == 0) exposure = '';
@@ -213,11 +254,14 @@ function showMeta(image) {
                     tagdata = tagdata + 'mm';
                     break;
                 case 'ExposureBias':
-                    console.log(tagdata);
                     var exposure = Math.trunc(tagdata);
-                    if (exposure == 0) exposure = '';
-                    var remain = tagdata - exposure;
-                    tagdata = '' + exposure + ' ' + ((remain == 0)?'':toFraction(remain));
+                    if (exposure != 0) {
+                        var remain = tagdata - exposure;
+                        tagdata = '' + exposure + ' ' + ((remain == 0)?'':toFraction(remain));
+                    } 
+                    else {
+                        tagdata = exposure;
+                    }
                     break;
                 }
 
@@ -237,6 +281,9 @@ function showMeta(image) {
             document.getElementById('map16').src = mapURL + "&zoom=16";
 
         }
+
+        if (!hasTitle) document.querySelector('#details h2').innerHTML = "Untitled";
+        if (!hasCaption) document.querySelector('#details p').style.display = "none";
     });
 }
 
