@@ -11,10 +11,72 @@
     <script>
 
     </script>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Poppins&family=Bungee+Shade&display=swap");
+        body {
+            background-color: #fff;
+            padding: 0;
+            margin: 0;
+            font-family: 'Poppins',Arial,Helvetica;
+        }
+        header {
+            background-color: #000;
+            color: #fff;
+            border: solid 1px #000; 
+        }
+
+        header h1 {
+            border: solid 3px #fff;
+            min-width: 180px;
+            width: 120px;
+            font-family: 'Poppins',Arial,Helvetica;
+            font-size: 1.2rem;
+            padding: .5rem;
+            margin: 1rem;
+            margin-bottom: 0;
+        }
+        header p {
+            margin: 0 0 1rem 1rem;
+        }
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        section,nav {
+            margin: 1rem;
+        }
+        nav li {
+            display: inline-block;
+            margin-left: 10px;
+        }
+        nav li:first-child {
+            margin-left: 0;
+        }
+        nav li::after {
+            content: '>>';    
+        }
+        nav li:last-child::after {
+            content: '';
+        }
+        nav li a {
+            padding: 10px;
+            background-color: #efefef;
+            border: solid 1px black;
+            margin-right: 10px;
+            text-decoration: none;
+            color: red;
+        }
+        #pictures ul li {
+            display: inline-block;
+            padding: .1rem;
+        }    
+    </style>
 </head>
 <body>
     <header>
-        <h1>1000 Words: Photos by Geoff Sowrey</h1>
+        <h1>One Thousand Words</h1>
+        <p>Photos by Geoff Sowrey</p>
     </header>
     <nav>
         <!-- bread crumb menu -->

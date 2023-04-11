@@ -32,26 +32,24 @@ function correctARN() {
     s3.config.s3BucketEndpoint = true;
 }
 
-// Some data is returned as decimal, not fraction, which is what is commonly seen
-function getFraction(fraction) {
-    var gcd = function(a, b) {
-        if (b < 0.0000001) return a;                // Since there is a limited precision we need to limit the value.
-        return gcd(b, Math.floor(a % b));           // Discard any fractions due to limitations in precision.
-    };
+// Because it's normal see times in fractions, not decimals
+function toFraction(x, tolerance) {
+    if (x == 0) return 0;
+    if (x < 0) x = -x;
+    if (!tolerance) tolerance = 0.0001;
+    var num = 1, den = 1;
 
-    //var fraction = 0.005;
-    var len = fraction.toString().length - 2;
+    function iterate() {
+        var R = num/den;
+        if (Math.abs((R-x)/x) < tolerance) return;
 
-    var denominator = Math.pow(10, len);
-    var numerator = fraction * denominator;
+        if (R < x) num++;
+        else den++;
+        iterate();
+    }
 
-    var divisor = gcd(numerator, denominator);    // Should be 5
-
-    numerator /= divisor;                         // Should be 687
-    denominator /= divisor;                       // Should be 2000
-
-    console.log(Math.floor(numerator) + '/' + Math.floor(denominator));
-    return (Math.floor(numerator) + '/' + Math.floor(denominator));
+    iterate();
+    return (num + '/' + den);
 }
 
 // Primary page updater. When called, it looks at the URL and determines
@@ -69,7 +67,8 @@ function updatePage() {
     // then write in the second component (the album contents)
     if ((components[1] && components[1] !== '' ) || 
         (components[2] && components[2] !== '' )) {
-        menu += '<li><a href="/' + components[1] + '/">' + components[1].replace(/\+/g, ' ') + '</a></li>';
+        var albumPath = decodeURI(components[1]).replace(' ','+');
+        menu += '<li><a href="/' + albumPath + '/">' + components[1].replace(/\+/g, ' ') + '</a></li>';
         callback = 'viewAlbum';
         args = components[1];
     }
@@ -77,7 +76,8 @@ function updatePage() {
     // If the third component is present (we assume the statement above has already
     // done its job), add the third component (the image)
     if (components[2] && components[2] !== '') {
-        menu += '<li><a href="/' + components[1] + '/' + components[2] + '">' + components[2] + '</a></li>';
+        var albumPath = decodeURI(components[1]).replace(' ','+');
+        menu += '<li><a href="/' + albumPath + '/' + components[2] + '">' + components[2] + '</a></li>';
         callback = 'showImage';
         args = components[1] + '/' + components[2];
     }
@@ -125,7 +125,7 @@ function listAlbums() {
         }
 
         document.getElementById('albumlist').innerHTML = getHtml(htmlTemplate);
-        document.getElementById('albums').setAttribute("loaded","loaded");
+        document.getElementById('albums').style.display = "block";
     });
 }
 
@@ -133,8 +133,6 @@ function listAlbums() {
 function viewAlbum(albumName) {
     albumName = albumName.replace(/\+/g, ' ');
     var albumPhotosKey = albumName + '/';
-    console.log(albumName);
-    console.log(albumPhotosKey);
     s3.listObjects({Prefix: albumPhotosKey}, function(err, data) {
         if (err) {
             return alert('There was an error viewing your album: ' + err.message);
@@ -148,12 +146,13 @@ function viewAlbum(albumName) {
 
         var photos = data.Contents.map(function(photo) {
             var components = photo.Key.split('/');
+            var imagePath = photo.Key.replace(' ', '+');
             components[0] = components[0].replace(' ','+');
-            var photoThumbUrl = bucketUrl + components[0] + '/thumb_' + components[1];
+            var photoThumbUrl = bucketUrl + components[0] + '/' + components[1];
             return getHtml([
                 '<li>',
-                    '<a href="/' + photo.Key + '">',
-                        '<img src="' + photoThumbUrl + '" width="100" height="100" />',
+                    '<a href="/' + imagePath + '">',
+                        '<img src="' + photoThumbUrl + '" height="350" />',
                     '</a>',
                 '</li>'
             ]);
@@ -166,6 +165,7 @@ function viewAlbum(albumName) {
             '</ul>'
         ]
         document.getElementById('pictures').innerHTML = getHtml(htmlTemplate);
+        document.getElementById('contents').style.display = "block";
     });
 }
 
@@ -184,9 +184,10 @@ function showImage(image) {
     .then(function(response) {
         hero.src = response.url;
         showMeta(hero);
+        document.getElementById('details').style.display = "block";
     })
     .catch(function(error) {
-
+        console.log(error);
     });
 }
 
@@ -200,8 +201,10 @@ function showMeta(image) {
             var tagdata = tagsAvailable[i];
             switch(i) {
                 case 'ExposureTime':
-                    console.log(tagdata);
-                    tagdata = getFraction(tagdata) + 's';
+                    var exposure = Math.trunc(tagdata);
+                    if (exposure == 0) exposure = '';
+                    var remain = tagdata - exposure;
+                    tagdata = '' + exposure + ' ' + toFraction(remain) + 's';
                     break;
                 case 'FNumber':
                     tagdata = 'f/' + tagdata;
@@ -209,7 +212,14 @@ function showMeta(image) {
                 case 'FocalLength':
                     tagdata = tagdata + 'mm';
                     break;
-            }
+                case 'ExposureBias':
+                    console.log(tagdata);
+                    var exposure = Math.trunc(tagdata);
+                    if (exposure == 0) exposure = '';
+                    var remain = tagdata - exposure;
+                    tagdata = '' + exposure + ' ' + ((remain == 0)?'':toFraction(remain));
+                    break;
+                }
 
             if (elem !== null) {
                 elem.innerHTML = tagdata;
@@ -222,7 +232,7 @@ function showMeta(image) {
             var coords = ewMod + (tagsAvailable['GPSLongitude'][0] + (tagsAvailable['GPSLongitude'][1]/60));
             coords += ',' + nsMod + (tagsAvailable['GPSLatitude'][0] + (tagsAvailable['GPSLatitude'][1]/60));
             var mapURL = 'https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=300&height=200&center=lonlat:' + coords + '&marker=lonlat:' + coords + ';color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5';
-            document.getElementById('map6').src = mapURL + "&zoom=6";
+            document.getElementById('map6').src = mapURL + "&zoom=4";
             document.getElementById('map10').src = mapURL + "&zoom=10";
             document.getElementById('map16').src = mapURL + "&zoom=16";
 
