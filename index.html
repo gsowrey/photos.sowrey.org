@@ -4,13 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Photos.Sowrey.Org</title>
+    <title>One Thousand Words: Photography by Geoff Sowrey</title>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1353.0.min.js"></script>
-    <script src="/s3-v2.js"></script>
-    <script src="/exif.js"></script>
-    <script>
-
-    </script>
+    <!--script src="/s3-v2.js"></script-->
+    <script src="/photos.min.js"></script>
+    <script src="/exif-reader.js"></script>
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Poppins&family=Bungee+Shade&display=swap");
         body {
@@ -100,7 +98,7 @@
             height: calc(75vh - 100px);
         }    
         #details > div:last-child {
-            margin-top: 5rem;
+            margin-top: 7rem;
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(45vw, 1fr));
             grid-gap: 1rem;
@@ -108,6 +106,12 @@
         #details table, #photogeo {
             width: calc(45vw);
             min-width: 300px;
+        }
+        #title {
+            margin-bottom: 0;
+        }
+        #description {
+            margin-top: .5em;
         }
         #photometa thead td {
             border-bottom:  solid 2px black;
@@ -175,8 +179,8 @@
             <!-- Displays the details of a specific photo -->
             <div>
                 <div><span id="prev"></span><img id="hero" /><span id="next"></span></div>
-                <h2><span>Loading...</span></h2>
-                <p></p>
+                <h2 id="title"><span>Loading...</span></h2>
+                <p id="description"></p>
             </div>
             <div>
                 <table id="photometa">
@@ -196,7 +200,7 @@
                         </tr>
                         <tr>
                             <td>Lens</td>
-                            <td id="LensData">Unspecified</td>
+                            <td id="Lens">Unspecified</td>
                         </tr>
                         <tr>
                             <td>ISO</td>
@@ -215,12 +219,20 @@
                             <td id="ExposureTime">Unspecified</td>
                         </tr>
                         <tr>
+                            <td>Exposure Mode</td>
+                            <td id="ExposureMode">Unspecified</td>
+                        </tr>
+                        <tr>
                             <td>Exposure Program</td>
                             <td id="ExposureProgram">Unspecified</td>
                         </tr>
                         <tr>
                             <td>Exposure Bias</td>
-                            <td id="ExposureBias">Unspecified</td>
+                            <td id="ExposureBiasValue">Unspecified</td>
+                        </tr>
+                        <tr>
+                            <td>Temperature (K)</td>
+                            <td id="Temperature">Unspecified</td>
                         </tr>
                         <tr>
                             <td>Metering</td>
@@ -235,12 +247,10 @@
                 <div id="photogeo">
                     <h3>Location</h3>
                     <div>
-                        <!-- Google Maps Static location -->
+                        <p id="location">Taken in <span id="City"></span>, <span id="State"></span>, <span id="Country"></span></p>
                         <img id="map6" />
                         <img id="map10" />
                         <img id="map16" />
-                        <!-- https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=600&height=400&center=lonlat:-122.304378,47.526022&zoom=14&marker=lonlat:-122.304378,47.526022;color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5 -->
-                        <!-- zoom 6, 10, 16-->
                         <ul id="grover">
                             <li>Near</li>
                             <li>(Pant,pant)</li>
@@ -253,7 +263,7 @@
     </main>
     <footer>
         <p>© Geoff Sowrey</p>
-        <p>Uses the EXIF library and AWS SDK</p>
+        <p>Uses the awesome <a href="https://github.com/mattiasw/ExifReader" target="_blank">EXIFReader</a> library and AWS SDK</p>
     </footer>
     <script>
  

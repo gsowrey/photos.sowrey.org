@@ -19,6 +19,18 @@ var s3 = new AWS.S3({
     params: {Bucket: albumBucketName}
 });
 
+async function getEXIF(image) {
+    var tags;
+    try {
+        tags = await ExifReader.load(image);
+        delete tags['MakerNote'];
+    } catch (error) {
+        // Handle error.
+        console.log('Unable to read EXIF');
+    }
+    showMeta(tags);
+}
+
 // A utility function to create HTML.
 function getHtml(template) {
     return template.join('\n');
@@ -128,9 +140,10 @@ function listAlbums() {
         } else {
             var albums = data.CommonPrefixes.map(function(commonPrefix) {
                 var prefix = commonPrefix.Prefix;
-                var albumName = decodeURIComponent(prefix.replace('/', ''));
+                var albumName = prefix.replace('/', '');
+                var components = albumName.split(' ');
                 var thumbPath = 'thumb_' + albumName.replace(/\s/g,'_');
-                var albumPath = decodeURIComponent(albumName.replace(' ', '+'));
+                var albumPath = components.join('+');
                 return getHtml([
                 '<li>',
                     '<a href="/' + albumPath + '/">',
@@ -173,8 +186,8 @@ function viewAlbum(albumName) {
 
         var photos = data.Contents.map(function(photo) {
             var components = photo.Key.split('/');
-            var imagePath = photo.Key.replace(' ', '+');
-            components[0] = components[0].replace(' ','+');
+            var imagePath = photo.Key.replace(/\s/g, '+');
+            components[0] = components[0].replace(/\s/g,'+');
             var photoThumbUrl = bucketUrl + components[0] + '/' + components[1];
             return getHtml([
                 '<li>',
@@ -194,7 +207,6 @@ function viewAlbum(albumName) {
         document.getElementById('pictures').innerHTML = getHtml(htmlTemplate);
         document.getElementById('contents').style.display = "block";
     });
-    console.log(imageList);
 }
 
 function showImage(image) {
@@ -211,7 +223,7 @@ function showImage(image) {
     })
     .then(function(response) {
         hero.src = response.url;
-        showMeta(hero);
+        getEXIF(hero.src);
     })
     .catch(function(error) {
         hero.style.display = 'none';
@@ -225,66 +237,49 @@ function showImage(image) {
     document.getElementById('details').style.display = "block";
 }
 
-function showMeta(image) {
-    EXIF.enableXmp();
-    EXIF.getData(image, function() {
-        var tagsAvailable = EXIF.getAllTags(this);
-        var hasTitle, hasCaption = false;
-        for (let i in tagsAvailable) {
-            var elem = document.getElementById(i);
-            var tagdata = tagsAvailable[i];
-            //console.log(tagsAvailable);
-            switch(i) {
-                case 'DateTimeOriginal':
-                    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-                    var tdinfo = tagdata.split(' ');
-                    var dateinfo = tdinfo[0].split(':');
-                    tagdata = '' + (parseInt(dateinfo[2])) + ' ' + months[parseInt(dateinfo[1])-1] + ' ' + dateinfo[0];
-                    break;
-                case 'ExposureTime':
-                    var exposure = Math.trunc(tagdata);
-                    if (exposure == 0) exposure = '';
-                    var remain = tagdata - exposure;
-                    tagdata = '' + exposure + ' ' + toFraction(remain) + 's';
-                    break;
-                case 'FNumber':
-                    tagdata = 'f/' + tagdata;
-                    break;
-                case 'FocalLength':
-                    tagdata = tagdata + 'mm';
-                    break;
-                case 'ExposureBias':
-                    var exposure = Math.trunc(tagdata);
-                    if (exposure != 0) {
-                        var remain = tagdata - exposure;
-                        tagdata = '' + exposure + ' ' + ((remain == 0)?'':toFraction(remain));
-                    } 
-                    else {
-                        tagdata = exposure;
-                    }
-                    break;
-                }
-
-            if (elem !== null) {
-                elem.innerHTML = tagdata;
-            }
+function showMeta(tagsAvailable) {
+    var hasTitle, hasCaption = false;
+    for (let i in tagsAvailable) {
+        var elem = document.getElementById(i);
+        var tagdata = tagsAvailable[i].description;
+        switch(i) {
+            case 'DateTimeOriginal':
+                const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+                var tdinfo = tagdata.split(' ');
+                var dateinfo = tdinfo[0].split(':');
+                tagdata = '' + (parseInt(dateinfo[2])) + ' ' + months[parseInt(dateinfo[1])-1] + ' ' + dateinfo[0];
+                break;
+            case 'title':
+                hasTitle = true;
+                break;
+            case 'description':
+                hasCaption = true;
+                break;
+            case 'ExposureTime':
+            case 'FNumber':
+            case 'FocalLength':
+            case 'ExposureBiasValue':
+                break;
         }
 
+        if (elem !== null) {
+            elem.innerHTML = tagdata;
+        }
+    }
+
         if (tagsAvailable['GPSLatitude'] && tagsAvailable['GPSLongitude']) {
-            var nsMod = (tagsAvailable['GPSLatitudeRef']==="N")?'':'-';
-            var ewMod = (tagsAvailable['GPSLongitudeRef']==="E")?'':'-';
-            var coords = ewMod + (tagsAvailable['GPSLongitude'][0] + (tagsAvailable['GPSLongitude'][1]/60));
-            coords += ',' + nsMod + (tagsAvailable['GPSLatitude'][0] + (tagsAvailable['GPSLatitude'][1]/60));
+            var nsMod = (tagsAvailable['GPSLatitudeRef'].value[0]==="N")?'':'-';
+            var ewMod = (tagsAvailable['GPSLongitudeRef'].value[0]==="E")?'':'-';
+            var coords = ewMod + (tagsAvailable['GPSLongitude'].description);
+            coords += ',' + nsMod + (tagsAvailable['GPSLatitude'].description);
             var mapURL = 'https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=300&height=200&center=lonlat:' + coords + '&marker=lonlat:' + coords + ';color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5';
             document.getElementById('map6').src = mapURL + "&zoom=4";
             document.getElementById('map10').src = mapURL + "&zoom=10";
             document.getElementById('map16').src = mapURL + "&zoom=16";
-
         }
 
         if (!hasTitle) document.querySelector('#details h2').innerHTML = "Untitled";
         if (!hasCaption) document.querySelector('#details p').style.display = "none";
-    });
 }
 
 window.onload = updatePage;
