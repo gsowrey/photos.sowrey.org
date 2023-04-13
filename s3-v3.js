@@ -58,10 +58,11 @@ async function getS3Contents() {
         const parser = new DOMParser();
         const xml = parser.parseFromString(data, "application/xml");
         var data = xml2json(xml);
-        //console.log(data);
         getPhotoData(data);
     })
-    .catch(console.error);
+    .catch((error) => {
+        document.querySelector('nav').innerHTML = error;
+    });
 }
 
 function addAlbum(data,item) {
