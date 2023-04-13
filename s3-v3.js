@@ -37,6 +37,7 @@ function xml2json(xml) {
 function getData() {
     var data = localStorage.getItem('psodata');
     const queryString = window.location.search;
+    getS3Contents();
     if (data !== null && !queryString.includes('cc')) { // and check that data isn't more than 2 hours old
         pdata = JSON.parse(data);
         updatePage();
