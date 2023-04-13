@@ -3,15 +3,17 @@
 
 // This borrows heavily from https://github.com/awsdocs/aws-doc-sdk-examples/blob/main/javascript/example_code/s3/s3_PhotoViewer.js
 
-"use strict";
-
 // Set some configuration information 
 var albumBucketName = 'photos.sowrey.org';
 var s3Endpoint = 'photos.sowrey.org.s3.ca-central-1.amazonaws.com';
 AWS.config.region = 'us-east-2'; // Region
+AWS.config.endpoint = s3Endpoint;
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
     IdentityPoolId: 'us-east-2:0806a01f-c913-4f3c-babb-f9cb6af8cdcf',
 });
+console.log(AWS.config);
+
+
 
 // Create a new service object
 var s3 = new AWS.S3({
@@ -19,21 +21,13 @@ var s3 = new AWS.S3({
     params: {Bucket: albumBucketName}
 });
 
-async function getEXIF(image) {
-    var tags;
-    try {
-        tags = await ExifReader.load(image);
-        delete tags['MakerNote'];
-    } catch (error) {
-        // Handle error.
-        console.log('Unable to read EXIF');
-    }
-    showMeta(tags);
-}
-
 // A utility function to create HTML.
 function getHtml(template) {
-    return template.join('\n');
+    var html;
+    for (var i=0; i<template.length;i++) {
+        html += template[i] + "\n";
+    }
+    return html;
 }
 
 // For some reason, AWS requires <bucket>.s3.<region>.amazonaws.com, but
@@ -153,8 +147,8 @@ function listAlbums() {
                 '</li>'
                 ]);
             });
-            var message = albums.length ?
-                getHtml([]) :
+            var message = albums.length>0 ?
+                '' :
                 '<p>Hmm. No albums found. That\'s ... odd.</p>';
             var htmlTemplate = [
                 message,
@@ -163,7 +157,6 @@ function listAlbums() {
                 '</ul>',
             ]
         }
-
         document.getElementById('albumlist').innerHTML = getHtml(htmlTemplate);
         document.getElementById('albums').style.display = "block";
     });
@@ -237,6 +230,23 @@ function showImage(image) {
     document.getElementById('details').style.display = "block";
 }
 
+// Need an async function because the EXIF loader reads from the stream,
+// which is non-blocking. Only when it's finished should it call the 
+// function to update the meta info on the page
+async function getEXIF(image) {
+    var tags;
+    try {
+        tags = await ExifReader.load(image);
+        delete tags['MakerNote'];
+    } catch (error) {
+        // Handle error.
+        console.log('Unable to read EXIF');
+    }
+    showMeta(tags);
+}
+
+// This does the actual updating in the page, passed in the list of tags
+// from getEXIF
 function showMeta(tagsAvailable) {
     var hasTitle, hasCaption = false;
     for (let i in tagsAvailable) {
