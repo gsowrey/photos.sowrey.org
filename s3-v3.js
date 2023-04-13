@@ -1,5 +1,8 @@
 var pdebug = true;
 
+var pdata; // Global variable for photo data
+var s3Endpoint = '//photos.sowrey.org.s3.ca-central-1.amazonaws.com/';
+
 // Helper method for converting XML to JSON
 // As seen at https://stackoverflow.com/a/20861541
 function xml2json(xml) {
@@ -33,8 +36,10 @@ function xml2json(xml) {
 
 function getData() {
     var data = localStorage.getItem('psodata');
-    if (data !== null) { // and check that data isn't more than 2 hours old
-        updatePage(JSON.parse(data));
+    const queryString = window.location.search;
+    if (data !== null && !queryString.includes('cc')) { // and check that data isn't more than 2 hours old
+        pdata = JSON.parse(data);
+        updatePage();
     }
     else {
         getS3Contents();
@@ -42,9 +47,7 @@ function getData() {
 }
 
 async function getS3Contents() {
-    var path = 'https://photos.sowrey.org.s3.ca-central-1.amazonaws.com/';
-
-    await fetch(path, {
+    await fetch(s3Endpoint, {
         method: "GET",
         mode: "cors",
         credentials: "same-origin",
@@ -105,18 +108,21 @@ function getPhotoData(data) {
         document.querySelector('nav').innerHTML = "Failed to load picture data.";
     }
     pd.updated = Date.now();
-    localStorage.setItem('psodata', JSON.stringify(pd));
-    //updatePage(pd);
+    pd.albums.sort();
+    pd.photos.sort((a,b) => (a.d < b.d) ? 1: ((b.d < a.d) ? -1 : 0));
+    pdata = pd;
+    localStorage.setItem('psodata', JSON.stringify(pdata));
+    updatePage();
 }
 
 // Primary page updater. When called, it looks at the URL and determines
 // one of three page states: Home (album list), album contents, or
 // image details
-function updatePage(data) {
+function updatePage() {
     var components = window.location.pathname.split('/');
     var menu = '<li><a href="/">All Albums</a></li>'; // will always be present
     var callback = 'listAlbums';
-    var args = data;
+    var args;
 
     // URL has no more than three parts: home, album, and image
     // If the second or third components (which includes the second) are present,
@@ -143,59 +149,179 @@ function updatePage(data) {
         nav[0].innerHTML = menu; // update the nav
     }
 
-    //grover(); // Near! (pant pant pant) Far!
+    grover(); // Near! (pant pant pant) Far!
 
     window[callback](args); // call the appropriate update function
 }
 
 // A utility function to create HTML.
 function getHtml(template) {
-    /*var html;
-    for (var i=0; i<template.length;i++) {
-        html += template[i] + "\n";
-    }
-    return html;*/
-    return template.join('\n');
+    if (Array.isArray(template)) return template.join('\n');
+    return template;
+}
+
+function grover() {
+    document.querySelector('#grover').addEventListener(
+        "mouseover",
+        (event) => {
+            var showMap = '';
+            switch (event.target.textContent) {
+                case "Near":
+                    showMap = "map16";
+                    break;
+                case "(Pant,pant)":
+                    showMap = "map10";
+                    break;
+                case "Far!":
+                    showMap = "map6";
+                    break;
+            }
+            if (showMap !== '') {
+                var nearfar = document.getElementById('photogeo').getElementsByTagName('img');
+                for (var i=0; i<nearfar.length; i++ ) {nearfar[i].style.display = 'none';}
+                document.getElementById(showMap).style.display = 'block';
+            }
+    });
 }
 
 // List the photo albums that exist in the bucket.
-function listAlbums(data) {
-    s3.listObjects({Delimiter: '/'}, function(err, data) {
-        if (err) {
-            var htmlTemplate = getHtml([
-                '<p>',
-                    'There was an error listing your albums: ' + err.message,
-                '</p>'
-            ]);
-        } else {
-            var albums = data.CommonPrefixes.map(function(commonPrefix) {
-                var prefix = commonPrefix.Prefix;
-                var albumName = prefix.replace('/', '');
-                var components = albumName.split(' ');
-                var thumbPath = 'thumb_' + albumName.replace(/\s/g,'_');
-                var albumPath = components.join('+');
-                return getHtml([
-                '<li>',
-                    '<a href="/' + albumPath + '/">',
-                        '<img src="//' + s3Endpoint + '/' + thumbPath + '.jpg" height="250" width="250" />',
-                        '<br />' + albumName,
-                    '</a>',
-                '</li>'
-                ]);
-            });
-            var message = albums.length>0 ?
-                '' :
-                '<p>Hmm. No albums found. That\'s ... odd.</p>';
-            var htmlTemplate = [
-                message,
-                '<ul>',
-                getHtml(albums),
-                '</ul>',
-            ]
+function listAlbums() {
+    var albums = pdata.albums;
+    var template = '';
+    for (i in albums) {
+        var albumPath = albums[i].replace(/\s/g,"+");
+        var thumbPath = 'thumb_' + albums[i].replace(/\s/g,'_');
+        template += getHtml([
+            '<li>',
+                '<a href="/' + albumPath + '/">',
+                    '<img src="' + s3Endpoint + thumbPath + '.jpg" height="250" width="250" />',
+                    '<br />' + albums[i],
+                '</a>',
+            '</li>'
+        ]);
+    }
+    var message = albums.length ?
+        '' :
+        '<p>Hmm. No albums found. That\'s ... odd.</p>';
+    var htmlTemplate = [
+        message,
+        '<ul>',
+            getHtml(template),
+        '</ul>',
+        ];
+
+    document.getElementById('albumlist').innerHTML = getHtml(htmlTemplate);
+    document.getElementById('albums').style.display = "block";
+}
+
+// Show the photos that exist in an album.
+function viewAlbum(albumName) {
+    albumName = albumName.replace(/\+/g, ' ');
+    var albumLabel = document.querySelector("#contents h2 span");
+    if (albumLabel !== undefined) {
+        albumLabel.innerHTML = albumName;
+    }
+
+    var photos = pdata.photos.filter(function(photo) {
+        return photo.p.includes(albumName + '/');
+    }, albumName);
+    console.log(photos);
+    var template = '';
+    for (i in photos) {
+        var components = photos[i].p.split('/');
+        var imagePath = photos[i].p.replace(/\s/g, '+');
+        components[0] = components[0].replace(/\s/g,'+');
+        var photoThumbUrl = s3Endpoint + components[0] + '/' + components[1];
+        template += getHtml([
+            '<li>',
+                '<a href="/' + imagePath + '">',
+                    '<img src="' + photoThumbUrl + '" height="350" />',
+                '</a>',
+            '</li>'
+        ]);
+    }
+    
+    var message = photos.length ? '' : '<p>There are no photos in this album.</p>';
+    var htmlTemplate = [
+        message,
+        '<ul>',
+            getHtml(template),
+        '</ul>'
+    ]
+    document.getElementById('pictures').innerHTML = getHtml(htmlTemplate);
+    document.getElementById('contents').style.display = "block";
+}
+
+function showImage(image) {
+    var hero = document.getElementById('hero');
+    var path = s3Endpoint + image;
+    hero.src = path;
+
+    getEXIF(hero.src);
+
+    document.getElementById('details').style.display = "block";
+}
+
+// Need an async function because the EXIF loader reads from the stream,
+// which is non-blocking. Only when it's finished should it call the 
+// function to update the meta info on the page
+async function getEXIF(image) {
+    var tags;
+    try {
+        tags = await ExifReader.load(image);
+        delete tags['MakerNote'];
+    } catch (error) {
+        // Handle error.
+        console.log('Unable to read EXIF');
+    }
+    showMeta(tags);
+}
+
+// This does the actual updating in the page, passed in the list of tags
+// from getEXIF
+function showMeta(tagsAvailable) {
+    var hasTitle, hasCaption = false;
+    for (let i in tagsAvailable) {
+        var elem = document.getElementById(i);
+        var tagdata = tagsAvailable[i].description;
+        switch(i) {
+            case 'DateTimeOriginal':
+                const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+                var tdinfo = tagdata.split(' ');
+                var dateinfo = tdinfo[0].split(':');
+                tagdata = '' + (parseInt(dateinfo[2])) + ' ' + months[parseInt(dateinfo[1])-1] + ' ' + dateinfo[0];
+                break;
+            case 'title':
+                hasTitle = true;
+                break;
+            case 'description':
+                hasCaption = true;
+                break;
+            case 'ExposureTime':
+            case 'FNumber':
+            case 'FocalLength':
+            case 'ExposureBiasValue':
+                break;
         }
-        document.getElementById('albumlist').innerHTML = getHtml(htmlTemplate);
-        document.getElementById('albums').style.display = "block";
-    });
+
+        if (elem !== null) {
+            elem.innerHTML = tagdata;
+        }
+    }
+
+        if (tagsAvailable['GPSLatitude'] && tagsAvailable['GPSLongitude']) {
+            var nsMod = (tagsAvailable['GPSLatitudeRef'].value[0]==="N")?'':'-';
+            var ewMod = (tagsAvailable['GPSLongitudeRef'].value[0]==="E")?'':'-';
+            var coords = ewMod + (tagsAvailable['GPSLongitude'].description);
+            coords += ',' + nsMod + (tagsAvailable['GPSLatitude'].description);
+            var mapURL = 'https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=300&height=200&center=lonlat:' + coords + '&marker=lonlat:' + coords + ';color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5';
+            document.getElementById('map6').src = mapURL + "&zoom=4";
+            document.getElementById('map10').src = mapURL + "&zoom=10";
+            document.getElementById('map16').src = mapURL + "&zoom=16";
+        }
+
+        if (!hasTitle) document.querySelector('#details h2').innerHTML = "Untitled";
+        if (!hasCaption) document.querySelector('#details p').style.display = "none";
 }
 
 window.onload = getData;
