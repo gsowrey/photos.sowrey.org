@@ -37,34 +37,23 @@ function xml2json(xml) {
 function getData() {
     var data = localStorage.getItem('psodata');
     const queryString = window.location.search;
-    getS3Contents();
     if (data !== null && !queryString.includes('cc')) { // and check that data isn't more than 2 hours old
         pdata = JSON.parse(data);
         updatePage();
     }
     else {
-        getS3Contents();
+        let xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                const parser = new DOMParser();
+                const xml = parser.parseFromString(xhr.responseText, "application/xml");
+                var data = xml2json(xml);
+                getPhotoData(data);
+            }
+        }
+        xhr.open('GET', s3Endpoint, true);
+        xhr.send(null);
     }
-}
-
-async function getS3Contents() {
-    await fetch(s3Endpoint, {
-        method: "GET",
-        mode: "cors",
-        credentials: "same-origin",
-        referrerPolicy: "no-referrer",
-    })
-    .then(response => response.text())
-    .then(data => {
-        alert("Got this far");
-        const parser = new DOMParser();
-        const xml = parser.parseFromString(data, "application/xml");
-        var data = xml2json(xml);
-        getPhotoData(data);
-    })
-    .catch((error) => {
-        document.querySelector('nav').innerHTML = error;
-    });
 }
 
 function addAlbum(data,item) {
