@@ -55,6 +55,7 @@ async function getS3Contents() {
     })
     .then(response => response.text())
     .then(data => {
+        alert("Got this far");
         const parser = new DOMParser();
         const xml = parser.parseFromString(data, "application/xml");
         var data = xml2json(xml);
