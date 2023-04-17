@@ -6,9 +6,10 @@ $files = array();
 foreach ($rii as $file) {
     if (strpos(strtolower($file->getPathname()),'jpg') &&
         !strpos(strtolower($file->getPathname()),'thumb')) {
+        $exif = exif_read_data($file);
         $search = array('assets/');
         $path = str_replace($search,'',$file->getPathname());
-        $mtime = filemtime($file);
+        $mtime = strtotime($exif["DateTimeOriginal"]);
 
         $components = explode('/',$path);
         if (!is_null($components[0]) && !is_null($components[1])) {
