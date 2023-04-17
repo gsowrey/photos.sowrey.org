@@ -1,0 +1,48 @@
+# deploy.yml
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+  
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true  # Fetch Hugo themes (true OR recursive)
+          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+
+      - name: Build
+        run: |
+          php < makelist.php
+          mkdir public
+          mv assets public
+          mv index.html public
+          mv assets.json public
+          mv .htaccess public
+
+      - name: Publish
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CF_PAGES_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          projectName: 'photos-sowrey-org'
+          directory: ./public
+          branch: ''
+          gitHubToken: ${{ secrets.DEPLOY_TOKEN }}
+
+      - name: Clear Homepage Cache
+        run: |
+          curl -X POST "https://api.cloudflare.com/client/v4/zones/d6dbf9fee9e34912b868bd87c2fdbc89/purge_cache" \
+            -H "X-Auth-Email: geoff@sowrey.org" \
+            -H "X-Auth-Key: 1296c3226f102a98835d19e4d491bf77d034f" \
+            -H "Content-Type: application/json" \
+            --data '{"files":["https://ptest.sowrey.org/","https://ptest.sowrey.org/assets.json"]}'
+

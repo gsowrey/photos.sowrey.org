@@ -1,109 +1,37 @@
-var pdebug = true;
-
 var pdata; // Global variable for photo data
-var s3Endpoint = '//photos.sowrey.org.s3.ca-central-1.amazonaws.com/';
-
-// Helper method for converting XML to JSON
-// As seen at https://stackoverflow.com/a/20861541
-function xml2json(xml) {
-    try {
-      var obj = {};
-      if (xml.children.length > 0) {
-        for (var i = 0; i < xml.children.length; i++) {
-          var item = xml.children.item(i);
-          var nodeName = item.nodeName;
-  
-          if (typeof (obj[nodeName]) == "undefined") {
-            obj[nodeName] = xml2json(item);
-          } else {
-            if (typeof (obj[nodeName].push) == "undefined") {
-              var old = obj[nodeName];
-  
-              obj[nodeName] = [];
-              obj[nodeName].push(old);
-            }
-            obj[nodeName].push(xml2json(item));
-          }
-        }
-      } else {
-        obj = xml.textContent;
-      }
-      return obj;
-    } catch (e) {
-        console.log(e.message);
-    }
-  }
 
 function getData() {
-    var data = localStorage.getItem('psodata');
-    const queryString = window.location.search;
-    if (data !== null && !queryString.includes('cc')) { // and check that data isn't more than 2 hours old
-        pdata = JSON.parse(data);
-        updatePage();
-    }
-    else {
-        let xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == XMLHttpRequest.DONE) {
-                const parser = new DOMParser();
-                const xml = parser.parseFromString(xhr.responseText, "application/xml");
-                var data = xml2json(xml);
-                getPhotoData(data);
-            }
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+            var data = JSON.parse(this.responseText);
+            getPhotoData(data);
         }
-        xhr.open('GET', s3Endpoint, true);
-        xhr.send(null);
     }
-}
-
-function addAlbum(data,item) {
-    if (data && item) {
-        var comp = item.Key.split('/');
-        if (!comp[0].includes('thumb')) data.albums.push(comp[0]);
-    }
-    else {
-        console.log('addAlbum: Data is empty');
-    }
-    return data;
-}
-function addPhoto(data,item) {
-    if (data && item && item.Key !== undefined) {
-        let photo = {
-            p: item.Key,
-            d: Date.parse(item.LastModified)
-        }
-        data.photos.push(photo);
-    }
-    else {
-        console.log('addPhoto: Data is empty');
-    }
-    return data;
-}
-function dataHasAlbum(data,item) {
-    var album = item.Key.split('/');
-    return (data.albums.includes(album[0]));
+    xhr.open('GET', '/assets.json', true);
+    xhr.send(null);
 }
 
 // Gets the JSON'd XML data from S3 and breaks out the albums, pictures,
 // and anything else needed to display the lists
 function getPhotoData(data) {
     let pd = {albums:[],photos:[]};
-    if (data && data !== null && data !== undefined &&
-        data.ListBucketResult.Contents !== undefined) {
-        var lbr = data.ListBucketResult.Contents;
-        for (i in lbr) {
-            if (!dataHasAlbum(pd,lbr[i])) addAlbum(pd,lbr[i]);
-            addPhoto(pd,lbr[i]);
+    if (data && data !== null && data !== undefined && data.assets) {
+        var as = data.assets;
+        for (i in as) {
+            for (j in as[i]) {
+                if (!pd.albums.includes(i)) pd.albums.push(i);
+                let photo = {
+                    p: i + '/' + as[i][j][0],
+                    d: as[i][j][1]
+                }
+                pd.photos.push(photo);
+            }
         }
     }
-    else {
-        document.querySelector('nav').innerHTML = "Failed to load picture data.";
-    }
-    pd.updated = Date.now();
     pd.albums.sort();
     pd.photos.sort((a,b) => (a.d < b.d) ? 1: ((b.d < a.d) ? -1 : 0));
-    pdata = pd;
-    localStorage.setItem('psodata', JSON.stringify(pdata));
+    pdata=pd;
     updatePage();
 }
 
@@ -112,16 +40,28 @@ function getPhotoData(data) {
 // image details
 function updatePage() {
     var components = window.location.pathname.split('/');
-    var menu = '<li><a href="/">All Albums</a></li>'; // will always be present
-    var callback = 'listAlbums';
+    var menu = '<li><a href="/">Recent Pictures</a></li>'; // will always be present
+    var callback;
+    var albumPath = urlSafe(components[1]);
     var args;
 
-    // URL has no more than three parts: home, album, and image
-    // If the second or third components (which includes the second) are present,
-    // then write in the second component (the album contents)
-    if ((components[1] && components[1] !== '' ) || 
+    // By default, we get the recent images. But if you click on albums, you get
+    // the list of all known albums
+    if (components.length <= 2) {
+        callback = 'showRecent';
+    }
+    else {
+        menu += menu = '<li><a href="/albums/">All Albums</a></li>';
+    }
+    
+    if (components[1] && components[1].includes('albums')) {
+        callback = 'listAlbums';
+    }
+    else if ((components[1] && components[1] !== '' ) || 
         (components[2] && components[2] !== '' )) {
-        var albumPath = decodeURI(components[1]).replace(' ','+');
+        // URL has no more than four parts: home, album list, album, and image
+        // If the second or third components (which includes the second) are present,
+        // then write in the second component (the album contents)
         menu += '<li><a href="/' + albumPath + '/">' + components[1].replace(/\+/g, ' ') + '</a></li>';
         callback = 'viewAlbum';
         args = components[1];
@@ -130,7 +70,6 @@ function updatePage() {
     // If the third component is present (we assume the statement above has already
     // done its job), add the third component (the image)
     if (components[2] && components[2] !== '') {
-        var albumPath = decodeURI(components[1]).replace(' ','+');
         menu += '<li><a href="/' + albumPath + '/' + components[2] + '">' + components[2] + '</a></li>';
         callback = 'showImage';
         args = components[1] + '/' + components[2];
@@ -151,6 +90,14 @@ function getHtml(template) {
     if (Array.isArray(template)) return template.join('\n');
     return template;
 }
+
+function urlSafe(path) {
+    return path.replace(/\s/g,'+');
+}
+function urlDisp(path) {
+    return path.replace(/\+/g,' ');
+}
+
 
 function grover() {
     document.querySelector('#grover').addEventListener(
@@ -176,18 +123,53 @@ function grover() {
     });
 }
 
+function showRecent() {
+    var photos = pdata.photos;
+    var template = '';
+    var maxrecent = 20;
+    var count = 0;
+
+    for (i in photos) {
+        if (count>=maxrecent) break;
+        var components = photos[i].p.split('/');
+        var imagePath = urlSafe(photos[i].p);
+        components[0] = urlSafe(components[0]);
+        var photoThumbUrl = '/assets/' + components[0] + '/' + components[1];
+        template += getHtml([
+            '<li>',
+                '<a href="/' + imagePath + '">',
+                    '<img src="' + photoThumbUrl + '" height="250" />',
+                '</a>',
+            '</li>'
+        ]);
+        count++;
+    }
+    
+    var message = photos.length ? '' : '<p>There are no recent photos...??</p>';
+    var htmlTemplate = [
+        message,
+        '<ul>',
+            getHtml(template),
+        '</ul>',
+        '<p><a href="/albums/">See all albums</a></p>'
+    ]
+    document.querySelector('#recent div').innerHTML = getHtml(htmlTemplate);
+    document.getElementById('recent').style.display = "block";
+}
+
 // List the photo albums that exist in the bucket.
 function listAlbums() {
     var albums = pdata.albums;
     var template = '';
     for (i in albums) {
-        var albumPath = albums[i].replace(/\s/g,"+");
-        var thumbPath = 'thumb_' + albums[i].replace(/\s/g,'_');
+        var albumPath = urlSafe(albums[i]);
+        var albumName = urlDisp(albums[i]);
+        var thumbPath = 'thumb_' + albumName.replace(/\s/g,'_');
         template += getHtml([
             '<li>',
                 '<a href="/' + albumPath + '/">',
-                    '<img src="' + s3Endpoint + thumbPath + '.jpg" height="250" width="250" />',
-                    '<br />' + albums[i],
+                    '<img src="/assets/' + thumbPath + '.jpg" height="250" width="250" />',
+                    '<br />' + albumName,
                 '</a>',
             '</li>'
         ]);
@@ -208,26 +190,26 @@ function listAlbums() {
 
 // Show the photos that exist in an album.
 function viewAlbum(albumName) {
-    albumName = albumName.replace(/\+/g, ' ');
+    albumName = urlDisp(albumName);
     var albumLabel = document.querySelector("#contents h2 span");
     if (albumLabel !== undefined) {
         albumLabel.innerHTML = albumName;
     }
 
     var photos = pdata.photos.filter(function(photo) {
-        return photo.p.includes(albumName + '/');
+        return photo.p.includes(urlSafe(albumName));
     }, albumName);
-    console.log(photos);
     var template = '';
+
     for (i in photos) {
         var components = photos[i].p.split('/');
-        var imagePath = photos[i].p.replace(/\s/g, '+');
-        components[0] = components[0].replace(/\s/g,'+');
-        var photoThumbUrl = s3Endpoint + components[0] + '/' + components[1];
+        var imagePath = urlSafe(photos[i].p);
+        components[0] = urlSafe(components[0]);
+        var photoThumbUrl = '/assets/' + components[0] + '/' + components[1];
         template += getHtml([
             '<li>',
                 '<a href="/' + imagePath + '">',
-                    '<img src="' + photoThumbUrl + '" height="350" />',
+                    '<img src="' + photoThumbUrl + '" height="250" />',
                 '</a>',
             '</li>'
         ]);
@@ -244,13 +226,37 @@ function viewAlbum(albumName) {
     document.getElementById('contents').style.display = "block";
 }
 
+function getPrevNext(image) {
+    var prevnext = [];
+    var al = urlSafe(image.split('/')[0]);
+    var ap = [];
+    pd=pdata.photos;
+    for (i in pd) {
+        if (pd[i].p.includes(al)) ap.push(pd[i]);
+    }
+    for (i in ap) {
+        if (ap[i].p.includes(urlSafe(image))) {
+            var prev = (i<1)?ap.length-1:parseInt(i)-1;
+            var next = (i>=ap.length-1)?0:parseInt(i)+1;
+            prevnext = [ap[prev],ap[next]];
+            break;
+        }
+    }
+    return prevnext;
+}
+
 function showImage(image) {
     var hero = document.getElementById('hero');
-    var path = s3Endpoint + image;
-    hero.src = path;
+    var search = urlDisp(image);
+    hero.src = '/assets/' + image;
 
     getEXIF(hero.src);
 
+    var pn = getPrevNext(search);
+    if (pn.length == 2) {
+        document.getElementById('prev').onclick = function() {window.location = "/" + urlSafe(pn[0].p);}
+        document.getElementById('next').onclick = function() {window.location = "/" + urlSafe(pn[1].p);}
+    }
     document.getElementById('details').style.display = "block";
 }
 
@@ -267,6 +273,10 @@ async function getEXIF(image) {
         console.log('Unable to read EXIF');
     }
     showMeta(tags);
+    var hero=document.getElementById('hero');
+    var padding = ((hero.clientHeight /2) - 183) + "px";
+    document.getElementById('prev').style.paddingTop = padding;
+    document.getElementById('next').style.paddingTop = padding;
 }
 
 // This does the actual updating in the page, passed in the list of tags
@@ -289,10 +299,14 @@ function showMeta(tagsAvailable) {
             case 'description':
                 hasCaption = true;
                 break;
+            case 'ExposureBiasValue':
+                tagdata=parseFloat(tagdata).toFixed(2);
+                break;
             case 'ExposureTime':
+                tagdata+='s';
+                break;
             case 'FNumber':
             case 'FocalLength':
-            case 'ExposureBiasValue':
                 break;
         }
 
