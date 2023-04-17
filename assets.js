@@ -106,19 +106,18 @@ function grover() {
             var showMap = '';
             switch (event.target.textContent) {
                 case "Near":
-                    showMap = "map16";
+                    showMap = "near";
                     break;
                 case "(Pant,pant)":
-                    showMap = "map10";
+                    showMap = "pantpant";
                     break;
                 case "Far!":
-                    showMap = "map6";
+                    showMap = "far";
                     break;
             }
             if (showMap !== '') {
-                var nearfar = document.getElementById('photogeo').getElementsByTagName('img');
-                for (var i=0; i<nearfar.length; i++ ) {nearfar[i].style.display = 'none';}
-                document.getElementById(showMap).style.display = 'block';
+                var map = document.getElementById('map');
+                map.src = map.getAttribute('data-' + showMap);
             }
     });
 }
@@ -321,9 +320,11 @@ function showMeta(tagsAvailable) {
             var coords = ewMod + (tagsAvailable['GPSLongitude'].description);
             coords += ',' + nsMod + (tagsAvailable['GPSLatitude'].description);
             var mapURL = 'https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=300&height=200&center=lonlat:' + coords + '&marker=lonlat:' + coords + ';color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5';
-            document.getElementById('map6').src = mapURL + "&zoom=4";
-            document.getElementById('map10').src = mapURL + "&zoom=10";
-            document.getElementById('map16').src = mapURL + "&zoom=16";
+            var map = document.getElementById('map');
+            map.src = mapURL + "&zoom=4";
+            map.setAttribute('data-far',map.src);
+            map.setAttribute('data-pantpant',mapURL + "&zoom=10");
+            map.setAttribute('data-near',mapURL + "&zoom=16");
         }
 
         if (!hasTitle) document.querySelector('#details h2').innerHTML = "Untitled";

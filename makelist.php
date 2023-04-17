@@ -1,5 +1,6 @@
 <?php 
-$rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator('assets'));
+$rid = new RecursiveDirectoryIterator('assets');
+$rii = new RecursiveIteratorIterator($rid);
 $files = array(); 
 
 /** @var SplFileInfo $file */
