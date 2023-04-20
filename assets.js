@@ -160,6 +160,7 @@ function showRecent() {
 function listAlbums() {
     var albums = pdata.albums;
     var template = '';
+    document.title = 'All albums';
     for (i in albums) {
         var albumPath = urlSafe(albums[i]);
         var albumName = urlDisp(albums[i]);
@@ -190,6 +191,7 @@ function listAlbums() {
 // Show the photos that exist in an album.
 function viewAlbum(albumName) {
     albumName = urlDisp(albumName);
+    document.title = albumName + ' pictures';
     var albumLabel = document.querySelector("#contents h2 span");
     if (albumLabel !== undefined) {
         albumLabel.innerHTML = albumName;
@@ -294,6 +296,7 @@ function showMeta(tagsAvailable) {
                 break;
             case 'title':
                 hasTitle = true;
+                document.title = tagdata;
                 break;
             case 'description':
                 hasCaption = true;
