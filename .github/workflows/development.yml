@@ -25,6 +25,9 @@ jobs:
           hugo-version: 'latest'
           extended: true
 
+      - name: Update NPM Modules
+        run: npm install
+
       - name: Create Image Data Files
         run: node build_yaml.js
 
