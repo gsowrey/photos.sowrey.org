@@ -18,7 +18,7 @@
   {{ $custom := resources.Get "css/overrides.css" }}
   
   {{ $css := slice $main $custom | resources.Concat "styles.css" | minify }}
-  <link rel="preload stylesheet" as="style" href="{{ $css.Permalink }}" />
+  <link rel="preload" as="style" href="{{ $css.Permalink }}" />
 
   {{ if and .IsPage (not site.Params.disableHLJS) }}
   <script
