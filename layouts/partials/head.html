@@ -18,7 +18,7 @@
   {{ $custom := resources.Get "css/overrides.css" }}
   
   {{ $css := slice $main $custom | resources.Concat "styles.css" | minify }}
-  <link rel="preload" as="style" href="{{ $css.Permalink }}" />
+  <link type="text/css" href="{{ $css.Permalink }}" />
 
   <!-- Preload -->
   {{ $dark_icon := "theme.png" }} {{ if site.Params.monoDarkIcon }} {{
