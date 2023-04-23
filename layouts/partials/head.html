@@ -18,32 +18,15 @@
   {{ $custom := resources.Get "css/overrides.css" }}
   
   {{ $css := slice $main $custom | resources.Concat "styles.css" | minify }}
-  <link type="text/css" href="{{ $css.Permalink }}" />
-
-  <!-- Preload -->
-  {{ $dark_icon := "theme.png" }} {{ if site.Params.monoDarkIcon }} {{
-  $dark_icon := "theme.svg" }} {{ end }}
-  <link rel="preload" as="image" href="{{ $dark_icon | absURL }}" />
-
-  {{ range $.Scratch.Get "social_list" }}
-  <link rel="preload" as="image" href="{{ printf `%s.svg` . | absURL }}" />
-  {{ end }}
+  <link type="text/css" rel="stylesheet" href="{{ $css.RelPermalink }}" />
 
   <!-- Favicon -->
-  <link rel="icon" href="{{ `favicon.ico` | absURL }}" />
-  <link rel="apple-touch-icon" href="{{ `apple-touch-icon.png` | absURL }}" />
-
-  <!-- Generator -->
-  {{ hugo.Generator }}
+  <link rel="icon" href="/{{ `favicon.ico` | absURL }}" />
+  <link rel="apple-touch-icon" href="/{{ `apple-touch-icon.png` | absURL }}" />
 
   <!-- RSS -->
   {{ range .AlternativeOutputFormats }}
-  <link
-    rel="{{ .Rel }}"
-    type="{{ .MediaType.Type }}"
-    href="{{ .Permalink }}"
-    title="{{ site.Title }}"
-  />
+  <link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink }}" title="{{ site.Title }}" />
   {{ end }}
 
   <!-- Misc -->

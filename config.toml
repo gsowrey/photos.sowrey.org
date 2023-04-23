@@ -1,4 +1,4 @@
-baseURL = 'https://ptest.sowrey.org/'
+#baseURL = 'https://ptest.sowrey.org/'
 languageCode = 'en-us'
 title = 'One Thousand Words: Photos by Geoff Sowrey'
 copyright = "© {year} Geoff Sowrey"
