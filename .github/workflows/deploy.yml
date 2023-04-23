@@ -25,7 +25,7 @@ jobs:
           hugo-version: 'latest'
           extended: true
 
-      - name: Update NPM Modules
+      - name: Install dependent NPM modules
         run: npm install
 
       - name: Create Image Data Files
