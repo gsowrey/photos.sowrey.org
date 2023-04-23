@@ -1,5 +1,5 @@
 {{ define "main" }}
-
+{{ $originDate := .Params.DateTimeOriginal | time }}
 <article>
   <header class="mb-20">
     <h1 class="!my-0 pb-2.5">{{ .Params.Title }}</h1>
@@ -7,10 +7,10 @@
     {{ if ne .Type "page" }}
     <div class="text-sm opacity-60">
       {{ if .Params.DateTimeOriginal }}
-      <time>{{ .Params.DateTimeOriginal | time.Format ":date_medium" }}</time>
-      {{ end }}<!---->
+      <time>{{ $originDate.Format .Site.Params.dateFormat }}</time>
+      {{ end }}
       {{ $single_author := or .Params.Author site.Author.name }}
-      <!---->
+      
       {{ if $single_author }}
       <span class="mx-1">&middot;</span>
       <span>{{ $single_author }}</span>
@@ -19,7 +19,96 @@
     {{ end }}
   </header>
 
-  <section><img src="{{ .Params.Filename }}" /></section>
+  <section id="details">
+    <!-- Displays the details of a specific photo -->
+    <div class="herowrap">
+        <div>
+          {{ $imagepath := .Param "Filename" }}
+            {{ $imagepath := $imagepath | printf "/photos/%s" }}
+            {{ $image := resources.GetMatch $imagepath }}
+            {{ with $image }}
+            <img id="hero" src="{{ $image.RelPermalink }}" />
+            {{ end }}
+        </div>
+        <h2 id="title">{{ .Params.title }}</h2>
+        <p id="description">{{ .Params.description }}</p>
+    </div>
+    <div>
+        <table id="photometa">
+            <thead>
+                <tr>
+                    <td colspan="2"><h3>EXIF Data</h3></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Capture Date</td>
+                    <td id="DateTimeOriginal">{{ $originDate.Format .Site.Params.dateFormat }}</td>
+                </tr>
+                <tr>
+                    <td>Camera Model</td>
+                    <td id="Model">{{ .Params.Model }}</td>
+                </tr>
+                <tr>
+                    <td>Lens</td>
+                    <td id="Lens">{{ .Params.LensProfileName }}</td>
+                </tr>
+                <tr>
+                    <td>ISO</td>
+                    <td id="ISOSpeedRatings">{{ .Params.ISOSpeedRatings }}</td>
+                </tr>
+                <tr>
+                    <td>Focal Length</td>
+                    <td id="FocalLength">{{ .Params.FocalLength }}</td>
+                </tr>
+                <tr>
+                    <td>Aperature</td>
+                    <td id="FNumber">{{ .Params.FNumber }}</td>
+                </tr>
+                <tr>
+                    <td>Exposure Time</td>
+                    <td id="ExposureTime">{{ .Params.ExposureTime }}</td>
+                </tr>
+                <tr>
+                    <td>Exposure Mode</td>
+                    <td id="ExposureMode">{{ .Params.ExposureMode }}</td>
+                </tr>
+                <tr>
+                    <td>Exposure Program</td>
+                    <td id="ExposureProgram">{{ .Params.ExposureProgram }}</td>
+                </tr>
+                <tr>
+                    <td>Exposure Bias</td>
+                    <td id="ExposureBiasValue">{{ .Params.ExposureBiasValue }}</td>
+                </tr>
+                <tr>
+                    <td>Temperature (K)</td>
+                    <td id="Temperature">{{ .Params.Temperature }}</td>
+                </tr>
+                <tr>
+                    <td>Metering</td>
+                    <td id="MeteringMode">{{ .Params.MeteringMode }}</td>
+                </tr>
+                <tr>
+                    <td>White Balance</td>
+                    <td id="WhiteBalance">{{ .Params.WhiteBalance }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="photogeo">
+            <h3>Location</h3>
+            <div>
+                <p id="location">Taken in {{ .Params.City }}, {{ .Params.State }}, {{ .Params.Country }}</p>
+                <img id="map" src="https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=300&height=200&center=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }}&marker=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }};color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5" />
+                <ul id="grover">
+                    <li>Near</li>
+                    <li>(Pant,pant)</li>
+                    <li>Far!</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
 
   <!-- Post Tags -->
   {{ if .Params.tags }}
@@ -35,7 +124,8 @@
   {{ end }}
 
   <!-- Post Nav -->
-  {{ $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}<!---->
+{{ $pathname := index (split .File.Dir "/") 0 }}
+  {{ $pages := where site.Pages "Section" $pathname }}
   {{ if and (gt (len $pages) 1) (in $pages . ) }}
   <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
     {{ with $pages.Next . }}
@@ -44,7 +134,7 @@
       href="{{ .Permalink }}"
       ><span class="mr-1.5">←</span><span>{{ .Name }}</span></a
     >
-    {{ end }}<!---->
+    {{ end }}
     {{ with $pages.Prev . }}
     <a
       class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"

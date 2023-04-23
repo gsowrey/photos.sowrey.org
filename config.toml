@@ -4,9 +4,16 @@ title = 'One Thousand Words: Photos by Geoff Sowrey'
 copyright = "© {year} Geoff Sowrey"
 theme = "paper"
 
+[author]
+  name = 'Geoff Sowrey'
+
 [params]
+  description = 'Photography by Geoff Sowrey'
+
   # color style
   color = 'linen'                           # linen, wheat, gray, light
+
+  dateFormat = "02 January 2006 15:04"
 
   # header social icons
   twitter = 'YOUR_TWITTER_ID'               # twitter.com/YOUR_TWITTER_ID

@@ -1,0 +1,18 @@
+<div class="recent">
+    <div class="recentgrid">
+        {{ range first 100 (where .Site.Pages "Type" "article").ByDate.Reverse }}
+            {{ $pagepath := .Permalink }}
+            {{ $title := .Param "Title" }}
+            {{ $imagepath := .Param "Filename" }}
+            {{ $imagepath := $imagepath | printf "/photos/%s" }}
+            {{ $image := resources.GetMatch $imagepath }}
+            {{ with $image }}
+                {{ $image := $image.Resize "350x" }}
+                {{ $image := $image.Fit "350x350" }}
+        <div class="card">
+            <a href="{{ $pagepath }}"><img src="{{ $image.RelPermalink }}" /><span>{{ $title }}</span></a>
+        </div>
+            {{ end }}
+        {{ end }}
+    </div>
+</div>

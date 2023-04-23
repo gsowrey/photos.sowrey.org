@@ -4,6 +4,6 @@ heading: "This is a test"
 
 ---
 
-## Does this work? 
+## Recent Pictures 
 
 Apparently, it does.

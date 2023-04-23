@@ -14,8 +14,8 @@ const getAllFiles = function(dirPath, arrayOfFiles) {
         } 
         else {
             var imgPath = path.join(__dirname, dirPath, "/", file);
-            imgPath = imgPath.substring(imgPath.indexOf('static/photos/')+14);
-            if (!imgPath.includes('thumb')) {
+            imgPath = imgPath.substring(imgPath.indexOf('assets/photos/')+14);
+            if (!imgPath.includes('thumb') && !imgPath.includes('DS_Store')) {
                 arrayOfFiles.push(imgPath);
             }
         }
@@ -27,7 +27,7 @@ const getAllFiles = function(dirPath, arrayOfFiles) {
 async function getEXIF(image) {
     var tags;
     try {
-        tags = await ExifReader.load('./static/photos/' + image);
+        tags = await ExifReader.load('./assets/photos/' + image);
         delete tags['MakerNote'];
     } catch (error) {
         // Handle error.
@@ -74,10 +74,11 @@ function showMeta(tagsAvailable,image) {
             switch(myTags[i]) {
                 case 'DateTimeOriginal':
                     var tdinfo = String(tagsAvailable['DateTimeOriginal'].description); 
-                    console.log(tdinfo);
                     tdinfo = tdinfo.split(' ');
                     var dateinfo = tdinfo[0].replace(/:/g,'-');
+                    tags['date'] = dateinfo;
                     dateinfo += 'T' + tdinfo[1];
+                    tagData = dateinfo;
                     tags['UnixTime'] = Date.parse(dateinfo);
                     break;
                 case 'ExposureBiasValue':
@@ -156,6 +157,6 @@ async function getAlbumPictures(files,album) {
 }
 
 //getEXIF('./static/photos/Edinburgh/_DSC1127.jpg');
-var files = getAllFiles('./static/photos');
+var files = getAllFiles('./assets/photos');
 buildAlbums(files);
 

@@ -6,16 +6,7 @@
 <section>
     <article>
         {{ .Content }}
-
-        <div class="recent">
-            <ul>
-                {{ range first 15 (where .Site.Pages "Type" "post").ByDate.Reverse }}
-                <li>
-                    <span>{{.Date.Day}} {{ .Date.Format "January 2006" }}</span>: <a href="{{.Permalink}}">{{.Title}}</a>
-                </li>
-                {{ end }}
-            </ul>
-        </div>
+        {{ partial "recent.html" . }}
     </article>
 </section>
 {{ end }}
