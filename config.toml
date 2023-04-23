@@ -17,10 +17,10 @@ pluralizelisttitles = "false"
   dateFormat = "02 January 2006 15:04"
 
   # header social icons
-  twitter = 'YOUR_TWITTER_ID'               # twitter.com/YOUR_TWITTER_ID
-  github = 'YOUR_GITHUB_ID'                 # github.com/YOUR_GITHUB_ID
-  instagram = 'YOUR_INSTAGRAM_ID'           # instagram.com/YOUR_INSTAGRAM_ID
-  mastodon = 'YOUR_MASTODON_LINK'           # e.g. 'https://mastodon.instance/@xxx'
+  twitter = 'sowrey'               # twitter.com/YOUR_TWITTER_ID
+  github = 'gsowrey'                 # github.com/YOUR_GITHUB_ID
+  instagram = 'sowrey'           # instagram.com/YOUR_INSTAGRAM_ID
+  #mastodon = 'YOUR_MASTODON_LINK'           # e.g. 'https://mastodon.instance/@xxx'
   rss = true                                # show rss icon
 
   # home page profile

@@ -9,7 +9,7 @@
         {{ partial "recent.html" . }}
     </article>
     <article>
-        <a name="albums"><h2>See What's in the Albums</h2></a>
+        <a style="text-decoration:none;" name="albums"><h2>See What's in the Albums</h2></a>
         <ul class="albums">
             {{ range .Site.Pages }}
             {{ if eq .Kind "section" }}

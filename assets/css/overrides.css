@@ -26,3 +26,29 @@ div.album-item {
     padding: 1rem;
     display: inline-block;
 }
+#hero {margin-top: 0;}
+#photometa tbody tr td:first-child{
+    padding-right:1em;white-space:nowrap
+}
+#photogeo img {
+    display:block;
+}
+#photogeo div p {
+    margin-bottom: 0;
+}
+#photogeo div img {
+    margin-top: 1em;
+    margin-bottom: 0;
+}
+#photogeo ul{
+    width:300px;
+    margin: 0;
+    list-style: none;
+}
+#photogeo li{
+    display: inline-block;
+    padding:1rem;
+    font-size:.75em;
+    text-decoration:underline;
+    cursor:pointer
+}

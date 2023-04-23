@@ -14,10 +14,10 @@
     {{ $pathname := (index (split .File.Dir "/") 0) | printf "/%s" }}
     {{ $obj := .GetPage $pathname }}
     {{ $title := title (replace $obj.Title "+" " ") }}
-    <p>In the <a href="{{ $pathname }}">{{ $title }} album</a></p>
+    <p class="rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">From the <a href="{{ $pathname }}">{{ $title }}</a> album</p>
   </header>
 
-  <section id="details">
+  <div id="details">
     <!-- Displays the details of a specific photo -->
     <div class="herowrap">
         <div>
@@ -38,22 +38,22 @@
                     <td colspan="2"><h3>EXIF Data</h3></td>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="not-prose">
                 <tr>
                     <td>Capture Date</td>
-                    <td id="DateTimeOriginal">{{ $originDate.Format .Site.Params.dateFormat }}</td>
+                    <td>{{ $originDate.Format .Site.Params.dateFormat }}</td>
                 </tr>
                 <tr>
                     <td>Camera Model</td>
-                    <td id="Model">{{ .Params.Model }}</td>
+                    <td>{{ .Params.Model }}</td>
                 </tr>
                 <tr>
                     <td>Lens</td>
-                    <td id="Lens">{{ .Params.LensProfileName }}</td>
+                    <td>{{ .Params.LensProfileName }}</td>
                 </tr>
                 <tr>
                     <td>ISO</td>
-                    <td id="ISOSpeedRatings">{{ .Params.ISOSpeedRatings }}</td>
+                    <td>{{ .Params.ISOSpeedRatings }}</td>
                 </tr>
                 <tr>
                     <td>Focal Length</td>
@@ -61,35 +61,35 @@
                 </tr>
                 <tr>
                     <td>Aperature</td>
-                    <td id="FNumber">{{ .Params.FNumber }}</td>
+                    <td>{{ .Params.FNumber }}</td>
                 </tr>
                 <tr>
                     <td>Exposure Time</td>
-                    <td id="ExposureTime">{{ .Params.ExposureTime }}</td>
+                    <td>{{ .Params.ExposureTime }}</td>
                 </tr>
                 <tr>
                     <td>Exposure Mode</td>
-                    <td id="ExposureMode">{{ .Params.ExposureMode }}</td>
+                    <td>{{ .Params.ExposureMode }}</td>
                 </tr>
                 <tr>
                     <td>Exposure Program</td>
-                    <td id="ExposureProgram">{{ .Params.ExposureProgram }}</td>
+                    <td>{{ .Params.ExposureProgram }}</td>
                 </tr>
                 <tr>
                     <td>Exposure Bias</td>
-                    <td id="ExposureBiasValue">{{ .Params.ExposureBiasValue }}</td>
+                    <td>{{ .Params.ExposureBiasValue }}</td>
                 </tr>
                 <tr>
                     <td>Temperature (K)</td>
-                    <td id="Temperature">{{ .Params.Temperature }}</td>
+                    <td>{{ .Params.Temperature }}</td>
                 </tr>
                 <tr>
                     <td>Metering</td>
-                    <td id="MeteringMode">{{ .Params.MeteringMode }}</td>
+                    <td>{{ .Params.MeteringMode }}</td>
                 </tr>
                 <tr>
                     <td>White Balance</td>
-                    <td id="WhiteBalance">{{ .Params.WhiteBalance }}</td>
+                    <td>{{ .Params.WhiteBalance }}</td>
                 </tr>
             </tbody>
         </table>
@@ -97,16 +97,16 @@
             <h3>Location</h3>
             <div>
                 <p id="location">Taken in {{ .Params.City }}, {{ .Params.State }}, {{ .Params.Country }}</p>
-                <img id="map" src="https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=300&height=200&center=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }}&marker=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }};color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5" />
+                <img id="map" src="https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=350&height=250&center=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }}&zoom=4&marker=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }};color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5" />
                 <ul id="grover">
-                    <li>Near</li>
-                    <li>(Pant,pant)</li>
-                    <li>Far!</li>
+                    <li class="mapdata" data-near="https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=350&height=250&center=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }}&marker=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }};color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5&zoom=16">Near</li>
+                    <li class="mapdata" data-pantpant="https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=350&height=250&center=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }}&marker=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }};color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5&zoom=10">(Pant,pant)</li>
+                    <li class="mapdata" data-far="https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=350&height=250&center=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }}&marker=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }};color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5&zoom=4">Far!</li>
                 </ul>
             </div>
         </div>
     </div>
-</section>
+  </div>
 
   <!-- Post Tags -->
   {{ if .Params.tags }}
@@ -143,5 +143,32 @@
   </nav>
   {{ end }}
 </article>
+
+<script>
+  document.querySelector('#grover').addEventListener(
+        "mouseover",
+        (event) => {
+            var showMap = '';
+            switch (event.target.textContent) {
+                case "Near":
+                    showMap = "near";
+                    break;
+                case "(Pant,pant)":
+                    showMap = "pantpant";
+                    break;
+                case "Far!":
+                    showMap = "far";
+                    break;
+            }
+            if (showMap !== '') {
+              var map = document.getElementById('map');
+              var data = document.getElementsByClassName('mapdata');
+              var mapdata = 'data-' + showMap;
+              for (i in data) {
+                if (data[i].hasAttribute(mapdata)) map.src = data[i].getAttribute(mapdata);
+              }
+            }
+    });
+</script>
 
 {{ end }}
