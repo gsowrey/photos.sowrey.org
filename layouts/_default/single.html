@@ -9,14 +9,12 @@
       {{ if .Params.DateTimeOriginal }}
       <time>{{ $originDate.Format .Site.Params.dateFormat }}</time>
       {{ end }}
-      {{ $single_author := or .Params.Author site.Author.name }}
-      
-      {{ if $single_author }}
-      <span class="mx-1">&middot;</span>
-      <span>{{ $single_author }}</span>
-      {{ end }}
     </div>
     {{ end }}
+    {{ $pathname := (index (split .File.Dir "/") 0) | printf "/%s" }}
+    {{ $obj := .GetPage $pathname }}
+    {{ $title := title (replace $obj.Title "+" " ") }}
+    <p>In the <a href="{{ $pathname }}">{{ $title }} album</a></p>
   </header>
 
   <section id="details">
@@ -143,50 +141,6 @@
     >
     {{ end }}
   </nav>
-  {{ end }}
-
-  <!-- Disqus -->
-  {{ if and site.DisqusShortname (not (eq .Params.comments false)) }}
-  <div class="mt-24" id="disqus_thread"></div>
-  <script>
-    const disqusShortname = '{{ site.DisqusShortname }}';
-    const script = document.createElement('script');
-    script.src = 'https://' + disqusShortname + '.disqus.com/embed.js';
-    script.setAttribute('data-timestamp', +new Date());
-    document.head.appendChild(script);
-  </script>
-  {{ end }}
-
-  <!-- GraphComment -->
-  {{ if and site.Params.graphCommentId (not (eq .Params.comments false)) }}
-  <div class="mt-24" id="graphcomment"></div>
-  <script type="text/javascript">
-    var __semio__params = {
-      graphcommentId: '{{ site.Params.graphCommentId  }}',
-      behaviour: {
-        //  uid: "...",
-      },
-      // configure your variables here
-    };
-
-    function __semio__onload() {
-      __semio__gc_graphlogin(__semio__params);
-    }
-
-    (function () {
-      var gc = document.createElement('script');
-      gc.type = 'text/javascript';
-      gc.async = true;
-      gc.onload = __semio__onload;
-      gc.defer = true;
-      gc.src =
-        'https://integration.graphcomment.com/gc_graphlogin.js?' + Date.now();
-      (
-        document.getElementsByTagName('head')[0] ||
-        document.getElementsByTagName('body')[0]
-      ).appendChild(gc);
-    })();
-  </script>
   {{ end }}
 </article>
 

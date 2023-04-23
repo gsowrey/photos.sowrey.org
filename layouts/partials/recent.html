@@ -9,8 +9,9 @@
             {{ with $image }}
                 {{ $image := $image.Resize "350x" }}
                 {{ $image := $image.Fit "350x350" }}
+                {{ $image := $image.Crop "350x350" }}
         <div class="card">
-            <a href="{{ $pagepath }}"><img src="{{ $image.RelPermalink }}" /><span>{{ $title }}</span></a>
+            <a href="{{ $pagepath }}"><img src="{{ $image.RelPermalink }}" /></a>
         </div>
             {{ end }}
         {{ end }}

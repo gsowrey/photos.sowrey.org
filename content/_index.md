@@ -1,9 +1,7 @@
 ---
 
-heading: "This is a test"
+heading: "Recent Pictures"
 
 ---
 
-## Recent Pictures 
-
-Apparently, it does.
+These are the most recent pictures I've taken. For the full archive, look in the [albums](#albums).

@@ -8,5 +8,16 @@
         {{ .Content }}
         {{ partial "recent.html" . }}
     </article>
+    <article>
+        <a name="albums"><h2>See What's in the Albums</h2></a>
+        <ul class="albums">
+            {{ range .Site.Pages }}
+            {{ if eq .Kind "section" }}
+            {{ $title := title (replace .Title "+" " ") }}
+            <li><a href="{{ .Permalink | relURL }}" title="{{ $title }}">{{ $title }}</a></li>
+            {{ end }}
+            {{ end }}
+        </ul>
+    </article>
 </section>
 {{ end }}
