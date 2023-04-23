@@ -1,0 +1,55 @@
+{{ define "main" }}
+
+<!-- Tag Title -->
+{{ if and .Title (eq .Type "tags") }}
+<h1 class="mb-24">{{ .Title }}</h1>
+{{ end }}
+
+<!-- $pages -->
+{{ $pages := union .RegularPages .Sections }}<!---->
+{{ if .IsHome }}<!---->
+{{ $pages = where site.RegularPages "Type" "in" site.Params.mainSections }}<!---->
+{{ end }}
+
+<div>
+
+<!-- Articles -->
+{{ $paginator := .Paginate $pages }} 
+{{ range $index, $page := $paginator.Pages }}
+{{ $date := .Date }}
+{{ $title := .Title }}
+{{ $link := .Permalink }}
+{{ $imagepath := $page.Params.Filename }}
+{{ $imagepath := $imagepath | printf "/photos/%s" }}
+{{ $image := resources.GetMatch $imagepath }}
+{{ with $image }}
+    {{ $image := $image.Resize "350x" }}
+    {{ $image := $image.Fit "350x350" }}
+<!---->
+
+<div class="album-item my-10 first-of-type:mt-0 last-of-type:mb-0">
+  <h2 class="!my-0 pb-1 !leading-none">{{ $title }}</h2>
+  <time class="text-sm opacity-60"
+    >{{ $date | time.Format ":date_medium" }}</time
+  >
+  <a class="inset-0 text-[0]" href="{{ $link }}"><img src="{{ $image.RelPermalink }}" /></a>
+</div>
+{{ end }}
+{{ end }}
+</div>
+
+<!-- Main Nav -->
+{{ if gt $paginator.TotalPages 1 }}
+<nav class="mt-24 flex">
+  {{ if $paginator.HasPrev }}
+  <a class="btn" href="{{ $paginator.Prev.URL }}">← {{ i18n "prev_page" }}</a>
+  {{ end }}<!---->
+  {{ if $paginator.HasNext }}
+  <a class="btn ml-auto" href="{{ $paginator.Next.URL }}"
+    >{{ i18n "next_page" }} →</a
+  >
+  {{ end }}
+</nav>
+{{ end }}<!---->
+
+{{ end }}

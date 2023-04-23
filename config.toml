@@ -22,8 +22,3 @@ pluralizelisttitles = "false"
   instagram = 'sowrey'           # instagram.com/YOUR_INSTAGRAM_ID
   #mastodon = 'YOUR_MASTODON_LINK'           # e.g. 'https://mastodon.instance/@xxx'
   rss = true                                # show rss icon
-
-  # home page profile
-  avatar = 'GRAVATAR_EMAIL'                 # gravatar email or image url
-  name = 'YOUR_NAME'
-  bio = 'YOUR_BIO'
