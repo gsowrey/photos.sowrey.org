@@ -20,25 +20,10 @@
   {{ $css := slice $main $custom | resources.Concat "styles.css" | minify }}
   <link rel="preload" as="style" href="{{ $css.Permalink }}" />
 
-  {{ if and .IsPage (not site.Params.disableHLJS) }}
-  <script
-    defer
-    src="{{ `highlight.min.js` | absURL }}"
-    onload="hljs.initHighlightingOnLoad();"
-  ></script>
-  {{ end }}
-
   <!-- Preload -->
   {{ $dark_icon := "theme.png" }} {{ if site.Params.monoDarkIcon }} {{
   $dark_icon := "theme.svg" }} {{ end }}
   <link rel="preload" as="image" href="{{ $dark_icon | absURL }}" />
-
-  {{ $avatar_url := $.Scratch.Get "avatar_url" }}
-  
-  {{ if $avatar_url }}
-  <link rel="preload" as="image" href="{{ $avatar_url }}" />
-  {{ end }}
-  
 
   {{ range $.Scratch.Get "social_list" }}
   <link rel="preload" as="image" href="{{ printf `%s.svg` . | absURL }}" />
