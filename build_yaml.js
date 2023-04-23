@@ -105,6 +105,7 @@ function showMeta(tagsAvailable,image) {
 
 async function buildAlbums(files) {
     let albums = {};
+    const write_dir = './data';
     for (i in files) {
         var components = files[i].split('/');
         if (!albums[components[0]]) {
@@ -124,7 +125,10 @@ async function buildAlbums(files) {
             }
         );
         //console.log(output);
-        fs.writeFile('./data/pictures-' + i.toLowerCase() + '.yaml',output, err => {
+        if (!fs.existsSync(write_dir)) {
+            fs.mkdirSync(write_dir);
+        }
+        fs.writeFile(write_dir + '/pictures-' + i.toLowerCase() + '.yaml',output, err => {
             if (err) {
                 console.error(err);
             }
