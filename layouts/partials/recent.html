@@ -1,6 +1,6 @@
 <div class="recent">
     <div class="recentgrid">
-        {{ range first 100 (where .Site.Pages "Type" "article").ByDate.Reverse }}
+        {{ range first 108 (where .Site.Pages "Type" "article").ByDate.Reverse }}
             {{ $pagepath := .Permalink }}
             {{ $title := .Param "Title" }}
             {{ $imagepath := .Param "Filename" }}
