@@ -11,11 +11,11 @@
     <article>
         <a style="text-decoration:none;" name="albums"><h2>See What's in the Albums</h2></a>
         <ul class="albums">
-            {{ range .Site.Pages }}
-            {{ if eq .Kind "section" }}
+            {{ $pages := union .RegularPages .Sections }}
+            {{ $pages := sort $pages "Title" "asc" }}
+            {{ range $pages }}
             {{ $title := title (replace .Title "+" " ") }}
             <li><a href="{{ .Permalink | relURL }}" title="{{ $title }}">{{ $title }}</a></li>
-            {{ end }}
             {{ end }}
         </ul>
     </article>
