@@ -7,20 +7,20 @@ const getAllFiles = function(dirPath, arrayOfFiles) {
     files = fs.readdirSync(dirPath)
   
     arrayOfFiles = arrayOfFiles || []
-  
     files.forEach(function(file) {
         if (fs.statSync(dirPath + "/" + file).isDirectory()) {
             arrayOfFiles = getAllFiles(dirPath + "/" + file, arrayOfFiles)
         } 
         else {
-            var imgPath = path.join(__dirname, dirPath, "/", file);
+            //var imgPath = path.join(__dirname, dirPath, "/", file);
+            var imgPath = path.join(dirPath, "/", file);
             imgPath = imgPath.substring(imgPath.indexOf('assets/photos/')+14);
             if (!imgPath.includes('thumb') && !imgPath.includes('DS_Store')) {
                 arrayOfFiles.push(imgPath);
             }
         }
     });
-  
+    
     return arrayOfFiles
 }
 
@@ -62,7 +62,8 @@ function showMeta(tagsAvailable,image) {
         'Country'
     ];
     var tags = {
-        'Filename'          : image
+        'Filename'          : image,
+        'images'            : '/photos/' + image
     }
 
     for (i in myTags) {
@@ -72,9 +73,6 @@ function showMeta(tagsAvailable,image) {
         var tagData = tagsAvailable[myTags[i]].description;
         if (tagData !== missing) {
             switch(myTags[i]) {
-                case 'Filename': 
-                    tags['images'] = '/photos/' + tagData;
-                    break;
                 case 'DateTimeOriginal':
                     var tdinfo = String(tagsAvailable['DateTimeOriginal'].description); 
                     tdinfo = tdinfo.split(' ');
@@ -113,10 +111,10 @@ async function buildAlbums(files) {
     let albums = {};
     const write_dir = './data';
     for (i in files) {
-        var components = files[i].split('/');
+        var splitter = (files[i].includes('/')) ? '/' : '\\';
+        var components = files[i].split(splitter);
         if (!albums[components[0]]) {
             var albumName = components[0];
-            console.log(albumName);
             let albumPictures = await getAlbumPictures(files,albumName);
             albums[albumName] = albumPictures;
         }
@@ -125,6 +123,7 @@ async function buildAlbums(files) {
         let pictures = {
             'pictures' : albums[i]
         }
+
         var output = yaml.dump(pictures, 
             {
                 'sortKeys': true        // sort object keys
@@ -134,7 +133,8 @@ async function buildAlbums(files) {
         if (!fs.existsSync(write_dir)) {
             fs.mkdirSync(write_dir);
         }
-        fs.writeFile(write_dir + '/pictures-' + i.toLowerCase() + '.yaml',output, err => {
+        var writepath = write_dir + '/pictures-' + i.toLowerCase() + '.yaml';
+        fs.writeFile(writepath,output, err => {
             if (err) {
                 console.error(err);
             }
