@@ -72,6 +72,9 @@ function showMeta(tagsAvailable,image) {
         var tagData = tagsAvailable[myTags[i]].description;
         if (tagData !== missing) {
             switch(myTags[i]) {
+                case 'Filename': 
+                    tags['images'] = '/photos/' + tagData;
+                    break;
                 case 'DateTimeOriginal':
                     var tdinfo = String(tagsAvailable['DateTimeOriginal'].description); 
                     tdinfo = tdinfo.split(' ');

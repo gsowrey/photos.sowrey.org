@@ -5,6 +5,8 @@ copyright = "© {year} Geoff Sowrey"
 theme = "paper"
 pluralizelisttitles = "false"
 
+googleAnalytics = "G-8VN3NJPXXH"
+
 [author]
   name = 'Geoff Sowrey'
 

@@ -7,7 +7,7 @@
     {{ if ne .Type "page" }}
     <div class="text-sm opacity-60">
       {{ if .Params.DateTimeOriginal }}
-      <time>{{ $originDate.Format .Site.Params.dateFormat }}</time>
+      <time datetime="{{ .Params.DateTimeOriginal }}">{{ $originDate.Format .Site.Params.dateFormat }}</time>
       {{ end }}
     </div>
     {{ end }}
@@ -24,8 +24,9 @@
           {{ $imagepath := .Param "Filename" }}
             {{ $imagepath := $imagepath | printf "/photos/%s" }}
             {{ $image := resources.GetMatch $imagepath }}
+            {{ $title := .Title }}
             {{ with $image }}
-            <img id="hero" src="{{ $image.RelPermalink }}" />
+            <img id="hero" src="{{ $image.RelPermalink }}" alt="{{ $title }}" />
             {{ end }}
         </div>
         <h2 id="title">{{ .Params.title }}</h2>
@@ -97,7 +98,7 @@
             <h3>Location</h3>
             <div>
                 <p id="location">Taken in {{ .Params.City }}, {{ .Params.State }}, {{ .Params.Country }}</p>
-                <img id="map" src="https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=350&height=250&center=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }}&zoom=4&marker=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }};color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5" height="250" width="350 "/>
+                <img id="map" alt="Where was this picture taken?" src="https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=350&height=250&center=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }}&zoom=4&marker=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }};color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5" height="250" width="350" />
                 <ul id="grover">
                     <li class="mapdata" data-near="https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=350&height=250&center=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }}&marker=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }};color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5&zoom=16">Near</li>
                     <li class="mapdata" data-pantpant="https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=350&height=250&center=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }}&marker=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }};color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5&zoom=10">(Pant,pant)</li>
@@ -141,11 +142,9 @@
   {{ if and (gt (len $pages) 1) (in $children . ) }}
   <nav class="mt-24 flex rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">
     {{ with $children.Next . }}
-    <a
-      class="flex w-1/2 items-center rounded-l-md p-6 pr-3 no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="{{ .Permalink }}"
-      ><span class="mr-1.5">←</span><span>{{ .Name }}</span></a
-    >
+    <a class="flex w-1/2 items-center rounded-l-md p-6 pr-3 no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]" href="{{ .Permalink }}">
+      <span class="mr-1.5">←</span><span>{{ .Name }}</span>
+    </a>
     {{ end }}
     {{ with $children.Prev . }}
     <a
