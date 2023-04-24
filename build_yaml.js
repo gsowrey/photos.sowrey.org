@@ -63,7 +63,7 @@ function showMeta(tagsAvailable,image) {
     ];
     var tags = {
         'Filename'          : image,
-        'images'            : '/photos/' + image
+        'images'            : '/photos' + image
     }
 
     for (i in myTags) {
@@ -103,6 +103,7 @@ function showMeta(tagsAvailable,image) {
         }
         tags[myTags[i]] = tagData;
     }
+    console.log(tags);
  
     return tags;
 }
