@@ -63,7 +63,7 @@ function showMeta(tagsAvailable,image) {
     ];
     var tags = {
         'Filename'          : image,
-        'images'            : '/photos' + image
+        'images'            : ['/photos/' + image]
     }
 
     for (i in myTags) {
