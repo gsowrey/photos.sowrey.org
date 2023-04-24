@@ -84,6 +84,9 @@ function showMeta(tagsAvailable,image) {
                 case 'ExposureBiasValue':
                     tagData = parseFloat(tagData).toFixed(2);
                     break;
+                case 'ExposureTime':
+                    tagData += ' seconds';
+                    break;
                 case 'GPSLatitude':
                     var nsMod = (tagsAvailable['GPSLatitudeRef'].value[0]==="N")?'':'-';
                     tagData = nsMod + tagData;
