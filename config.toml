@@ -5,6 +5,13 @@ copyright = "© {year} Geoff Sowrey"
 theme = "paper"
 pluralizelisttitles = "false"
 
+[imaging]
+  anchor = 'Smart'
+  bgColor = '#ffffff'
+  hint = 'photo'
+  quality = 75
+  resampleFilter = 'Lanczos'
+
 [author]
   name = 'Geoff Sowrey'
 

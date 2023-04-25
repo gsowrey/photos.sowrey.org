@@ -26,8 +26,10 @@
             {{ $image := resources.GetMatch $imagepath }}
             {{ $title := .Title }}
             {{ with $image }}
-            <img id="hero" src="{{ $image.RelPermalink }}" alt="{{ $title }}" height="{{ $image.Height }}" width="{{ $image.Width }}" />
-            <div id="modal" class="modal" style="background-image: url('{{ $image.RelPermalink }}')"></div>
+            {{ with .Resize (printf "%dx%d webp" .Width .Height) }}
+            <img id="hero" src="{{ .RelPermalink }}" alt="{{ $title }}" height="{{ .Height }}" width="{{ .Width }}" />
+            <div id="modal" class="modal" style="background-image: url('{{ .RelPermalink }}')"></div>
+            {{ end }}
             {{ end }}
         </div>
         <h2 id="title">{{ .Params.title }}</h2>

@@ -7,11 +7,11 @@
             {{ $imagepath := $imagepath | printf "/photos/%s" }}
             {{ $image := resources.GetMatch $imagepath }}
             {{ with $image }}
-                {{ $image := $image.Resize "350x" }}
-                {{ $image := $image.Fit "350x350" }}
-                {{ $image := $image.Crop "350x350" }}
+                {{ $image := $image.Resize "350x webp" }}
+                {{ $image := $image.Fit "108x108" }}
+                {{ $image := $image.Crop "108x108" }}
         <div class="card">
-            <a href="{{ $pagepath }}"><img src="{{ $image.RelPermalink }}" alt="{{ $image.Title }}" loading="lazy" /></a>
+            <a href="{{ $pagepath }}"><img src="{{ $image.RelPermalink }}" height="108" width="108" alt="{{ $image.Title }}" loading="lazy" /></a>
         </div>
             {{ end }}
         {{ end }}
