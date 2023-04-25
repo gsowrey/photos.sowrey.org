@@ -38,11 +38,19 @@ div.album-item {
 #hero:hover {
     opacity: 0.7;
 }
+@-webkit-keyframes zoom {
+    from {-webkit-transform:scale(1)}
+    to {-webkit-transform:scale(2)}
+}
 @keyframes zoom {
     from {transform:scale(0.4)}
     to {transform:scale(1)}
     0% { opacity: 0; }
     100% { opacity: 1; }
+}
+@-webkit-keyframes zoom-out {
+    from {transform:scale(1)}
+    to {transform:scale(0)}
 }
 @keyframes zoom-out {
     from {transform:scale(1)}
