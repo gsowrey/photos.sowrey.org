@@ -11,7 +11,7 @@
                 {{ $image := $image.Fit "350x350" }}
                 {{ $image := $image.Crop "350x350" }}
         <div class="card">
-            <a href="{{ $pagepath }}"><img src="{{ $image.RelPermalink }}" /></a>
+            <a href="{{ $pagepath }}"><img src="{{ $image.RelPermalink }}" height="100" width="100" loading="lazy" /></a>
         </div>
             {{ end }}
         {{ end }}

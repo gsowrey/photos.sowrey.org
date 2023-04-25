@@ -26,7 +26,7 @@
             {{ $image := resources.GetMatch $imagepath }}
             {{ $title := .Title }}
             {{ with $image }}
-            <img id="hero" src="{{ $image.RelPermalink }}" alt="{{ $title }}" />
+            <img id="hero" src="{{ $image.RelPermalink }}" alt="{{ $title }}" height="{{ $image.Height }}" width="{{ $image.Width }}" />
             <div id="modal" class="modal" style="background-image: url('{{ $image.RelPermalink }}')"></div>
             {{ end }}
         </div>
