@@ -9,7 +9,7 @@
         {{ partial "recent.html" . }}
     </article>
     <article>
-        <a style="text-decoration:none;" name="albums"><h2>See What's in the Albums</h2></a>
+        <h2 id="albums">See What's in the Albums</h2>
         <ul class="albums">
             {{ $pages := union .RegularPages .Sections }}
             {{ $pages := sort $pages "Title" "asc" }}
