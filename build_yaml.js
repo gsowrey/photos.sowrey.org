@@ -112,8 +112,7 @@ async function buildAlbums(files) {
     let albums = {};
     const write_dir = './data';
     for (i in files) {
-        var splitter = (files[i].includes('/')) ? '/' : '\\';
-        var components = files[i].split(splitter);
+        var components = files[i].split('/');
         if (!albums[components[0]]) {
             var albumName = components[0];
             let albumPictures = await getAlbumPictures(files,albumName);

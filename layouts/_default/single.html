@@ -27,6 +27,7 @@
             {{ $title := .Title }}
             {{ with $image }}
             <img id="hero" src="{{ $image.RelPermalink }}" alt="{{ $title }}" />
+            <div id="modal" class="modal" style="background-image: url('{{ $image.RelPermalink }}')"></div>
             {{ end }}
         </div>
         <h2 id="title">{{ .Params.title }}</h2>
@@ -158,6 +159,21 @@
 </article>
 
 <script>
+  var modal = document.getElementById('modal');
+  document.getElementById('hero').addEventListener(
+    "click",
+    (event) => {
+      modal.style.display="block";
+    });
+  modal.addEventListener(
+    "click",
+    (event) => {
+      this.className += " out";
+      setTimeout(function() {
+        modal.style.display = "none";
+        modal.className = "";
+      })
+    });
   document.querySelector('#grover').addEventListener(
         "mouseover",
         (event) => {
