@@ -65,6 +65,7 @@ div.album-item {
     animation-duration: 0.6s;
     background-repeat: no-repeat;
     background-position: center;
+    background-size: contain;
 }
 #modal.out {
     animation-name: zoom-out;
