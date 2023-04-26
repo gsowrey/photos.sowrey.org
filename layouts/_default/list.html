@@ -29,7 +29,7 @@
 
 <div class="album-item my-10 first-of-type:mt-0 last-of-type:mb-0">
   <h2 class="!my-0 pb-1 !leading-none">{{ $title }}</h2>
-  <time datetime="{{ $image.DateTimeOriginal }}" class="text-sm opacity-60">{{ $date | time.Format ":date_medium" }}</time>
+  <time datetime="{{ $date }}" class="text-sm opacity-60">{{ $date | time.Format ":date_medium" }}</time>
   <a class="inset-0 text-[0]" href="{{ $link }}"><img src="{{ $image.RelPermalink }}" alt="{{ $image.Title}}" width="{{ $image.Width }}" height="{{ $image.Height }}" /></a>
 </div>
 {{ end }}
