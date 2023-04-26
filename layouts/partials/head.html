@@ -4,8 +4,14 @@
   <title>{{ if not .IsHome }}{{ .Title }} - {{ end }}{{ site.Title }}</title>
   {{ $site_author := or site.Author.name site.Params.name site.Title }}
   {{ if eq .Kind "page" }}
-  <meta name="description" content="{{ .Summary }}">
+  <meta name="description" content="{{ .Title}}: {{ .Params.description }}">
   <meta name="author" content="{{ or .Params.author $site_author }}">
+  {{ else if eq .Kind "home" }}
+  <meta name="description" content="{{ .Summary }}">
+  {{ else }}
+  {{ $summary := .Title | printf "%s%s" "Pictures from " }}
+  <meta name="description" content="{{ $summary }}">
+  
   {{ end }}
 
   {{ block "styles" . }} {{ end }}
