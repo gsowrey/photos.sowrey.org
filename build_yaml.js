@@ -71,6 +71,7 @@ function showMeta(tagsAvailable,image) {
         if (tagsAvailable[myTags[i]] === undefined) tagsAvailable[myTags[i]] = { 'description' : missing };
 
         var tagData = tagsAvailable[myTags[i]].description;
+        //if (image.includes('8406')) console.log(tagData);
         if (tagData !== missing) {
             switch(myTags[i]) {
                 case 'DateTimeOriginal':
@@ -103,7 +104,6 @@ function showMeta(tagsAvailable,image) {
         }
         tags[myTags[i]] = tagData;
     }
-    console.log(tags);
  
     return tags;
 }
