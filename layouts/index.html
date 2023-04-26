@@ -5,11 +5,11 @@
 </header>
 <section>
     <h2>Recent Pictures</h2>
-    <article>
+    <div>
         {{ .Content }}
         {{ partial "recent.html" . }}
-    </article>
-    <article>
+    </div>
+    <div>
         <h2 id="albums">See What's in the Albums</h2>
         <ul class="albums">
             {{ $pages := union .RegularPages .Sections }}
@@ -19,6 +19,6 @@
             <li><a href="{{ .Permalink | relURL }}" title="{{ $title }}">{{ $title }}</a></li>
             {{ end }}
         </ul>
-    </article>
+    </div>
 </section>
 {{ end }}

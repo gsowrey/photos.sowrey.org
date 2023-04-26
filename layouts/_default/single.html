@@ -27,7 +27,7 @@
             {{ $title := .Title }}
             {{ with $image }}
             {{ with .Resize (printf "%dx%d webp" .Width .Height) }}
-            <img id="hero" src="{{ .RelPermalink }}" alt="{{ $title }}" height="{{ .Height }}" width="{{ .Width }}" />
+            <img id="hero" src="{{ .RelPermalink }}" alt="{{ $title }}" height="{{ .Height }}" width="{{ .Width }}">
             <div id="modal" class="modal" style="background-image: url('{{ .RelPermalink }}')"></div>
             {{ end }}
             {{ end }}
@@ -102,14 +102,14 @@
             <div>
                 <p id="location">Taken in {{ .Params.City }}, {{ .Params.State }}, {{ .Params.Country }}</p>
                 <div id="maps">
-                  <img id="map-far" alt="...Far!" src="https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=350&height=250&center=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }}&zoom=4&marker=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }};color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5" height="250" width="350" loading="lazy" />
-                  <img id="map-pantpant" alt="...(pant pant pant)..." src="https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=350&height=250&center=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }}&marker=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }};color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5&zoom=10" height="250" width="350" loading="lazy" />
-                  <img id="map-near" alt="Near..." src="https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=350&height=250&center=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }}&marker=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }};color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5&zoom=16" height="250" width="350" />
+                  <img id="map-far" alt="...Far!" src="https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=350&height=250&center=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }}&zoom=4&marker=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }};color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5" height="250" width="350" loading="lazy">
+                  <img id="map-pantpant" alt="...(pant pant pant)..." src="https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=350&height=250&center=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }}&marker=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }};color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5&zoom=10" height="250" width="350" loading="lazy">
+                  <img id="map-near" alt="Near..." src="https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=350&height=250&center=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }}&marker=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }};color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5&zoom=16" height="250" width="350">
                 </div>
                 <ul id="grover">
-                    <li class="mapdata" mapid="map-near">Near</li>
-                    <li class="mapdata" mapid="map-pantpant">(Pant,pant)</li>
-                    <li class="mapdata" mapid="map-far">Far!</li>
+                    <li class="mapdata" data-map="map-near">Near</li>
+                    <li class="mapdata" data-map="map-pantpant">(Pant,pant)</li>
+                    <li class="mapdata" data-map="map-far">Far!</li>
                 </ul>
             </div>
         </div>
@@ -120,11 +120,7 @@
   {{ if .Params.tags }}
   <footer class="mt-12 flex flex-wrap">
     {{ range .Params.tags }} {{ $href := print (absURL "tags/") (urlize .) }}
-    <a
-      class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]"
-      href="{{ $href }}"
-      >{{ . }}</a
-    >
+    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="{{ $href }}">{{ . }}</a>
     {{ end }}
   </footer>
   {{ end }}
@@ -154,11 +150,9 @@
     </a>
     {{ end }}
     {{ with $children.Prev . }}
-    <a
-      class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]"
-      href="{{ .Permalink }}"
-      ><span>{{ .Name }}</span><span class="ml-1.5">→</span></a
-    >
+    <a class="ml-auto flex w-1/2 items-center justify-end rounded-r-md p-6 pl-3 no-underline hover:bg-black/[2%] dark:hover:bg-white/[3%]" href="{{ .Permalink }}">
+      <span>{{ .Name }}</span><span class="ml-1.5">→</span>
+    </a>
     {{ end }}
   </nav>
   {{ end }}
@@ -183,7 +177,7 @@
   document.querySelector('#grover').addEventListener(
         "mouseover",
         (event) => {
-            var showMap = event.target.getAttribute('mapid');
+            var showMap = event.target.getAttribute('data-map');
             if (showMap !== '' && showMap !== null) {
               var maps = document.getElementById('maps').getElementsByTagName('img');
               for (i in maps) {

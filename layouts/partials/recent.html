@@ -11,7 +11,7 @@
                 {{ $image := $image.Fit "162x162" }}
                 {{ $image := $image.Crop "162x162 webp q60" }}
         <div class="card">
-            <a href="{{ $pagepath }}"><img src="{{ $image.RelPermalink }}" height="{{ $image.Height }}" width="{{ $image.Width }}" alt="{{ $title }}" loading="lazy" /></a>
+            <a href="{{ $pagepath }}"><img src="{{ $image.RelPermalink }}" height="{{ $image.Height }}" width="{{ $image.Width }}" alt="{{ $title }}" loading="lazy"></a>
         </div>
             {{ end }}
         {{ end }}

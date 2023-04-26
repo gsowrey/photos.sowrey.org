@@ -17,6 +17,7 @@
 {{ $paginator := .Paginate $pages }} 
 {{ range $index, $page := $paginator.Pages }}
 {{ $date := .Date }}
+{{ $datetimeoriginal := "" }}
 {{ $title := .Title }}
 {{ $link := .Permalink }}
 {{ $imagepath := $page.Params.Filename }}
@@ -29,8 +30,12 @@
 
 <div class="album-item my-10 first-of-type:mt-0 last-of-type:mb-0">
   <h2 class="!my-0 pb-1 !leading-none">{{ $title }}</h2>
-  <time datetime="{{ $date }}" class="text-sm opacity-60">{{ $date | time.Format ":date_medium" }}</time>
-  <a class="inset-0 text-[0]" href="{{ $link }}"><img src="{{ $image.RelPermalink }}" alt="{{ $image.Title}}" width="{{ $image.Width }}" height="{{ $image.Height }}" /></a>
+  {{ with $image.Exif }}
+  {{ $timeparts := split .Tags.DateTimeOriginal " " }}
+  {{ $tdorig := index $timeparts 0 }}
+  <time datetime="{{ $tdorig }}" class="text-sm opacity-60">{{ $date | time.Format ":date_medium" }}</time>
+  {{ end }}
+  <a class="inset-0 text-[0]" href="{{ $link }}"><img src="{{ $image.RelPermalink }}" alt="{{ $image.Title}}" width="{{ $image.Width }}" height="{{ $image.Height }}"></a>
 </div>
 {{ end }}
 {{ end }}
