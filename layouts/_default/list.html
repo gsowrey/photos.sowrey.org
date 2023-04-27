@@ -7,6 +7,8 @@
 
 <!-- $pages -->
 {{ $pages := union .RegularPages .Sections }}<!---->
+{{ $pages := sort $pages ".Params.UnixTime" "desc" }}
+
 {{ if .IsHome }}<!---->
 {{ $pages = where site.RegularPages "Type" "in" site.Params.mainSections }}<!---->
 {{ end }}

@@ -26,7 +26,7 @@
             {{ $image := resources.GetMatch $imagepath }}
             {{ $title := .Title }}
             {{ with $image }}
-            {{ with .Resize (printf "%dx%d webp" .Width .Height) }}
+            {{ with .Resize (printf "%dx%d webp q85" .Width .Height) }}
             <img id="hero" src="{{ .RelPermalink }}" alt="{{ $title }}" height="{{ .Height }}" width="{{ .Width }}">
             <div id="modal" class="modal" style="background-image: url('{{ .RelPermalink }}')"></div>
             {{ end }}
@@ -102,8 +102,8 @@
             <div>
                 <p id="location">Taken in {{ .Params.City }}, {{ .Params.State }}, {{ .Params.Country }}</p>
                 <div id="maps">
-                  <img id="map-far" alt="...Far!" src="https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=350&height=250&center=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }}&zoom=4&marker=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }};color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5" height="250" width="350" loading="lazy">
-                  <img id="map-pantpant" alt="...(pant pant pant)..." src="https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=350&height=250&center=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }}&marker=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }};color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5&zoom=10" height="250" width="350" loading="lazy">
+                  <img id="map-far" alt="...Far!" src="https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=350&height=250&center=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }}&zoom=4&marker=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }};color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5" height="250" width="350">
+                  <img id="map-pantpant" alt="...(pant pant pant)..." src="https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=350&height=250&center=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }}&marker=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }};color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5&zoom=10" height="250" width="350">
                   <img id="map-near" alt="Near..." src="https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=350&height=250&center=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }}&marker=lonlat:{{ .Params.GPSLongitude }},{{ .Params.GPSLatitude }};color:%23ff0000;size:medium&apiKey=567f0d30482f4ad8b8674c54af6613f5&zoom=16" height="250" width="350">
                 </div>
                 <ul id="grover">
