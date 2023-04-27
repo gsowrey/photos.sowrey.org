@@ -71,7 +71,12 @@ function showMeta(tagsAvailable,image) {
         if (tagsAvailable[myTags[i]] === undefined) tagsAvailable[myTags[i]] = { 'description' : missing };
 
         var tagData = tagsAvailable[myTags[i]].description;
-        //if (image.includes('2168')) console.log(tagData);
+        //if (image.includes('6007')) console.log(tagData);
+
+        if (myTags[i] == 'LensProfileName' && tagData == missing) {
+            if (tagsAvailable['Lens'] !== undefined && tagsAvailable['Lens'] !== '') tagData = tagsAvailable['Lens'].description;
+        }
+
         if (tagData !== missing) {
             switch(myTags[i]) {
                 case 'DateTimeOriginal':
