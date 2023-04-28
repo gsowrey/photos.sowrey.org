@@ -22,15 +22,15 @@
     <div class="herowrap">
         <div>
           {{ $imagepath := .Param "Filename" }}
-            {{ $imagepath := $imagepath | printf "/photos/%s" }}
-            {{ $image := resources.GetMatch $imagepath }}
-            {{ $title := .Title }}
-            {{ with $image }}
+          {{ $imagepath := $imagepath | printf "/photos/%s" }}
+          {{ $image := resources.GetMatch $imagepath }}
+          {{ $title := .Title }}
+          {{ with $image }}
             {{ with .Resize (printf "%dx%d webp q95" .Width .Height) }}
             <img id="hero" src="{{ .RelPermalink }}" alt="{{ $title }}" height="{{ .Height }}" width="{{ .Width }}">
             <div id="modal" class="modal" style="background-image: url('{{ .RelPermalink }}')"></div>
             {{ end }}
-            {{ end }}
+          {{ end }}
         </div>
         <h2 id="title">{{ .Params.title }}</h2>
         <p id="description">{{ .Params.description }}</p>
@@ -45,7 +45,7 @@
             <tbody class="not-prose">
                 <tr>
                     <td>Capture Date</td>
-                    <td>{{ $originDate.Format .Site.Params.dateFormat }}</td>
+                    <td class="capdatenote">{{ $originDate.Format .Site.Params.dateFormat }} GMT -7</td>
                 </tr>
                 <tr>
                     <td>Camera Model</td>
@@ -53,47 +53,47 @@
                 </tr>
                 <tr>
                     <td>Lens</td>
-                    <td>{{ .Params.LensProfileName }}</td>
+                    <td{{ if eq .Params.LensProfileName "Unavailable" }} class="unavailablenote"{{ end }}>{{ .Params.LensProfileName }}</td>
                 </tr>
                 <tr>
                     <td>ISO</td>
-                    <td>{{ .Params.ISOSpeedRatings }}</td>
+                    <td{{ if eq .Params.ISOSpeedRatings "Unavailable" }} class="unavailablenote"{{ end }}>{{ .Params.ISOSpeedRatings }}</td>
                 </tr>
                 <tr>
                     <td>Focal Length</td>
-                    <td id="FocalLength">{{ .Params.FocalLength }}</td>
+                    <td{{ if eq .Params.FocalLength "Unavailable" }} class="unavailablenote"{{ end }}>{{ .Params.FocalLength }}</td>
                 </tr>
                 <tr>
                     <td>Aperature</td>
-                    <td>{{ .Params.FNumber }}</td>
+                    <td{{ if eq .Params.FNumber "Unavailable" }} class="unavailablenote"{{ end }}>{{ .Params.FNumber }}</td>
                 </tr>
                 <tr>
                     <td>Exposure Time</td>
-                    <td>{{ .Params.ExposureTime }}</td>
+                    <td{{ if eq .Params.ExposureTime "Unavailable" }} class="unavailablenote"{{ end }}>{{ .Params.ExposureTime }}</td>
                 </tr>
                 <tr>
                     <td>Exposure Mode</td>
-                    <td>{{ .Params.ExposureMode }}</td>
+                    <td{{ if eq .Params.ExposureMode "Unavailable" }} class="unavailablenote"{{ end }}>{{ .Params.ExposureMode }}</td>
                 </tr>
                 <tr>
                     <td>Exposure Program</td>
-                    <td>{{ .Params.ExposureProgram }}</td>
+                    <td{{ if eq .Params.ExposureProgram "Unavailable" }} class="unavailablenote"{{ end }}>{{ .Params.ExposureProgram }}</td>
                 </tr>
                 <tr>
                     <td>Exposure Bias</td>
-                    <td>{{ .Params.ExposureBiasValue }}</td>
+                    <td{{ if eq .Params.ExposureBiasValue "Unavailable" }} class="unavailablenote"{{ end }}>{{ .Params.ExposureBiasValue }}</td>
                 </tr>
                 <tr>
                     <td>Temperature (K)</td>
-                    <td>{{ .Params.Temperature }}</td>
+                    <td{{ if eq .Params.Temperature "Unavailable" }} class="unavailablenote"{{ end }}>{{ .Params.Temperature }}</td>
                 </tr>
                 <tr>
                     <td>Metering</td>
-                    <td>{{ .Params.MeteringMode }}</td>
+                    <td{{ if eq .Params.MeteringMode "Unavailable" }} class="unavailablenote"{{ end }}>{{ .Params.MeteringMode }}</td>
                 </tr>
                 <tr>
                     <td>White Balance</td>
-                    <td>{{ .Params.WhiteBalance }}</td>
+                    <td{{ if eq .Params.WhiteBalance "Unavailable" }} class="unavailablenote"{{ end }}>{{ .Params.WhiteBalance }}</td>
                 </tr>
             </tbody>
         </table>

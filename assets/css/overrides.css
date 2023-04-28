@@ -88,6 +88,31 @@ div.album-item {
 #photometa tbody tr td:first-child{
     padding-right:1em;white-space:nowrap
 }
+#photometa .capdatenote, #photometa .unavailablenote {
+    text-decoration: underline;
+    text-decoration-color: sandybrown;
+    text-decoration-style: dashed;
+    text-underline-offset: 5px;
+}
+#photometa .capdatenote::before,#photometa .unavailablenote::before {
+    background-color: rgb(0 0 0/80%);
+    color: #fff;
+    position: absolute;
+    z-index: 99;
+    display: none;
+    margin-top: -1.75em;
+    margin-right: 2em;
+    padding: .5em;
+}
+#photometa .capdatenote:hover::before,#photometa .unavailablenote:hover::before {
+    display: flex;
+}
+#photometa .capdatenote::before {
+    content: "I refuse to change my camera's clock for wherever I am at the time";
+}
+#photometa .unavailablenote::before {
+    content: "Sometimes data gets scrubbed when I used multiple apps in creating final images. Getting it back in doesn't always go well.";
+}
 #photogeo img {
     display: none;
 }
