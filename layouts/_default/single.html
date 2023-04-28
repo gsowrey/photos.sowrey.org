@@ -20,18 +20,19 @@
   <div id="details">
     <!-- Displays the details of a specific photo -->
     <div class="herowrap">
-        <div>
           {{ $imagepath := .Param "Filename" }}
           {{ $imagepath := $imagepath | printf "/photos/%s" }}
           {{ $image := resources.GetMatch $imagepath }}
           {{ $title := .Title }}
           {{ with $image }}
             {{ with .Resize (printf "%dx%d webp q95" .Width .Height) }}
+        <!--div class="hover-pinch-zoom-img" style="width: {{ .Width }}px; height: {{ .Height }}px;"-->
+        <div>
             <img id="hero" src="{{ .RelPermalink }}" alt="{{ $title }}" height="{{ .Height }}" width="{{ .Width }}">
             <div id="modal" class="modal" style="background-image: url('{{ .RelPermalink }}')"></div>
-            {{ end }}
-          {{ end }}
         </div>
+          {{ end }}
+          {{ end }}
         <h2 id="title">{{ .Params.title }}</h2>
         <p id="description">{{ .Params.description }}</p>
     </div>
@@ -186,6 +187,11 @@
               document.getElementById(showMap).style.display = 'block';
             }
     });
+  document.addEventListener("DOMContentLoaded", function (event) {
+    var el = document.querySelector('div.hover-pinch-zoom-img');
+    console.log(el);
+    init_zoom(el);
+  });
 </script>
 
 {{ end }}
