@@ -10,8 +10,3 @@
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-8VN3NJPXXH"></script>
 <script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-8VN3NJPXXH');</script>
-{{ if eq .Kind "page" }}
-{{ $main := resources.Get "js/hover-pinch-zoom.js" }}
-{{ $js := $main | minify }}
-<script src="{{ $js.RelPermalink }}"></script>
-{{ end }}

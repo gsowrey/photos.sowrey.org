@@ -1,5 +1,10 @@
 {{ define "main" }}
 {{ $originDate := .Params.DateTimeOriginal | time }}
+{{ .Scratch.Set "isFilm" "false" }}
+{{ if and (and (eq .Params.FocalLength "Unavailable") (eq .Params.FNumber "Unavailable")) (and  (eq .Params.ExposureTime "Unavailable") (eq .Params.MeteringMode "Unavailable"))}}
+  {{ .Scratch.Set "isFilm" "true" }}
+{{ end }}
+
 <article>
   <header class="mb-20">
     <h1 class="!my-0 pb-2.5">{{ .Params.Title }}</h1>
@@ -26,7 +31,6 @@
           {{ $title := .Title }}
           {{ with $image }}
             {{ with .Resize (printf "%dx%d webp q95" .Width .Height) }}
-        <!--div class="hover-pinch-zoom-img" style="width: {{ .Width }}px; height: {{ .Height }}px;"-->
         <div>
             <img id="hero" src="{{ .RelPermalink }}" alt="{{ $title }}" height="{{ .Height }}" width="{{ .Width }}">
             <div id="modal" class="modal" style="background-image: url('{{ .RelPermalink }}')"></div>
@@ -43,6 +47,9 @@
                     <td colspan="2"><h3>EXIF Data</h3></td>
                 </tr>
             </thead>
+            {{ if eq (.Scratch.Get "isFilm") "true" }}
+            <p>This image was scanned from film.</p>
+            {{ end }}
             <tbody class="not-prose">
                 <tr>
                     <td>Capture Date</td>
@@ -60,6 +67,7 @@
                     <td>ISO</td>
                     <td{{ if eq .Params.ISOSpeedRatings "Unavailable" }} class="unavailablenote"{{ end }}>{{ .Params.ISOSpeedRatings }}</td>
                 </tr>
+                {{ if ne (.Scratch.Get "isFilm") "true" }}
                 <tr>
                     <td>Focal Length</td>
                     <td{{ if eq .Params.FocalLength "Unavailable" }} class="unavailablenote"{{ end }}>{{ .Params.FocalLength }}</td>
@@ -96,6 +104,7 @@
                     <td>White Balance</td>
                     <td{{ if eq .Params.WhiteBalance "Unavailable" }} class="unavailablenote"{{ end }}>{{ .Params.WhiteBalance }}</td>
                 </tr>
+                {{ end }}
             </tbody>
         </table>
         <div id="photogeo">

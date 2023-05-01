@@ -71,11 +71,24 @@ function showMeta(tagsAvailable,image) {
         if (tagsAvailable[myTags[i]] === undefined) tagsAvailable[myTags[i]] = { 'description' : missing };
 
         var tagData = tagsAvailable[myTags[i]].description;
-        //if (image.includes('6007')) console.log(tagData);
 
-        if (myTags[i] == 'LensProfileName' && tagData == missing) {
-            if (tagsAvailable['Lens'] !== undefined && tagsAvailable['Lens'] !== '') tagData = tagsAvailable['Lens'].description;
+        // Yeah, need to put it out here so that it actually fires; the switch doesn't always work
+        if (myTags[i] == 'LensProfileName') {
+            var override = '';
+            if (tagData == missing && tagsAvailable['Lens'] !== undefined && 
+                tagsAvailable['Lens'] !== '') {
+                    override = tagsAvailable['Lens'].description;
+            } 
+            else if (tagsAvailable['Lens'].description.length > tagData.length) {
+                override = tagsAvailable['Lens'].length
+            }
+            if (override !== '') {
+                myTags[i].description = override;
+                tagData = override;
+            }
         }
+
+        //if (image.includes('6007')) console.log(tagData);
 
         if (tagData !== missing) {
             switch(myTags[i]) {
@@ -104,7 +117,7 @@ function showMeta(tagsAvailable,image) {
                     break;
                 case 'LensProfileName':
                     var removeText = 'Adobe (';
-                    tagData = tagData.substring(removeText.length,tagData.length-1);
+                    if (tagData.includes(removeText)) tagData = tagData.substring(removeText.length,tagData.length-1);
             }
         }
         tags[myTags[i]] = tagData;
