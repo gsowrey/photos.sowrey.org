@@ -4,10 +4,10 @@
 {{ with $image }}
   {{ with .Crop (printf "1200x630 center webp") }}
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="{{ .RelPermalink }}"/>
-<meta name="twitter:image:alt" content="{{ .Title }}"/>
+<meta name="twitter:image" content="{{ .RelPermalink | absURL }}"/>
     {{ end }}
 {{ end }}
+<meta name="twitter:image:alt" content="{{ .Title }}"/>
 <meta name="twitter:title" content="{{ .Title }}"/>
 <meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end -}}"/>
 <meta name="twitter:site" content="@sowrey"/>
