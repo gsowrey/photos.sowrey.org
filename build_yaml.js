@@ -80,7 +80,8 @@ function showMeta(tagsAvailable,image) {
                     override = tagsAvailable['Lens'].description;
             } 
             else if (tagsAvailable['Lens'].description.length > tagData.length) {
-                override = tagsAvailable['Lens'].length
+                
+                override = tagsAvailable['Lens'].description
             }
             if (override !== '') {
                 myTags[i].description = override;

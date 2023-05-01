@@ -145,6 +145,7 @@
 {{ $pathname := index (split .File.Dir "/") 0 }}
 {{ $children := slice  }}
   {{ $pages := where site.Pages "Section" $pathname }}
+  {{ $pages := sort $pages ".Params.UnixTime" "desc" }}
   {{ range $pages }}
   {{ $test := replace .RelPermalink "/" "" }}
   {{ if ne $test $pathname }}
