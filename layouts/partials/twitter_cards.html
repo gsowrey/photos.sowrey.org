@@ -1,14 +1,11 @@
-{{ with $.Params.images }}
-    {{ range first 1 . }}
-        {{ $img := . }}
-        {{ if (urls.Parse $img).Scheme }}
-            {{ $twimage := resources.GetMatch $img }}
-            {{ $twimage := $twimage.Fit "1200x630" }}
-            {{ $twimage := $twimage.Crop "1200x630" }}
+{{ $imagepath := .Param "Filename" }}
+{{ $imagepath := $imagepath | printf "/photos/%s" }}
+{{ $image := resources.GetMatch $imagepath }}
+{{ with $image }}
+  {{ with .Crop (printf "1200x630 center webp") }}
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="{{ $twimage.RelPermalink }}"/>
-<meta name="twitter:image:alt" content="{{ $twimage.Title }}"/>
-        {{ end }}
+<meta name="twitter:image" content="{{ .RelPermalink }}"/>
+<meta name="twitter:image:alt" content="{{ .Title }}"/>
     {{ end }}
 {{ end }}
 <meta name="twitter:title" content="{{ .Title }}"/>
