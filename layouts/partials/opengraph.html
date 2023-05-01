@@ -3,15 +3,16 @@
 <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}" />
 <meta property="og:url" content="{{ .Permalink }}" />
 
-{{- with $.Params.images -}}
-  {{- range first 1 . }}
-    {{ $ogimage := resources.GetMatch . }}
-    {{ with $ogimage }}
-      {{ with .Resize (printf "1200x630 webp q80") }}
-<meta property="og:image" content="{{ .RelPermalink }}" />{{ end -}}
-      {{ end }}
-    {{ end }}
-  {{- end -}}
+{{ with $.Params.images }}
+  {{ range first 1 . }}
+  {{ $img := . }}
+  {{ if (urls.Parse $img).Scheme }}
+    {{ $ogimage := resources.GetMatch $img }}
+    {{ $ogimage := $ogimage.Fit "1200x630" }}
+    {{ $ogimage := $ogimage.Crop "1200x630" }}
+<meta property="og:image" content="{{ $ogimage.RelPermalink }}" />{{ end -}}
+  {{ end }}
+{{ end }}
 
 {{- if .IsPage }}
 {{- $iso8601 := "2006-01-02T15:04:05-07:00" -}}

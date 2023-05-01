@@ -1,16 +1,16 @@
-{{- with $.Params.images -}}
-    {{- range first 1 . }}
-        {{ $twimage := resources.GetMatch . }}
-        {{ with $twimage }}
-            {{ with .Resize (printf "1200x630 webp q80") }}
+{{ with $.Params.images }}
+    {{ range first 1 . }}
+        {{ $img := . }}
+        {{ if (urls.Parse $img).Scheme }}
+            {{ $twimage := resources.GetMatch $img }}
+            {{ $twimage := $twimage.Fit "1200x630" }}
+            {{ $twimage := $twimage.Crop "1200x630" }}
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="{{ .RelPermalink }}"/>
+<meta name="twitter:image" content="{{ $twimage.RelPermalink }}"/>
+<meta name="twitter:image:alt" content="{{ $twimage.Title }}"/>
         {{ end }}
     {{ end }}
-    {{ end }}
-{{- end }}
+{{ end }}
 <meta name="twitter:title" content="{{ .Title }}"/>
 <meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end -}}"/>
-{{ with .Site.Social.twitter -}}
-<meta name="twitter:site" content="@{{ . }}"/>
-{{ end -}}
+<meta name="twitter:site" content="@sowrey"/>
