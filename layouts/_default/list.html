@@ -1,7 +1,7 @@
 {{ define "main" }}
 
 {{ $album := path.Dir .Page.RelPermalink }}
-{{ $contpath := (printf $album | printf "%s%s" $album | printf "/content%s.md") | chomp }}
+{{ $contpath := (printf $album | printf "%s%s" $album | printf "/content%s.txt") | chomp }}
 {{ if fileExists $contpath }}
   {{ $adtlcont := readFile $contpath }}
   {{ $adtlcont := replaceRE `[\s\S]*?@` ""  $adtlcont }}
