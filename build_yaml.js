@@ -119,6 +119,10 @@ function showMeta(tagsAvailable,image) {
                 case 'LensProfileName':
                     var removeText = 'Adobe (';
                     if (tagData.includes(removeText)) tagData = tagData.substring(removeText.length,tagData.length-1);
+                    break;
+                case 'Model': 
+                    if (tagData.includes('ILCE-7M3')) tagData = "Sony Alpha 7 III";
+                    break;     
             }
         }
         tags[myTags[i]] = tagData;
