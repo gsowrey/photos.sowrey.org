@@ -1,8 +1,7 @@
 resources/_gen
 assets/.sass-cache
 assets/scss/*.css
-content/*
-!content/_index.md
+content/**/index.md
 data/*
 node_modules
 
