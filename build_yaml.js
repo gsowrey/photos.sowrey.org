@@ -162,7 +162,7 @@ async function buildAlbums(files) {
                 console.error(err);
             }
             else {
-                console.log('Image data written to YAML.');
+                console.log(i + ' album data written to YAML.');
             }
           });
     }
