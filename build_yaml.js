@@ -157,12 +157,13 @@ async function buildAlbums(files) {
             fs.mkdirSync(write_dir);
         }
         var writepath = write_dir + '/pictures-' + i.toLowerCase() + '.yaml';
+        console.log('Writing ' + i + ' album...'); 
         fs.writeFile(writepath,output, err => {
             if (err) {
                 console.error(err);
             }
             else {
-                console.log(i + ' album data written to YAML.');
+                console.log('Written.');
             }
           });
     }
