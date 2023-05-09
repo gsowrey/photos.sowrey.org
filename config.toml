@@ -28,5 +28,5 @@ paginate = 40
   twitter = 'sowrey'               # twitter.com/YOUR_TWITTER_ID
   github = 'gsowrey'                 # github.com/YOUR_GITHUB_ID
   instagram = 'sowrey'           # instagram.com/YOUR_INSTAGRAM_ID
-  #mastodon = 'YOUR_MASTODON_LINK'           # e.g. 'https://mastodon.instance/@xxx'
+  mastodon = 'https://mastodon.social/@sowrey'           # e.g. 'https://mastodon.instance/@xxx'
   rss = true                                # show rss icon
