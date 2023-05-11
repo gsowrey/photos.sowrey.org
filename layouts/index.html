@@ -15,8 +15,10 @@
             {{ $pages := union .RegularPages .Sections }}
             {{ $pages := sort $pages "Title" "asc" }}
             {{ range $pages }}
+            {{ if ne .Title "Photos" }}
             {{ $title := title (replace .Title "+" " ") }}
             <li><a href="{{ .Permalink | relURL }}" title="{{ $title }}">{{ $title }}</a></li>
+            {{ end }}
             {{ end }}
         </ul>
     </div>

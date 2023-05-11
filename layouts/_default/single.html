@@ -7,7 +7,7 @@
 
 <article>
   <header class="mb-20">
-    <h1 class="!my-0 pb-2.5">{{ .Params.Title }}</h1>
+    <h1 class="!my-0 pb-2.5">{{ .Params.Title }}{{ .Type }}</h1>
 
     {{ if ne .Type "page" }}
     <div class="text-sm opacity-60">
@@ -128,8 +128,9 @@
 
   <!-- Post Tags -->
   {{ if .Params.tags }}
+  {{ $tags := split .Params.tags "," }}
   <footer class="mt-12 flex flex-wrap">
-    {{ range .Params.tags }} {{ $href := print (absURL "tags/") (urlize .) }}
+    {{ range $tags }} {{ $href := print (absURL "tags/") (urlize .) }}
     <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="{{ $href }}">{{ . }}</a>
     {{ end }}
   </footer>

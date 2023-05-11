@@ -1,0 +1,32 @@
+{{ define "main" }}
+
+<!-- Tag Title -->
+<h1 class="mb-24">{{ .Title }}</h1>
+
+<div>
+
+{{ $pictures := slice }}
+{{ range .Params.pictures }}
+  {{ $pictures = $pictures | append . }}
+{{ end }}
+{{ $pictures := sort $pictures ".UnixTime" "desc" }}
+
+{{ range $pictures }}
+  {{ $imagepath := .filename | printf "/photos/%s" }}
+  {{ $image := resources.GetMatch $imagepath }}
+  {{ $title := .title }}
+  {{ $path := .UnixTime }}
+  {{ $date := .DateTimeOriginal }}
+  {{ with $image }}
+      {{ $image := $image.Resize "350x webp" }}
+      {{ $image := $image.Fit "350x350" }}
+  <div class="album-item my-10 first-of-type:mt-0 last-of-type:mb-0">
+    <h2 class="!my-0 pb-1 !leading-none">{{ $title }}</h2>
+    <time datetime="{{ $date }}" class="text-sm opacity-60">{{ $date | time.Format ":date_medium" }}</time>
+    <a class="inset-0 text-[0]" href="/photos/{{ string $path }}"><img src="{{ $image.RelPermalink }}" alt="{{ $title }}" width="{{ $image.Width }}" height="{{ $image.Height }}"></a>
+  </div>
+  {{ end }}
+{{ end }}
+</div>
+
+{{ end }}
