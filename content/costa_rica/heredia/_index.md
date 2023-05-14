@@ -1,5 +1,5 @@
 ---
-title: Guanacaste, Costa Rica
+title: Heredia, Costa Rica
 type: geolist
 region: true
 ---

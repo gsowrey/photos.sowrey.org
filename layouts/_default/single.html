@@ -7,7 +7,7 @@
 
 <article>
   <header class="mb-20">
-    <h1 class="!my-0 pb-2.5">{{ .Params.Title }}{{ .Type }}</h1>
+    <h1 class="!my-0 pb-2.5">{{ .Params.Title }}</h1>
 
     {{ if ne .Type "page" }}
     <div class="text-sm opacity-60">
@@ -19,7 +19,7 @@
     {{ $pathname := (index (split .File.Dir "/") 0) | printf "/%s" }}
     {{ $obj := .GetPage $pathname }}
     {{ $title := title (replace $obj.Title "+" " ") }}
-    <p class="rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">From the <a href="{{ $pathname }}">{{ $title }}</a> album</p>
+    <!--p class="rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">From the <a href="{{ $pathname }}">{{ $title }}</a> album</p-->
   </header>
 
   <div id="details">

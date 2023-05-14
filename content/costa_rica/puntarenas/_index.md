@@ -1,5 +1,5 @@
 ---
-title: Puntarenas, Costa Rica
+title: Puentarenas, Costa Rica
 type: geolist
 region: true
 ---

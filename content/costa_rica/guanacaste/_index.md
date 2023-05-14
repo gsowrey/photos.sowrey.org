@@ -1,5 +1,5 @@
 ---
-title: Belén, Costa Rica
+title: Guanacaste, Costa Rica
 type: geolist
 region: true
 ---
