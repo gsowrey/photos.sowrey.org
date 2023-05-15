@@ -77,5 +77,5 @@ function checkIndex(files) {
 }
 
 var files = getAllFiles('./content');
-var pass = checkIndex(files);
-if (!pass) process.exitCode = 1; // make sure error code noticed
+var newIndex = checkIndex(files);
+if (newIndex) process.exitCode = 1; // make sure error code noticed
