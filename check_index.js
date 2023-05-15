@@ -78,4 +78,7 @@ function checkIndex(files) {
 
 var files = getAllFiles('./content');
 var newIndex = checkIndex(files);
-if (newIndex) process.exitCode = 1; // make sure error code noticed
+if (newIndex) {
+    console.log('New index files detected, make sure deploy fails');
+    process.exitCode = 1; // make sure error code noticed
+}
