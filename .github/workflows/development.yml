@@ -25,7 +25,7 @@ jobs:
           hugo-version: 'latest'
           extended: true
 
-      - name: Update NPM Modules
+      - name: Install NPM Modules
         run: npm install
 
       - name: Create Image Data Files
@@ -49,12 +49,4 @@ jobs:
           directory: ./public
           branch: ''
           gitHubToken: ${{ secrets.DEPLOY_TOKEN }}
-
-      - name: Clear Homepage Cache
-        run: |
-          curl -X POST "https://api.cloudflare.com/client/v4/zones/d6dbf9fee9e34912b868bd87c2fdbc89/purge_cache" \
-            -H "X-Auth-Email: geoff@sowrey.org" \
-            -H "X-Auth-Key: 1296c3226f102a98835d19e4d491bf77d034f" \
-            -H "Content-Type: application/json" \
-            --data '{"files":["https://ptest.sowrey.org/","https://ptest.sowrey.org/assets.json"]}'
 

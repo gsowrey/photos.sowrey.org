@@ -10,16 +10,16 @@
         {{ partial "recent.html" . }}
     </div>
     <div>
-        <h2 id="albums">See What's in the Albums</h2>
+        <h2 id="albums">Oh, the places I've seen...</h2>
         <ul class="albums">
-            {{ $pages := union .RegularPages .Sections }}
-            {{ $pages := sort $pages "Title" "asc" }}
-            {{ range $pages }}
+        {{ $pages := union .RegularPages .Sections }}
+        {{ $pages := sort $pages "Title" "asc" }}
+        {{ range $pages }}
             {{ if ne .Title "Photos" }}
-            {{ $title := title (replace .Title "+" " ") }}
+                {{ $title := title (replace .Title "+" " ") }}
             <li><a href="{{ .Permalink | relURL }}" title="{{ $title }}">{{ $title }}</a></li>
             {{ end }}
-            {{ end }}
+        {{ end }}
         </ul>
     </div>
 </section>

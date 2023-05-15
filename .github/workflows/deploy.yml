@@ -25,14 +25,17 @@ jobs:
           hugo-version: 'latest'
           extended: true
 
-      - name: Install dependent NPM modules
+      - name: Install NPM Modules
         run: npm install
 
       - name: Create Image Data Files
-        run: node build_yaml.js
+        run: node build_library.js
 
       - name: Create Hugo Content Pages
         run: node hugo.js generate
+
+      - name: Check for missing _index.md files
+        run: node check_index.js
 
       - name: Hugo Build
         run: hugo --minify
@@ -53,4 +56,4 @@ jobs:
             -H "X-Auth-Email: geoff@sowrey.org" \
             -H "X-Auth-Key: 1296c3226f102a98835d19e4d491bf77d034f" \
             -H "Content-Type: application/json" \
-            --data '{"files":["https://ptest.sowrey.org/","https://ptest.sowrey.org/assets.json"]}'
+            --data '{"files":["https://photos.sowrey.org/","https://photos.sowrey.org/photos/","https://photos.sowrey.org/sitemap.xml"]}'

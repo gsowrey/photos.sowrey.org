@@ -7,7 +7,7 @@
 {{ $imagepath := $imagepath | printf "/photos/%s" }}
 {{ $image := resources.GetMatch $imagepath }}
 {{ with $image }}
-  {{ with .Crop (printf "1200x630 center webp") }}
+  {{ with .Crop (printf "1200x630 center webp q65") }}
 <meta property="og:image" content="{{ .RelPermalink | absURL }}" />
   {{ end }}
 {{ end }}

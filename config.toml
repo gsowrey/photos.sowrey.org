@@ -10,7 +10,7 @@ paginate = 40
   anchor = 'Smart'
   bgColor = '#ffffff'
   hint = 'photo'
-  quality = 95
+  quality = 80
   resampleFilter = 'Lanczos'
 
 [author]

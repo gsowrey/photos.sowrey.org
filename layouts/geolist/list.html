@@ -1,7 +1,7 @@
 {{ define "main" }}
 <article>
   <header class="mb-20">
-    <h1 class="mb-24">{{ .Title }}</h1>
+    <h1>{{ .Title }}</h1>
 
     {{ $pathname := index (split .File.Dir "/") 0 }}
     {{ $pages := where site.Pages "Section" $pathname }}
@@ -49,11 +49,11 @@
           {{ else }}
             {{ $image = $image.Resize "x350 webp" }}
           {{ end }}
-          {{ $image := $image.Crop "350x350 center" }}
+          {{ $image := $image.Crop "350x150 center q75" }}
           {{ with $image }}
   <div class="album-item my-10 first-of-type:mt-0 last-of-type:mb-0">
     <h2 class="!my-0 pb-1 !leading-none">{{ $title }}</h2>
-    <a class="inset-0 text-[0]" href="{{ $pageurl }}"><img src="{{ .RelPermalink }}" width="{{ $image.Width }}" height="{{ $image.Height }}" alt="{{ $title }}"></a>
+    <a class="inset-0 text-[0]" href="{{ $pageurl }}"><img src="{{ .RelPermalink }}" width="{{ $image.Width }}" height="{{ $image.Height }}" alt="{{ $title }}" loading="lazy"></a>
   </div>
           {{ end }}
         {{ end }}
@@ -76,11 +76,11 @@
       {{ else }}
         {{ $image = $image.Resize "x350 webp" }}
       {{ end }}
-      {{ $image := $image.Crop "350x350 center" }}
+      {{ $image := $image.Crop "350x150 center" }}
       {{ with $image }}
   <div class="album-item my-10 first-of-type:mt-0 last-of-type:mb-0">
     <h2 class="!my-0 pb-1 !leading-none">{{ $title }}</h2>
-    <a class="inset-0 text-[0]" href="{{ $pageurl }}"><img src="{{ .RelPermalink }}" width="{{ $image.Width }}" height="{{ $image.Height }}" alt="{{ $title }}"></a>
+    <a class="inset-0 text-[0]" href="{{ $pageurl }}"><img src="{{ .RelPermalink }}" width="{{ $image.Width }}" height="{{ $image.Height }}" alt="{{ $title }}" loading="lazy"></a>
   </div>
         {{ end }}
       {{ end }}
