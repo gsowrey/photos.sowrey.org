@@ -33,7 +33,11 @@
         {{ $children = $children | append . }}
         {{ end }}
       {{ end }}
-      {{ $rnd := sub (index (seq (len $children) | shuffle | first 1) 0) 1 }}
+      {{ $childidx := (index (seq (len $children) | shuffle | first 1) 0)  }}
+      {{ $rnd := 0 }}
+      {{ if gt $childidx 1 }}
+      {{ $rnd = sub $childidx 1 }}
+      {{ end }}
       {{ $thumbpage := index $children $rnd }}
       {{ with $thumbpage }}
         {{ $page := .Site.GetPage (add .RelPermalink "index.md") }}
