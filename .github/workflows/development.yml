@@ -29,10 +29,13 @@ jobs:
         run: npm install
 
       - name: Create Image Data Files
-        run: node build_yaml.js
+        run: node build_library.js
 
       - name: Create Hugo Content Pages
         run: node hugo.js generate
+
+      - name: Check for missing _index.md files
+        run: node check_index.js
 
       - name: Hugo Build
         run: hugo --minify
