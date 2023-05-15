@@ -1,16 +1,25 @@
 {{ define "main" }}
+<article>
+  <header class="mb-20">
+    <h1 class="mb-24">{{ .Title }}</h1>
 
-<h1 class="mb-24">{{ .Title }}</h1>
+    {{ $pathname := index (split .File.Dir "/") 0 }}
+    {{ $pages := where site.Pages "Section" $pathname }}
+    {{ $pages := sort $pages ".Title" "asc" }}
 
-<div>
-  {{ .Content }}
+    {{ .Content }}
 
-<!-- $pages -->
-{{ $pathname := index (split .File.Dir "/") 0 }}
-{{ $pages := where site.Pages "Section" $pathname }}
-{{ $pages := sort $pages ".Title" "asc" }}
+    {{ if not .Params.country }}
+    {{ $page := .Site.GetPage (add $pathname "/_index.md") }}
+    <p class="rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">See other pictures from <a href="{{ $page.RelPermalink }}" alt="See other pictures from {{ $page.Title }}">{{ $page.Title }}</a></p>
+    {{ end }}
+   
+  </header>
+</article>
+
+
 <!-- This is the logic for the country/region lists -->
-
+<div>
 {{ if .Params.country }}
 <!-- This is for the countries pages -->
   {{ range $pages }}
@@ -30,17 +39,19 @@
         {{ $page := .Site.GetPage (add .RelPermalink "index.md") }}
         {{ if (index $page.Params.pictures 0) }}
         {{ $image := resources.GetMatch (add "photos/" (index $page.Params.pictures 0).filename) }}
-        {{ if ge $image.Height $image.Width }}
-          {{ $image = $image.Resize "350x webp" }}
-        {{ else }}
-          {{ $image = $image.Resize "x350 webp" }}
-        {{ end }}
-        {{ $image := $image.Crop "350x350 center" }}
-        {{ with $image }}
-          <div class="album-item my-10 first-of-type:mt-0 last-of-type:mb-0">
-          <h2 class="!my-0 pb-1 !leading-none">{{ $title }}</h2>
-          <a class="inset-0 text-[0]" href="{{ $pageurl }}"><img src="{{ .RelPermalink }}" width="{{ $image.Width }}" height="{{ $image.Height }}" alt="{{ $title }}"></a>
-        </div>
+        {{ if $image }}
+          {{ if ge $image.Height $image.Width }}
+            {{ $image = $image.Resize "350x webp" }}
+          {{ else }}
+            {{ $image = $image.Resize "x350 webp" }}
+          {{ end }}
+          {{ $image := $image.Crop "350x350 center" }}
+          {{ with $image }}
+  <div class="album-item my-10 first-of-type:mt-0 last-of-type:mb-0">
+    <h2 class="!my-0 pb-1 !leading-none">{{ $title }}</h2>
+    <a class="inset-0 text-[0]" href="{{ $pageurl }}"><img src="{{ .RelPermalink }}" width="{{ $image.Width }}" height="{{ $image.Height }}" alt="{{ $title }}"></a>
+  </div>
+          {{ end }}
         {{ end }}
       {{ end }}
     {{ end }}
@@ -48,24 +59,26 @@
   {{ end }}
 
 {{ else }}
+  <!-- This is for the region list pages -->
 
-<!-- This is for the region list pages -->
   {{ range .Pages }}
     {{ $title := .Title }}
     {{ $pageurl := .RelPermalink }}
     {{ $page := .Site.GetPage "geolist" (add .RelPermalink "index.md") }}
     {{ $image := resources.GetMatch (add "photos/" (index $page.Params.pictures 0).filename) }}
-    {{ if ge $image.Height $image.Width }}
-      {{ $image = $image.Resize "350x webp" }}
-    {{ else }}
-      {{ $image = $image.Resize "x350 webp" }}
-    {{ end }}
-    {{ $image := $image.Crop "350x350 center" }}
-    {{ with $image }}
-<div class="album-item my-10 first-of-type:mt-0 last-of-type:mb-0">
+    {{ if $image }}
+      {{ if ge $image.Height $image.Width }}
+        {{ $image = $image.Resize "350x webp" }}
+      {{ else }}
+        {{ $image = $image.Resize "x350 webp" }}
+      {{ end }}
+      {{ $image := $image.Crop "350x350 center" }}
+      {{ with $image }}
+  <div class="album-item my-10 first-of-type:mt-0 last-of-type:mb-0">
     <h2 class="!my-0 pb-1 !leading-none">{{ $title }}</h2>
     <a class="inset-0 text-[0]" href="{{ $pageurl }}"><img src="{{ .RelPermalink }}" width="{{ $image.Width }}" height="{{ $image.Height }}" alt="{{ $title }}"></a>
   </div>
+        {{ end }}
       {{ end }}
     {{ end }}
   {{ end }}

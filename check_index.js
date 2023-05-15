@@ -51,13 +51,14 @@ function checkIndex(files) {
             var path = contentDir + directories[i] + '/' + indexFile;
 
             if (fs.existsSync(path)) {
-                console.log(path + ' exists');
+                //console.log(path + ' exists');
             }
             else {
                 console.log('Creating index: ' + path);
 
                 var countreg = (parts.length === 1) ? "country: ":"region: ";
-                var content = "---\ntitle:" + parts[0] + "\ntype: geolist\n" + countreg + "true\n---\nREPLACE THIS TEXT";
+                var countregname = (parts.length === 1) ? parts[0] : parts[1];
+                var content = "---\ntitle: " + countregname + "\ntype: geolist\n" + countreg + "true\n---\nREPLACE THIS TEXT";
 
                 fs.writeFile(path,content, err => {
                     if (err) {

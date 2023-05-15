@@ -23,6 +23,24 @@ const getAllFiles = function(dirPath, arrayOfFiles) {
     return arrayOfFiles
 }
 
+function cleanData() {
+    const fs = require("fs");
+    const path = require("path");
+    const directory = "./data";
+
+    if (fs.existsSync(directory)) {
+        fs.readdir(directory, (err, files) => {
+            if (err) throw err;
+
+            for (const file of files) {
+                fs.unlink(path.join(directory, file), (err) => {
+                if (err) throw err;
+                });
+            }
+        });
+    }
+}
+
 function writeData(filename,data) {
     var output = JSON.stringify(data);
     var write_dir = './data';
@@ -229,6 +247,10 @@ async function buildAlbums(files) {
             }
         }
 
+        exif['cityClean'] = exif.City.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/gi, '_').toLowerCase();
+        exif['regionClean'] = exif.State.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/gi, '_').toLowerCase();
+        exif['countryClean'] = exif.Country.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/gi, '_').toLowerCase();
+
         let picture = {
             'picture' : [{
                 'path' : 'photos/' + exif.UnixTime,
@@ -241,15 +263,18 @@ async function buildAlbums(files) {
 
     for (i in countries) {
         let country = countries[i];
-        var cttitle = country.title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+        var cttitle = country.title.normalize("NFKD").replace(/[\u0300-\u036f]/g, "");
+        cttitle = cttitle.replace(/[^a-z0-9]/gi, '_').toLowerCase();
 
         for (j in country.regions) {
             let region = countries[i].regions[j]; 
-            var rgtitle = region.title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+            var rgtitle = region.title.normalize("NFKD").replace(/[\u0300-\u036f]/g, "");
+            rgtitle = rgtitle.replace(/[^a-z0-9]/gi, '_').toLowerCase();
 
             for (k in region.cities) {
                 let city = region.cities[k];
-                var cytitle = city.title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+                var cytitle = city.title.normalize("NFKD").replace(/[\u0300-\u036f]/g, "");
+                cytitle = cytitle.replace(/[^a-z0-9]/gi, '_').toLowerCase();
                 var crcpath = cttitle + '_' + rgtitle + '_' + cytitle
                 let page = {
                     'picture' : [{
@@ -258,6 +283,10 @@ async function buildAlbums(files) {
                             'title' : region.cities[k].title + ', ' + region.title + ', ' + country.title,
                             'DateTimeOriginal' : '2005-05-01',
                             'type' : 'geolist',
+                            'regionClean' : rgtitle,
+                            'countryClean' : cttitle,
+                            'countryTitle' : countries[i].title,
+                            'regionTitle' : countries[i].regions[j].title,
                             'pictures' : city.pictures
                         },
                     }]
@@ -269,5 +298,6 @@ async function buildAlbums(files) {
 }
 
 var files = getAllFiles('./assets/photos');
+cleanData();
 buildAlbums(files);
 

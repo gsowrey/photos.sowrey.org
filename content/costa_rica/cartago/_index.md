@@ -1,6 +1,6 @@
 ---
-title: Cartago, Costa Rica
+title: Cartago
 type: geolist
 region: true
 ---
-Test
+Cartago is just to the east of San José (province and city), and is known for it's coffee growing. 

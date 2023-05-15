@@ -2,8 +2,5 @@
 
 node build_library.js
 node hugo.js generate
-
-
-
-
-hugo server --ignoreCache
+node check_index.js
+hugo 

@@ -1,7 +1,20 @@
 {{ define "main" }}
 
-<!-- Tag Title -->
-<h1 class="mb-24">{{ .Title }}</h1>
+<article>
+  <header class="mb-20">
+    <h1 class="mb-24">{{ .Title }}</h1>
+
+    {{ $pathname := index (split .File.Dir "/") 0 }}
+    {{ $pages := where site.Pages "Section" $pathname }}
+    {{ $pages := sort $pages ".Title" "asc" }}
+
+    {{ $page := .Site.GetPage (add $pathname "/_index.md") }}
+    <p class="rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">See other pictures from <a href="/{{ .Page.Params.countryClean }}/{{ .Page.Params.regionClean }}/" alt="See other pictures from {{ .Page.Params.regionTitle}}, {{ .Page.Params.countryTitle}}">{{ .Page.Params.regionTitle}}</a> and <a href="/{{ .Page.Params.countryClean }}/" alt="See other pictures from {{ .Page.Params.countryTitle}}">{{ .Page.Params.countryTitle}}</a></p>    
+
+    {{ .Content }}
+   
+  </header>
+</article>
 
 <div>
 
@@ -17,18 +30,20 @@
   {{ $date := .DateTimeOriginal }}
   {{ $imagepath := .filename | printf "/photos/%s" }}
   {{ $image := resources.GetMatch $imagepath }}
-  {{ if ge $image.Height $image.Width }}
-    {{ $image = $image.Resize "350x webp" }}
-  {{ else }}
-    {{ $image = $image.Resize "x350 webp" }}
-  {{ end }}
-  {{ $image := $image.Crop "350x350 center" }}
-  {{ with $image }}
-<div class="album-item my-10 first-of-type:mt-0 last-of-type:mb-0">
+  {{ if $image }}
+    {{ if ge $image.Height $image.Width }}
+      {{ $image = $image.Resize "350x webp" }}
+    {{ else }}
+      {{ $image = $image.Resize "x350 webp" }}
+    {{ end }}
+    {{ $image := $image.Crop "350x350 center" }}
+    {{ with $image }}
+  <div class="album-item my-10 first-of-type:mt-0 last-of-type:mb-0">
     <h2 class="!my-0 pb-1 !leading-none">{{ $title }}</h2>
     <time datetime="{{ $date }}" class="text-sm opacity-60">{{ $date | time.Format ":date_medium" }}</time>
     <a class="inset-0 text-[0]" href="/photos/{{ string $path }}"><img src="{{ $image.RelPermalink }}" alt="{{ $title }}" width="{{ $image.Width }}" height="{{ $image.Height }}"></a>
   </div>
+    {{ end }}
   {{ end }}
 {{ end }}
 </div>
