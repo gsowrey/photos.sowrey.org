@@ -1,5 +1,4 @@
 <div class="recent">
-    <div class="recentgrid">
         {{ $recent := where .Site.Pages "Type" "article" }}
         {{ range first 108 (sort $recent ".Params.UnixTime" "desc") }}
             {{ $pagepath := .Permalink }}
@@ -7,13 +6,16 @@
             {{ $imagepath := .Param "Filename" }}
             {{ $imagepath := $imagepath | printf "/photos/%s" }}
             {{ $image := resources.GetMatch $imagepath }}
+            {{ if $image }}
+                {{ if ge $image.Height $image.Width }}
+                {{ $image = $image.Resize "350x webp" }}
+                {{ else }}
+                {{ $image = $image.Resize "x350 webp" }}
+                {{ end }}
+            {{ $image := $image.Crop "350x150 center" }}
             {{ with $image }}
-                {{ $image := $image.Resize "x280" }}
-                {{ $image := $image.Crop "108x108 center webp q60" }}
-        <div class="card">
             <a href="{{ $pagepath }}"><img src="{{ $image.RelPermalink }}" height="{{ $image.Height }}" width="{{ $image.Width }}" alt="{{ $title }}" loading="lazy"></a>
-        </div>
+            {{ end }}
             {{ end }}
         {{ end }}
-    </div>
 </div>

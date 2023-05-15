@@ -10,7 +10,7 @@
   
 <!-- Tag Title -->
 {{ if and .Title (eq .Type "tags") }}
-<h1 class="mb-24">{{ .Title }}</h1>
+<h1>{{ .Title }}</h1>
 {{ end }}
 
 <!-- $pages -->
@@ -26,28 +26,34 @@
 <!-- Articles -->
 {{ $paginator := .Paginate $pages }} 
 {{ range $index, $page := $paginator.Pages }}
-{{ $date := .Date }}
-{{ $datetimeoriginal := "" }}
-{{ $title := .Title }}
-{{ $link := .Permalink }}
-{{ $imagepath := $page.Params.Filename }}
-{{ $imagepath := $imagepath | printf "/photos/%s" }}
-{{ $image := resources.GetMatch $imagepath }}
-{{ with $image }}
-    {{ $image := $image.Resize "350x webp" }}
-    {{ $image := $image.Fit "350x350" }}
+  {{ $date := .Date }}
+  {{ $datetimeoriginal := "" }}
+  {{ $title := .Title }}
+  {{ $link := .Permalink }}
+  {{ $imagepath := $page.Params.Filename }}
+  {{ $imagepath := $imagepath | printf "/photos/%s" }}
+  {{ $image := resources.GetMatch $imagepath }}
+  {{ if $image }}
+    {{ if ge $image.Height $image.Width }}
+      {{ $image = $image.Resize "350x webp" }}
+    {{ else }}
+      {{ $image = $image.Resize "x350 webp" }}
+    {{ end }}
+    {{ $image := $image.Crop "350x150 center q75" }}
+    {{ with $image }}
 <!---->
 
 <div class="album-item my-10 first-of-type:mt-0 last-of-type:mb-0">
   <h2 class="!my-0 pb-1 !leading-none">{{ $title }}</h2>
-  {{ with $image.Exif }}
-  {{ $timeparts := split .Tags.DateTimeOriginal " " }}
-  {{ $tdorig := index $timeparts 0 }}
+      {{ with $image.Exif }}
+        {{ $timeparts := split .Tags.DateTimeOriginal " " }}
+        {{ $tdorig := index $timeparts 0 }}
   <time datetime="{{ $tdorig }}" class="text-sm opacity-60">{{ $date | time.Format ":date_medium" }}</time>
-  {{ end }}
+      {{ end }}
   <a class="inset-0 text-[0]" href="{{ $link }}"><img src="{{ $image.RelPermalink }}" alt="{{ $image.Title}}" width="{{ $image.Width }}" height="{{ $image.Height }}"></a>
 </div>
-{{ end }}
+    {{ end }}
+  {{ end }}
 {{ end }}
 </div>
 

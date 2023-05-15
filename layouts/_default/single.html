@@ -7,7 +7,7 @@
 
 <article>
   <header class="mb-20">
-    <h1 class="!my-0 pb-2.5">{{ .Params.Title }}</h1>
+    <h1>{{ .Params.Title }}</h1>
 
     {{ if ne .Type "page" }}
     <div class="text-sm opacity-60">
@@ -19,7 +19,7 @@
     {{ $pathname := (index (split .File.Dir "/") 0) | printf "/%s" }}
     {{ $obj := .GetPage $pathname }}
     {{ $title := title (replace $obj.Title "+" " ") }}
-    <p class="rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">From the <a href="{{ $pathname }}">{{ $title }}</a> album</p>
+    <p class="rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">See other pictures from <a href="/{{ .Page.Params.countryClean }}/{{ .Page.Params.regionClean }}/{{ .Page.Params.cityClean }}/" alt="See other pictures from {{ .Page.Params.City}}, {{ .Page.Params.Country}}">{{ .Page.Params.City}}</a>, <a href="/{{ .Page.Params.countryClean }}/{{ .Page.Params.regionClean }}/" alt="See other pictures from {{ .Page.Params.State}}, {{ .Page.Params.Country}}">{{ .Page.Params.State}}</a>, and <a href="/{{ .Page.Params.countryClean }}/" alt="See other pictures from {{ .Page.Params.Country}}">{{ .Page.Params.Country}}</a></p>
   </header>
 
   <div id="details">
@@ -30,7 +30,7 @@
           {{ $image := resources.GetMatch $imagepath }}
           {{ $title := .Title }}
           {{ with $image }}
-            {{ with .Resize (printf "%dx%d webp q95" .Width .Height) }}
+            {{ with .Resize (printf "%dx%d webp" .Width .Height) }}
         <div>
             <img id="hero" src="{{ .RelPermalink }}" alt="{{ $title }}" height="{{ .Height }}" width="{{ .Width }}">
             <div id="modal" class="modal" style="background-image: url('{{ .RelPermalink }}')"></div>
@@ -128,8 +128,9 @@
 
   <!-- Post Tags -->
   {{ if .Params.tags }}
+  {{ $tags := split .Params.tags "," }}
   <footer class="mt-12 flex flex-wrap">
-    {{ range .Params.tags }} {{ $href := print (absURL "tags/") (urlize .) }}
+    {{ range $tags }} {{ $href := print (absURL "tags/") (urlize .) }}
     <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="{{ $href }}">{{ . }}</a>
     {{ end }}
   </footer>
