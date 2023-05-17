@@ -56,4 +56,4 @@ jobs:
             -H "X-Auth-Email: geoff@sowrey.org" \
             -H "X-Auth-Key: 1296c3226f102a98835d19e4d491bf77d034f" \
             -H "Content-Type: application/json" \
-            --data '{"files":["https://photos.sowrey.org/","https://photos.sowrey.org/photos/","https://photos.sowrey.org/sitemap.xml"]}'
+            --data '{"files":["https://photos.sowrey.org/","https://photos.sowrey.org/photos/","https://photos.sowrey.org/sitemap.xml","https://photos.sowrey.org/robots.txt"]}'
