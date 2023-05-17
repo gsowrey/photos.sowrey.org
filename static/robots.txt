@@ -1,7 +1,7 @@
 User-agent: *
 
 # Block indexing of generated images, allow indexing of generated hero images
-Disallow: /photos/*
-Allow: /photos/*/*resize_q95*.webp
+# Disallow: /photos/**.webp
+# Allow: /photos/*/*resize_q95*.webp
 
 Sitemap: https://photos.sowrey.org/sitemap.xml
