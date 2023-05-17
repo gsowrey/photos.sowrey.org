@@ -40,11 +40,20 @@
         <h2 id="title">{{ .Params.title }}</h2>
         <p id="description">{{ .Params.description }}</p>
     </div>
+    <!-- Post Tags -->
+    {{ if .Params.tags }}
+    <h2>Tags</h2>
+    <div class="mt-12 flex flex-wrap">
+      {{ range .Params.tags }} {{ $href := print (absURL "tags/") (urlize .) }}
+      <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="{{ $href }}">{{ . }}</a>
+      {{ end }}
+    </div>
+    {{ end }}
     <div>
         <table id="photometa">
             <thead>
                 <tr>
-                    <td colspan="2"><h3>EXIF Data</h3></td>
+                    <td colspan="2"><h2>EXIF Data</h2></td>
                 </tr>
             </thead>
             {{ if eq (.Scratch.Get "isFilm") "true" }}
@@ -108,7 +117,7 @@
             </tbody>
         </table>
         <div id="photogeo">
-            <h3>Location</h3>
+            <h2>Location</h2>
             <div>
                 <p id="location">Taken in {{ .Params.City }}, {{ .Params.State }}, {{ .Params.Country }}</p>
                 <div id="maps">
@@ -125,16 +134,6 @@
         </div>
     </div>
   </div>
-
-  <!-- Post Tags -->
-  {{ if .Params.tags }}
-  {{ $tags := split .Params.tags "," }}
-  <footer class="mt-12 flex flex-wrap">
-    {{ range $tags }} {{ $href := print (absURL "tags/") (urlize .) }}
-    <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="{{ $href }}">{{ . }}</a>
-    {{ end }}
-  </footer>
-  {{ end }}
 
   <!-- Post Nav -->
   <!-- This bit gets the list of siblings (all pages in the section).

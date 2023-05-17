@@ -1,16 +1,8 @@
 {{ define "main" }}
 
-{{ $album := path.Dir .Page.RelPermalink }}
-{{ $contpath := (printf $album | printf "%s%s" $album | printf "/content%s.txt") | chomp }}
-{{ if fileExists $contpath }}
-  {{ $adtlcont := readFile $contpath }}
-  {{ $adtlcont := replaceRE `[\s\S]*?@` ""  $adtlcont }}
-  {{ $adtlcont | markdownify }}
-{{ end }}
-  
 <!-- Tag Title -->
 {{ if and .Title (eq .Type "tags") }}
-<h1>{{ .Title }}</h1>
+<h1>{{ if eq .Kind "term" }}Images for tag: <em>{{ end }}{{ .Title }}{{ if eq .Kind "term" }}</em>{{ end }}</h1>
 {{ end }}
 
 <!-- $pages -->
@@ -56,6 +48,10 @@
   {{ end }}
 {{ end }}
 </div>
+
+{{ if eq .Kind "taxonomy" }}
+{{ partial "taxonomy.html" . }}
+{{ end }}
 
 <!-- Main Nav -->
 {{ if gt $paginator.TotalPages 1 }}

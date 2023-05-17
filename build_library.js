@@ -105,7 +105,13 @@ function showMeta(tagsAvailable,image) {
 
     for (i in myTags) {
         const missing = 'Unavailable';
-        if (tagsAvailable[myTags[i]] === undefined) tagsAvailable[myTags[i]] = { 'description' : missing };
+        if (tagsAvailable[myTags[i]] === undefined) {
+            if (myTags[i].includes("Date")) {
+                console.log('\n\nERROR! Missing date: ' + image + '\n\n');
+                process.exit();
+            }
+            tagsAvailable[myTags[i]] = { 'description' : missing };
+        } 
 
         var tagData = tagsAvailable[myTags[i]].description;
 
@@ -164,10 +170,10 @@ function showMeta(tagsAvailable,image) {
                     var keywords = [];
                     for (t in tagsAvailable['Keywords']) {
                         var tmp = tagsAvailable['Keywords'][t].description;
-                        if (tmp && tmp !== undefined) keywords.push(tmp.toLowerCase());
+                        if (tmp !== undefined) keywords.push(tmp.toLowerCase());
                     }
                     if (keywords !== undefined && keywords.length !== 0) {
-                        //tags['tags'] = keywords.join(',');
+                        tags['tags'] = keywords;
                     }
                     break;   
             }
