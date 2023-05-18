@@ -1,10 +1,5 @@
 {{ define "main" }}
 {{ $originDate := .Params.DateTimeOriginal | time }}
-{{ .Scratch.Set "isFilm" "false" }}
-<!-- change this to look for the keyword "film" -->
-{{ if and (and (eq .Params.FocalLength "Unavailable") (eq .Params.FNumber "Unavailable")) (and  (eq .Params.ExposureTime "Unavailable") (eq .Params.MeteringMode "Unavailable"))}}
-  {{ .Scratch.Set "isFilm" "true" }}
-{{ end }}
 
 <article>
   <header class="mb-20">
@@ -40,7 +35,12 @@
           {{ end }}
         <h2 id="title">{{ .Params.title }}</h2>
         <p id="description">{{ .Params.description }}</p>
-    </div>
+        {{ range .Params.tags }}
+        {{ if eq . "film" }}
+        <p><em>This image was scanned from film.</em></p>
+        {{ end }}
+        {{ end }}
+      </div>
     <!-- Post Tags -->
     {{ if .Params.tags }}
     <h2>Tags</h2>
@@ -57,9 +57,6 @@
                     <td colspan="2"><h2>EXIF Data</h2></td>
                 </tr>
             </thead>
-            {{ if eq (.Scratch.Get "isFilm") "true" }}
-            <p>This image was scanned from film.</p>
-            {{ end }}
             <tbody class="not-prose">
                 <tr>
                     <td>Capture Date</td>
