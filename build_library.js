@@ -108,6 +108,7 @@ function showMeta(tagsAvailable,image) {
         if (tagsAvailable[myTags[i]] === undefined) {
             if (myTags[i].includes("Date")) {
                 console.log('\n\nERROR! Missing date: ' + image + '\n\n');
+                process.exitCode = 1;
                 process.exit();
             }
             tagsAvailable[myTags[i]] = { 'description' : missing };
