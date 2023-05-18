@@ -1,6 +1,7 @@
 {{ define "main" }}
 {{ $originDate := .Params.DateTimeOriginal | time }}
 {{ .Scratch.Set "isFilm" "false" }}
+<!-- change this to look for the keyword "film" -->
 {{ if and (and (eq .Params.FocalLength "Unavailable") (eq .Params.FNumber "Unavailable")) (and  (eq .Params.ExposureTime "Unavailable") (eq .Params.MeteringMode "Unavailable"))}}
   {{ .Scratch.Set "isFilm" "true" }}
 {{ end }}
