@@ -23,7 +23,7 @@ const getAllFiles = function(dirPath, arrayOfFiles) {
     return arrayOfFiles
 }
 
-function cleanData() {
+async function cleanData() {
     const fs = require("fs");
     const path = require("path");
     const directory = "./data";
@@ -186,6 +186,7 @@ function showMeta(tagsAvailable,image) {
 }
 
 async function buildAlbums(files) {
+    await cleanData(); // make sure there are no lingering old files, first
     let countries = [];
 
     for (i in files) {
@@ -305,6 +306,5 @@ async function buildAlbums(files) {
 }
 
 var files = getAllFiles('./assets/photos');
-cleanData();
 buildAlbums(files);
 
