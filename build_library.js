@@ -163,6 +163,7 @@ function showMeta(tagsAvailable,image) {
                 case 'LensProfileName':
                     var removeText = 'Adobe (';
                     if (tagData.includes(removeText)) tagData = tagData.substring(removeText.length,tagData.length-1);
+                    if (tagData.includes('17.0-85.0 mm')) tagData = "Canon EF-S 17-85mm f/4-5.6 IS USM";
                     break;
                 case 'Model': 
                     if (tagData.includes('ILCE-7M3')) tagData = "Sony Alpha 7 III";
