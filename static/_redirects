@@ -12,7 +12,8 @@
 /limon/  /costa_rica/limon/  301
 /liverpool/  /england/merseyside/liverpool/  301
 /london+uk/  /england/london/london/  301
-/new+york/  /united_states/new_york/new_york/  301
+/new+york/  /united_states/new_york/new_york_city/  301
+/united_states/new_york/new_york/  /united_states/new_york/new_york_city/  301
 /nova+scotia/  /canada/nova_scotia/  301
 /okanagan/  /canada/british_columbia/  301
 /ontario/  /canada/ontario/  301
