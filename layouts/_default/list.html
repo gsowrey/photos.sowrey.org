@@ -42,7 +42,7 @@
         {{ $tdorig := index $timeparts 0 }}
   <time datetime="{{ $tdorig }}" class="text-sm opacity-60">{{ $date | time.Format ":date_medium" }}</time>
       {{ end }}
-  <a class="inset-0 text-[0]" href="{{ $link }}"><img src="{{ $image.RelPermalink }}" alt="{{ $image.Title}}" width="{{ $image.Width }}" height="{{ $image.Height }}"></a>
+  <a class="inset-0 text-[0]" href="{{ $link }}"><img src="{{ $image.RelPermalink }}" title="{{ $image.Title}}" alt="{{ $image.Title}}" width="{{ $image.Width }}" height="{{ $image.Height }}"></a>
 </div>
     {{ end }}
   {{ end }}
