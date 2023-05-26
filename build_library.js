@@ -133,7 +133,7 @@ function showMeta(tagsAvailable,image) {
             }
         }
 
-        //if (image.includes('6007')) console.log(tagData);
+        //if (image.includes('2423')) console.log(tagData);
 
         if (tagData !== missing) {
             switch(myTags[i]) {
@@ -170,10 +170,17 @@ function showMeta(tagsAvailable,image) {
                     break;  
                 case 'Keywords': 
                     var keywords = [];
-                    for (t in tagsAvailable['Keywords']) {
-                        var tmp = tagsAvailable['Keywords'][t].description;
-                        if (tmp !== undefined) keywords.push(tmp.toLowerCase());
+                    if (Array.isArray(tagsAvailable['Keywords'])) {
+                        for (t in tagsAvailable['Keywords']) {
+                            var tmp = tagsAvailable['Keywords'][t].description;
+                            //console.log(t);
+                            if (tmp !== undefined) keywords.push(tmp.toLowerCase());
+                        }
                     }
+                    else {
+                        keywords.push(tagsAvailable['Keywords'].description);
+                    }
+                    //if (image.includes('2423')) {console.log(keywords);return} 
                     if (keywords !== undefined && keywords.length !== 0) {
                         tags['tags'] = keywords;
                     }
