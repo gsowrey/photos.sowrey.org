@@ -14,7 +14,7 @@
                 {{ end }}
             {{ $image := $image.Crop "350x150 center" }}
             {{ with $image }}
-            <a href="{{ $pagepath }}"><img src="{{ $image.RelPermalink }}" height="{{ $image.Height }}" width="{{ $image.Width }}" alt="{{ $title }}" loading="lazy"></a>
+            <a href="{{ $pagepath }}"><img src="{{ $image.RelPermalink }}" height="{{ $image.Height }}" width="{{ $image.Width }}" title="{{ $title }}" alt="{{ $title }}" loading="lazy"></a>
             {{ end }}
             {{ end }}
         {{ end }}
