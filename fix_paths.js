@@ -13,7 +13,7 @@ const fs = require('fs');
 function cleanFilenames() {
   fs.readdirSync('./').forEach(file => {
     if (file !== '.DS_Store') {
-        var newfile = file.replace(/[^A-Za-z0-9\.]+/g,'-');
+        var newfile = file.replace(/[^A-Za-z0-9_\.]+/g,'-');
         fs.rename(file,newfile,() => {
             console.log(file + " -> " + newfile);
         });
