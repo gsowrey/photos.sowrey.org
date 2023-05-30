@@ -1,6 +1,13 @@
 {{ define "main" }}
 {{ $originDate := .Params.DateTimeOriginal | time }}
 
+{{ $isFilm := false }}
+{{ range .Params.tags }}
+{{ if eq . "film" }}
+{{ $isFilm = true }}
+{{ end }}
+{{ end }}
+
 <article>
   <header class="mb-20">
     <h1>{{ .Params.Title }}</h1>
@@ -35,10 +42,8 @@
           {{ end }}
         <h2 id="title">{{ .Params.title }}</h2>
         <p id="description">{{ .Params.description }}</p>
-        {{ range .Params.tags }}
-        {{ if eq . "film" }}
+        {{ if $isFilm }}
         <p><em>This image was scanned from film.</em></p>
-        {{ end }}
         {{ end }}
       </div>
     <!-- Post Tags -->
@@ -74,7 +79,7 @@
                     <td>ISO</td>
                     <td{{ if eq .Params.ISOSpeedRatings "Unavailable" }} class="unavailablenote"{{ end }}>{{ .Params.ISOSpeedRatings }}</td>
                 </tr>
-                {{ if ne (.Scratch.Get "isFilm") "true" }}
+                {{ if not $isFilm }}
                 <tr>
                     <td>Focal Length</td>
                     <td{{ if eq .Params.FocalLength "Unavailable" }} class="unavailablenote"{{ end }}>{{ .Params.FocalLength }}</td>

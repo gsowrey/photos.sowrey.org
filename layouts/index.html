@@ -4,11 +4,7 @@
     <h1>{{ .Params.heading }}</h1>
 </header>
 <section>
-    <h2>Recent Pictures</h2>
-    <div>
-        {{ .Content }}
-        {{ partial "recent.html" . }}
-    </div>
+    {{ .Content }}
     <div>
         <h2 id="albums">Oh, the places I've seen...</h2>
         {{ $pages := union .RegularPages .Sections }}
@@ -21,6 +17,10 @@
             {{ end }}
         {{ end }}
         </div>
+    </div>
+    <div>
+        <h2>Recent Pictures</h2>
+        {{ partial "recent.html" . }}
     </div>
 </section>
 {{ end }}
