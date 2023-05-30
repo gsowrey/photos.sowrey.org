@@ -13,7 +13,7 @@
         {{ range $pages }}
             {{ if ne .Title "Photos" }}
                 {{ $title := title (replace .Title "+" " ") }}
-            <a <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="{{ .Permalink | relURL }}" title="{{ $title }}">{{ $title }}</a>
+            <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="{{ .Permalink | relURL }}" title="{{ $title }}">{{ $title }}</a>
             {{ end }}
         {{ end }}
         </div>
