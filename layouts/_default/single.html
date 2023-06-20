@@ -63,10 +63,17 @@
                 </tr>
             </thead>
             <tbody class="not-prose">
+                {{ if not $isFilm }}
                 <tr>
                     <td>Capture Date</td>
                     <td class="capdatenote">{{ $originDate.Format .Site.Params.dateFormat }} GMT -7</td>
                 </tr>
+                {{ else }}
+                <tr>
+                  <td>Capture Date</td>
+                  <td class="capdatenotefilm">{{ $originDate.Format "2 January 2006" }}</td>
+                </tr>
+              {{ end }}
                 <tr>
                     <td>Camera Model</td>
                     <td>{{ .Params.Model }}</td>
