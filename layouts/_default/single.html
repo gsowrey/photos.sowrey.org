@@ -51,7 +51,7 @@
     <h2>Tags</h2>
     <div class="mt-12 flex flex-wrap">
       {{ range .Params.tags }} {{ $href := print (absURL "tags/") (urlize .) }}
-      <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="{{ $href }}">{{ . }}</a>
+      <a class="mr-1.5 mb-1.5 rounded-lg bg-black/[3%] px-5 py-2 no-underline dark:bg-white/[8%]" href="{{ $href }}/">{{ . }}</a>
       {{ end }}
     </div>
     {{ end }}
