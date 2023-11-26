@@ -1,3 +1,4 @@
+const { time } = require('console');
 const ExifReader = require('exifreader');
 const fs = require("fs");
 const path = require("path");
@@ -49,7 +50,7 @@ function writeData(filename,data) {
     if (!fs.existsSync(write_dir)) {
         fs.mkdirSync(write_dir);
     }
-    //console.log('Writing picture data for ' + filename); 
+    console.log('Writing picture data for ' + filename); 
     fs.writeFile(writepath,output, err => {
         if (err) {
             console.error(err);
@@ -67,10 +68,9 @@ async function getEXIF(image) {
         delete tags['MakerNote'];
     } catch (error) {
         // Handle error.
-        console.log('Unable to read EXIF for ' + image);
+        console.log('Unable to read EXIF');
         console.log(error);
     }
-    //if (image.includes('Image-2-3-20050526')) console.log(tags);
     return showMeta(tags,image);
 }
 
@@ -104,22 +104,14 @@ function showMeta(tagsAvailable,image) {
         'images'            : ['/photos/' + image]
     }
 
-    //if (image.includes('Image-2-3-20050526')) {
-    //    console.log(tagsAvailable);
-    //}
-
     for (i in myTags) {
         const missing = 'Unavailable';
-        //if (image.includes('Image-2-3-20050526')) {
-        //    console.log(myTags[i] + ": " + tagsAvailable[myTags[i]]);
-        //}
         if (tagsAvailable[myTags[i]] === undefined) {
             if (myTags[i].includes("Date")) {
                 console.log('\n\nERROR! Missing date: ' + image + '\n\n');
                 process.exitCode = 1;
                 process.exit();
             }
-            //console.log('Missing ' + myTags[i] + ' on ' + image);
             tagsAvailable[myTags[i]] = { 'description' : missing };
         } 
 
@@ -133,6 +125,7 @@ function showMeta(tagsAvailable,image) {
                     override = tagsAvailable['Lens'].description;
             } 
             else if (tagsAvailable['Lens'].description.length > tagData.length) {
+                
                 override = tagsAvailable['Lens'].description
             }
             if (override !== '') {
@@ -141,7 +134,7 @@ function showMeta(tagsAvailable,image) {
             }
         }
 
-        //if (image.includes('Image-2-3-20050526')) console.log(tagData);
+        //if (image.includes('2423')) console.log(tagData);
 
         if (tagData !== missing) {
             switch(myTags[i]) {
@@ -209,8 +202,8 @@ async function buildAlbums(files) {
         // Build picture data
         let exif = await getEXIF(files[i]);
 
-        if ( exif.Country === "Unavailable") {
-            console.log(exif.Filename + " is missing critical metadata, skipping");
+        if (exif === undefined || exif.Country === undefined || exif.Country === 'Unavailable') {
+            console.log('No data for ' + exif.Filename);
         }
         else {
             // Build country data
@@ -274,6 +267,7 @@ async function buildAlbums(files) {
                     break;
                 }
             }
+
             exif['cityClean'] = exif.City.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/gi, '_').toLowerCase();
             exif['regionClean'] = exif.State.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/gi, '_').toLowerCase();
             exif['countryClean'] = exif.Country.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/gi, '_').toLowerCase();
@@ -326,5 +320,6 @@ async function buildAlbums(files) {
 }
 
 var files = getAllFiles('./assets/photos');
+//files = ['Image-2-3-20050526.jpg','_DSC5261-Enhanced-NR-20231118.jpg']
 buildAlbums(files);
 
