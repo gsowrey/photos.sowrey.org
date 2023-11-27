@@ -64,17 +64,21 @@ function writeData(filename,data) {
 async function getEXIF(image) {
     var tags;
     try {
-        tags = await ExifReader.load('./assets/photos/' + image);
+        tags = await ExifReader.load('./assets/photos/' + image, {includeUnknown: true});
         delete tags['MakerNote'];
     } catch (error) {
         // Handle error.
         console.log('Unable to read EXIF');
         console.log(error);
     }
-    return showMeta(tags,image);
+
+    return tags;
 }
 
-function showMeta(tagsAvailable,image) {
+async function showMeta(image) {
+    var tagsAvailable = await getEXIF(image);
+    //console.log(tagsAvailable);
+    //console.log(tagsAvailable['Caption/Abstract'].description);
     const myTags = [
         'DateTimeOriginal',
         'GPSLatitude',
@@ -100,8 +104,8 @@ function showMeta(tagsAvailable,image) {
         'Keywords'
     ];
     var tags = {
-        'Filename'          : image,
-        'images'            : ['/photos/' + image]
+        'Filename' : image,
+        'images'   : ['/photos/' + image]
     }
 
     for (i in myTags) {
@@ -134,8 +138,7 @@ function showMeta(tagsAvailable,image) {
             }
         }
 
-        //if (image.includes('2423')) console.log(tagData);
-
+        // First, a few overrides because sometimes the data doesn't come out as nice as I'd like
         if (tagData !== missing) {
             switch(myTags[i]) {
                 case 'DateTimeOriginal':
@@ -188,6 +191,33 @@ function showMeta(tagsAvailable,image) {
                     break;   
             }
         }
+        // And sometimes, it doesn't come out at all, even though it's there...
+        else {  
+            switch(myTags[i]) {
+                case 'LensProfileName':
+                    if (tagsAvailable['LensModel'] && tagsAvailable['LensModel'].description !== undefined) {
+                        tagData = tagsAvailable['LensModel'].description;
+                        var removeText = 'Adobe (';
+                        if (tagData.includes(removeText)) tagData = tagData.substring(removeText.length,tagData.length-1);
+                        if (tagData.includes('17.0-85.0 mm')) tagData = "Canon EF-S 17-85mm f/4-5.6 IS USM";
+                    }
+                    break;
+                case 'City':
+                    break;
+                case 'State':
+                    if (tagsAvailable['Province/State'] && tagsAvailable['Province/State'].description !== undefined) tagData = tagsAvailable['Province/State'].description;
+                    break;
+                case 'Country':
+                    if (tagsAvailable['Country/Primary Location Name'] && tagsAvailable['Country/Primary Location Name'].description !== undefined) tagData = tagsAvailable['Country/Primary Location Name'].description;
+                    break;
+                case 'description':
+                    if (tagsAvailable['ImageDescription'] && tagsAvailable['ImageDescription'].description !== undefined) tagData = tagsAvailable['ImageDescription'].description;
+                    break;
+                case 'title':
+                    if (tagsAvailable['Object Name'] && tagsAvailable['Object Name'].description !== undefined) tagData = tagsAvailable['Object Name'].description;
+                    break;
+            }
+        }
         tags[myTags[i]] = tagData;
     }
  
@@ -200,7 +230,8 @@ async function buildAlbums(files) {
 
     for (i in files) {
         // Build picture data
-        let exif = await getEXIF(files[i]);
+        //let exif = await getEXIF(files[i]);
+        let exif = await showMeta(files[i]);
 
         if (exif === undefined || exif.Country === undefined || exif.Country === 'Unavailable') {
             console.log('No data for ' + exif.Filename);
@@ -272,6 +303,10 @@ async function buildAlbums(files) {
             exif['regionClean'] = exif.State.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/gi, '_').toLowerCase();
             exif['countryClean'] = exif.Country.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/gi, '_').toLowerCase();
 
+            if (exif.description === null || exif.description === '') {
+                console.log('Warning: No description for ' + exif.Filename);
+            }
+
             let picture = {
                 'picture' : [{
                     'path' : 'photos/' + exif.UnixTime,
@@ -320,6 +355,5 @@ async function buildAlbums(files) {
 }
 
 var files = getAllFiles('./assets/photos');
-//files = ['Image-2-3-20050526.jpg','_DSC5261-Enhanced-NR-20231118.jpg']
 buildAlbums(files);
 
