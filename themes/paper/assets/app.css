@@ -29,7 +29,7 @@
 
 @layer components {
   .btn {
-    @apply rounded-full bg-black py-4 px-6 text-sm text-white no-underline shadow-lg duration-100 active:scale-95 dark:bg-white dark:text-black;
+    @apply rounded-full bg-black px-7 py-4 text-sm text-white no-underline shadow duration-100 active:scale-95 dark:bg-white dark:text-black;
   }
 
   .link {
@@ -72,11 +72,11 @@
   }
 
   article {
-    @apply text-lg leading-[1.9] text-black dark:text-white;
+    @apply text-lg leading-[1.8] text-black dark:text-white;
   }
 
-  article pre {
-    @apply -mx-8 !p-8 shadow-lg;
+  article pre:not(blockquote pre) {
+    @apply -mx-8 !p-8 shadow;
   }
 
   article blockquote {

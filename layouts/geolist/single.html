@@ -7,8 +7,14 @@
     {{ $pathname := index (split .File.Dir "/") 0 }}
     {{ $pages := where site.Pages "Section" $pathname }}
     {{ $pages := sort $pages ".Title" "asc" }}
-
+   
     {{ $page := .Site.GetPage (add $pathname "/_index.md") }}
+
+    {{ $content := .File.Dir | printf "%scontent.md" }}
+    {{ if (fileExists $content) }}
+    {{ readFile $content }}
+    {{ end }}
+
     <p class="rounded-lg bg-black/[3%] text-lg dark:bg-white/[8%]">See other pictures from <a href="/{{ .Page.Params.countryClean }}/{{ .Page.Params.regionClean }}/" alt="See other pictures from {{ .Page.Params.regionTitle}}, {{ .Page.Params.countryTitle}}">{{ .Page.Params.regionTitle}}</a> and <a href="/{{ .Page.Params.countryClean }}/" alt="See other pictures from {{ .Page.Params.countryTitle}}">{{ .Page.Params.countryTitle}}</a></p>    
 
     {{ .Content }}

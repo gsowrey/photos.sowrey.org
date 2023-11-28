@@ -44,7 +44,7 @@
 
   <!-- Preload -->
   {{ $dark_icon := "theme.png" }} {{ if site.Params.monoDarkIcon }} {{
-  $dark_icon := "theme.svg" }} {{ end }}
+  $dark_icon = "theme.svg" }} {{ end }}
   <link rel="preload" as="image" href="{{ $dark_icon | absURL }}" />
 
   {{ $avatar_url := $.Scratch.Get "avatar_url" }}
@@ -57,6 +57,14 @@
   {{ range $.Scratch.Get "social_list" }}
   <link rel="preload" as="image" href="{{ printf `%s.svg` . | absURL }}" />
   {{ end }}
+  <!---->
+
+  {{ if or .Params.math site.Params.math }}
+  <!---->
+  {{ partial "math.html" . }}
+  <!---->
+  {{ end }}
+  <!---->
 
   <!-- Favicon -->
   <link rel="icon" href="{{ `favicon.ico` | absURL }}" />
@@ -78,11 +86,7 @@
   <!-- Misc -->
   {{ if or hugo.IsProduction (eq site.Params.env "production") }}
   <!---->
-  {{ template "_internal/google_analytics_async.html" . }}
-  <!---->
   {{ template "_internal/google_analytics.html" . }}
-  <!---->
-  {{ template "_internal/opengraph.html" . }}
   <!---->
   {{ template "_internal/schema.html" . }}
   <!---->
