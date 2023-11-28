@@ -1,3 +1,4 @@
+const { time } = require('console');
 const ExifReader = require('exifreader');
 const fs = require("fs");
 const path = require("path");
@@ -63,17 +64,21 @@ function writeData(filename,data) {
 async function getEXIF(image) {
     var tags;
     try {
-        tags = await ExifReader.load('./assets/photos/' + image);
+        tags = await ExifReader.load('./assets/photos/' + image, {includeUnknown: true});
         delete tags['MakerNote'];
     } catch (error) {
         // Handle error.
         console.log('Unable to read EXIF');
         console.log(error);
     }
-    return showMeta(tags,image);
+
+    return tags;
 }
 
-function showMeta(tagsAvailable,image) {
+async function showMeta(image) {
+    var tagsAvailable = await getEXIF(image);
+    //console.log(tagsAvailable);
+    //console.log(tagsAvailable['Caption/Abstract'].description);
     const myTags = [
         'DateTimeOriginal',
         'GPSLatitude',
@@ -99,8 +104,8 @@ function showMeta(tagsAvailable,image) {
         'Keywords'
     ];
     var tags = {
-        'Filename'          : image,
-        'images'            : ['/photos/' + image]
+        'Filename' : image,
+        'images'   : ['/photos/' + image]
     }
 
     for (i in myTags) {
@@ -133,8 +138,7 @@ function showMeta(tagsAvailable,image) {
             }
         }
 
-        //if (image.includes('2423')) console.log(tagData);
-
+        // First, a few overrides because sometimes the data doesn't come out as nice as I'd like
         if (tagData !== missing) {
             switch(myTags[i]) {
                 case 'DateTimeOriginal':
@@ -187,6 +191,33 @@ function showMeta(tagsAvailable,image) {
                     break;   
             }
         }
+        // And sometimes, it doesn't come out at all, even though it's there...
+        else {  
+            switch(myTags[i]) {
+                case 'LensProfileName':
+                    if (tagsAvailable['LensModel'] && tagsAvailable['LensModel'].description !== undefined) {
+                        tagData = tagsAvailable['LensModel'].description;
+                        var removeText = 'Adobe (';
+                        if (tagData.includes(removeText)) tagData = tagData.substring(removeText.length,tagData.length-1);
+                        if (tagData.includes('17.0-85.0 mm')) tagData = "Canon EF-S 17-85mm f/4-5.6 IS USM";
+                    }
+                    break;
+                case 'City':
+                    break;
+                case 'State':
+                    if (tagsAvailable['Province/State'] && tagsAvailable['Province/State'].description !== undefined) tagData = tagsAvailable['Province/State'].description;
+                    break;
+                case 'Country':
+                    if (tagsAvailable['Country/Primary Location Name'] && tagsAvailable['Country/Primary Location Name'].description !== undefined) tagData = tagsAvailable['Country/Primary Location Name'].description;
+                    break;
+                case 'description':
+                    if (tagsAvailable['ImageDescription'] && tagsAvailable['ImageDescription'].description !== undefined) tagData = tagsAvailable['ImageDescription'].description;
+                    break;
+                case 'title':
+                    if (tagsAvailable['Object Name'] && tagsAvailable['Object Name'].description !== undefined) tagData = tagsAvailable['Object Name'].description;
+                    break;
+            }
+        }
         tags[myTags[i]] = tagData;
     }
  
@@ -199,82 +230,92 @@ async function buildAlbums(files) {
 
     for (i in files) {
         // Build picture data
-        let exif = await getEXIF(files[i]);
+        //let exif = await getEXIF(files[i]);
+        let exif = await showMeta(files[i]);
 
-        // Build country data
-        let country = countries.filter(country => {
-            return country.title === exif.Country 
-        });
-        if ( country === undefined || country.length === 0) {
-            country = {
-                'title' : exif.Country,
-                'regions' : []
-            }
-            countries.push(country); 
+        if (exif === undefined || exif.Country === undefined || exif.Country === 'Unavailable') {
+            console.log('No data for ' + exif.Filename);
         }
-
-        for (j in countries) {
-            if (countries[j].title === exif.Country) {
-                let region = countries[j].regions.filter(region => {
-                    return region.title == exif.State
-                });
-                if (region === undefined || region.length === 0) {
-                    region = {
-                        'title' : exif.State,
-                        'cities' : []
-                    }
-                    countries[j].regions.push(region);
+        else {
+            // Build country data
+            let country = countries.filter(country => {
+                return country.title === exif.Country 
+            });
+            if ( country === undefined || country.length === 0) {
+                country = {
+                    'title' : exif.Country,
+                    'regions' : []
                 }
+                countries.push(country); 
+            }
 
-                for (k in countries[j].regions) {
-                    if (countries[j].regions[k].title === exif.State) {
-                        let city = countries[j].regions[k].cities.filter(city => {
-                            return city.title == exif.City
-                        });
-                        if (city === undefined || city.length === 0) {
-                            city = {
-                                'title' : exif.City,
-                                'pictures' : []
-                            }
-                            countries[j].regions[k].cities.push(city);
+            for (j in countries) {
+                if (countries[j].title === exif.Country) {
+                    let region = countries[j].regions.filter(region => {
+                        return region.title == exif.State
+                    });
+                    if (region === undefined || region.length === 0) {
+                        region = {
+                            'title' : exif.State,
+                            'cities' : []
                         }
+                        countries[j].regions.push(region);
+                    }
 
-                        for (l in countries[j].regions[k].cities) {
-                            if (countries[j].regions[k].cities[l].title === exif.City) {
-                                let picture = countries[j].regions[k].cities[l].pictures.filter(picture => {
-                                    return picture.UnixTime == exif.UnixTime
-                                });
-                                if (picture === undefined || picture.length === 0) {
-                                    picture = {
-                                        'title' : exif.title,
-                                        'UnixTime' : exif.UnixTime,
-                                        'DateTimeOriginal' : exif.DateTimeOriginal,
-                                        'filename' : exif.Filename
+                    for (k in countries[j].regions) {
+                        if (countries[j].regions[k].title === exif.State) {
+                            let city = countries[j].regions[k].cities.filter(city => {
+                                return city.title == exif.City
+                            });
+                            if (city === undefined || city.length === 0) {
+                                city = {
+                                    'title' : exif.City,
+                                    'pictures' : []
+                                }
+                                countries[j].regions[k].cities.push(city);
+                            }
+
+                            for (l in countries[j].regions[k].cities) {
+                                if (countries[j].regions[k].cities[l].title === exif.City) {
+                                    let picture = countries[j].regions[k].cities[l].pictures.filter(picture => {
+                                        return picture.UnixTime == exif.UnixTime
+                                    });
+                                    if (picture === undefined || picture.length === 0) {
+                                        picture = {
+                                            'title' : exif.title,
+                                            'UnixTime' : exif.UnixTime,
+                                            'DateTimeOriginal' : exif.DateTimeOriginal,
+                                            'filename' : exif.Filename
+                                        }
+                                        countries[j].regions[k].cities[l].pictures.push(picture);
+                                        break;
                                     }
-                                    countries[j].regions[k].cities[l].pictures.push(picture);
-                                    break;
                                 }
                             }
+                            break;
                         }
-                        break;
                     }
+                    break;
                 }
-                break;
             }
-        }
 
-        exif['cityClean'] = exif.City.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/gi, '_').toLowerCase();
-        exif['regionClean'] = exif.State.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/gi, '_').toLowerCase();
-        exif['countryClean'] = exif.Country.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/gi, '_').toLowerCase();
+            exif['cityClean'] = exif.City.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/gi, '_').toLowerCase();
+            exif['regionClean'] = exif.State.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/gi, '_').toLowerCase();
+            exif['countryClean'] = exif.Country.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/gi, '_').toLowerCase();
 
-        let picture = {
-            'picture' : [{
-                'path' : 'photos/' + exif.UnixTime,
-                'fields' : exif
-            }]
+            if (exif.description === null || exif.description === '') {
+                console.log('Warning: No description for ' + exif.Filename);
+            }
+
+            let picture = {
+                'picture' : [{
+                    'path' : 'photos/' + exif.UnixTime,
+                    'fields' : exif
+                }]
+            }
+            picture.picture[0].fields['type'] = "article";
+            writeData(exif.UnixTime,picture);
         }
-        picture.picture[0].fields['type'] = "article";
-        writeData(exif.UnixTime,picture);
     }
 
     for (i in countries) {

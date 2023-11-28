@@ -2,6 +2,7 @@ resources/_gen
 assets/.sass-cache
 assets/scss/*.css
 content/**/index.md
+content/unavailable/*
 data/*
 node_modules
 
