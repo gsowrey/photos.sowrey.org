@@ -1,0 +1,1 @@
+Alix is a small community where the barely Canadian Pacific and the former Grand Trunk Pacific cross at the Alix diamond. 

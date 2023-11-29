@@ -5,6 +5,13 @@
 <h1>{{ if eq .Kind "term" }}Images for tag: <em>{{ end }}{{ .Title }}{{ if eq .Kind "term" }}</em>{{ end }}</h1>
 {{ end }}
 
+{{ if and .Title (eq .Type "tags") }}
+{{ $content := printf "%s" ".txt" | printf "%s%s" (replaceRE "(\\s)" "-" .Title) | printf "%s%s" "/tags/" | printf "%s%s" .File.Dir | printf "%s" }}
+{{ if (fileExists $content) }}
+    {{ readFile $content }}
+{{ end }}
+{{ end }}
+
 <!-- $pages -->
 {{ $pages := union .RegularPages .Sections }}<!---->
 {{ $pages := sort $pages ".Params.UnixTime" "desc" }}

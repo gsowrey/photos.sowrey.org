@@ -1,0 +1,1 @@
+Ardenville is named for a pioneer settler, Arden Simpson. And that's about all there is to know about the area, now that its wide open spaces are filled with windmills and cattle. Little else goes on in this sleepy and remote area of southern Alberta.

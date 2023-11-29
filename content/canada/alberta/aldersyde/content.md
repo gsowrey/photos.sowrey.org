@@ -1,0 +1,1 @@
+Alberta is full of little, out of the way places that only show up on maps from the 1960s. Most of them have been absorbed into larger towns and cities, or withered away into memory. Aldersyde is one such place, southeast of Calgary, known only to map data providers, which is how its name shows up here. And what you see in these pictures is pretty representative of the area. 
