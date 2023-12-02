@@ -1,0 +1,1 @@
+On Highway 22, about an hour and a half south of Calgary, is Chain (of) Lakes Provincial Park. I've only been there once, taking the kids camping one weekend. It was quiet, wet, and had a lot of prairie dogs. 

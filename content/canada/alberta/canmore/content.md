@@ -1,0 +1,1 @@
+The first major town in the mountains as you head west from Calgary, Canmore has become a favoured place to visit for Calgarians during the summer, as Banff has become overrun by tourists. Once a sleepy coal mine, Canmore is a bustling mountain town that serves as a jumping point for adventure, or just a place to hang out and relax for the day. 

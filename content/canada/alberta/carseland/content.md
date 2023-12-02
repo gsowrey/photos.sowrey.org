@@ -1,0 +1,1 @@
+East of Calgary is the hamlet of Carseland, which has been the point where cattle and grain met the railway. It's never been a large settlement, and the agricultural activities around it will likely always keep it that way. 

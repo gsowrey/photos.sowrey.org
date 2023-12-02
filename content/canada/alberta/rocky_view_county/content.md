@@ -1,0 +1,1 @@
+Rocky View County almost completely surrounds Calgary, except at the south and southwestern edge, where Calgary butts up against Foothills County and the T'suu T'ina Nation, respectively. It is a bit odd to see pictures taken on opposite sides of Calgary, a hundred kilometres apart, under the same Municipal District. 

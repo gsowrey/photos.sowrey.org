@@ -1,0 +1,1 @@
+Bashaw is a little town north of Buffalo Lake, a blink-and-you'll-miss-it sight on Hwy 21. I've been in Bashaw for a total of about 20 minutes, chasing CN 6060 on its trip up to Edmonton.

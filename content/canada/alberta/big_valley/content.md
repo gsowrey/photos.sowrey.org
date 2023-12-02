@@ -1,0 +1,1 @@
+A former divisional point on the Canadian Northern Railway, the village of Big Valley sits at the end of remains of the former CNoR's Vegreville subdivision. Once a stop on the line from Stettler to Drumheller, the tracks south of Big Valley were pulled long ago, leaving it a quiet prairie settlement, except for the twice-weekly tourist train. 
