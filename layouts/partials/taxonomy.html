@@ -1,4 +1,4 @@
-{{ $content := .File.Dir | printf "%s/tags/index.txt" }}
+{{ $content := .File.Dir | printf "/%s/assets/tags/index.txt" }}
 {{ if (fileExists $content) }}
     {{ readFile $content }}
 {{ end }}
