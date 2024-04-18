@@ -1,11 +1,15 @@
 {{ define "main" }}
-{{ $originDate := .Params.DateTimeOriginal | time }}
+{{ if .Params.DateTimeOriginal }}
+  {{ $originDate := .Params.DateTimeOriginal | time }}
+{{ else }}
+  {{ $originDate := "None" }}
+{{ end }}
 
 {{ $isFilm := false }}
 {{ range .Params.tags }}
-{{ if eq . "film" }}
-{{ $isFilm = true }}
-{{ end }}
+  {{ if eq . "film" }}
+    {{ $isFilm = true }}
+  {{ end }}
 {{ end }}
 
 <article>
@@ -15,7 +19,7 @@
     {{ if ne .Type "page" }}
     <div class="text-sm opacity-60">
       {{ if .Params.DateTimeOriginal }}
-      <time datetime="{{ .Params.DateTimeOriginal }}">{{ $originDate.Format .Site.Params.dateFormat }}</time>
+      <time datetime="{{ .Params.DateTimeOriginal }}">{{ (.Params.DateTimeOriginal | time).Format .Site.Params.dateFormat }}</time>
       {{ end }}
     </div>
     {{ end }}
@@ -66,12 +70,12 @@
                 {{ if not $isFilm }}
                 <tr>
                     <td>Capture Date</td>
-                    <td class="capdatenote">{{ $originDate.Format .Site.Params.dateFormat }} GMT -7</td>
+                    <td class="capdatenote">{{ (.Params.DateTimeOriginal | time).Format .Site.Params.dateFormat }} GMT -7</td>
                 </tr>
                 {{ else }}
                 <tr>
                   <td>Capture Date</td>
-                  <td class="capdatenotefilm">{{ $originDate.Format "2 January 2006" }}</td>
+                  <td class="capdatenotefilm">{{ (.Params.DateTimeOriginal | time).Format "2 January 2006" }}</td>
                 </tr>
               {{ end }}
                 <tr>

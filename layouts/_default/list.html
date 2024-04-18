@@ -1,21 +1,23 @@
 {{ define "main" }}
 
-<!-- Tag Title -->
-{{ if and .Title (eq .Type "tags") }}
-<h1>{{ if eq .Kind "term" }}Images for tag: <em>{{ end }}{{ .Title }}{{ if eq .Kind "term" }}</em>{{ end }}</h1>
+{{ $title := .Title }}
+{{ if eq "photos" (lower $title) }}
+  {{ $title = "All my (good) pictures" }}
+{{ end }}
 
-{{ $content := printf "%s" ".txt" | printf "%s%s" (replaceRE "(\\s)" "-" .Title) | printf "%s%s" "/tags/" | printf "%s%s" .File.Dir | printf "%s" }}
-{{ if (fileExists $content) }}
-    {{ readFile $content }}
-{{ end }}
-{{ end }}
+<h1>{{ if eq .Kind "term" }}Images for tag: <em>{{ end }}{{ $title }}{{ if eq .Kind "term" }}</em>{{ end }}</h1>
+
+  {{ $content := printf "%s" ".txt" | printf "%s%s" (lower (replaceRE "(\\s)" "-" .Title) )| printf "%s%s" "assets/tags/" }}
+  {{ if (fileExists $content) }}
+      {{ readFile $content }}
+  {{ end }}
 
 <!-- $pages -->
 {{ $pages := union .RegularPages .Sections }}<!---->
 {{ $pages := sort $pages ".Params.UnixTime" "desc" }}
 
 {{ if .IsHome }}<!---->
-{{ $pages = where site.RegularPages "Type" "in" site.Params.mainSections }}<!---->
+  {{ $pages = where site.RegularPages "Type" "in" site.Params.mainSections }}<!---->
 {{ end }}
 
 <div>
@@ -51,11 +53,13 @@
 </div>
     {{ end }}
   {{ end }}
-{{ end }}
+{{ end }}{{/* range */}}
 </div>
 
-{{ if eq .Kind "taxonomy" }}
-{{ partial "taxonomy.html" . }}
+{{ if .Kind }}
+  {{ if eq .Kind "taxonomy" }}
+    {{ partial "taxonomy.html" . }}
+  {{ end }}
 {{ end }}
 
 <!-- Main Nav -->
