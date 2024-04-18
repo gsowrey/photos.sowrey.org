@@ -1,6 +1,6 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline' 'unsafe-hashes' 'unsafe-eval'; script-src-elem *; style-src 'self'; img-src 'self'; base-uri 'self'"> 
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; script-src * 'unsafe-inline'; style-src * 'unsafe-inline'; img-src *; font-src *; connect-src *; media-src *; object-src *; prefetch-src *; base-uri 'self'"> 
   <meta name="theme-color" content="">
   <title>{{ if not .IsHome }}{{ .Title }} - {{ end }}{{ site.Title }}</title>
   {{ $site_author := or site.Author.name site.Params.name site.Title }}
