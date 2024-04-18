@@ -1,8 +1,17 @@
 {{ define "main" }}
 
+<!-- $pages -->
+{{ $pages := union .RegularPages .Sections }}<!---->
+{{ $pages := sort $pages ".Params.UnixTime" "desc" }}
+
+{{ $paginator := .Paginate $pages }} 
+
 {{ $title := .Title }}
 {{ if eq "photos" (lower $title) }}
   {{ $title = "All my (good) pictures" }}
+{{ end }}
+{{ if gt $paginator.PageNumber 1 }}
+  {{ $title = printf "%s%d" ", page " $paginator.PageNumber | printf "%s%s" $title }}
 {{ end }}
 
 <h1>{{ if eq .Kind "term" }}Images for tag: <em>{{ end }}{{ $title }}{{ if eq .Kind "term" }}</em>{{ end }}</h1>
@@ -12,10 +21,6 @@
       {{ readFile $content }}
   {{ end }}
 
-<!-- $pages -->
-{{ $pages := union .RegularPages .Sections }}<!---->
-{{ $pages := sort $pages ".Params.UnixTime" "desc" }}
-
 {{ if .IsHome }}<!---->
   {{ $pages = where site.RegularPages "Type" "in" site.Params.mainSections }}<!---->
 {{ end }}
@@ -23,7 +28,6 @@
 <div>
 
 <!-- Articles -->
-{{ $paginator := .Paginate $pages }} 
 {{ range $index, $page := $paginator.Pages }}
   {{ $date := .Date }}
   {{ $datetimeoriginal := "" }}

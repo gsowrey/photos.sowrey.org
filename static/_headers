@@ -1,0 +1,2 @@
+/*
+    Content-Security-Policy: default-src 'self' 'unsafe-inline'; script-src * 'unsafe-inline'; style-src * 'unsafe-inline'; img-src *; font-src *; connect-src *; media-src *; object-src *; prefetch-src *; base-uri 'self'

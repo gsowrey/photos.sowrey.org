@@ -1,6 +1,5 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; script-src * 'unsafe-inline'; style-src * 'unsafe-inline'; img-src *; font-src *; connect-src *; media-src *; object-src *; prefetch-src *; base-uri 'self'"> 
   <meta name="theme-color" content="">
   <title>{{ if not .IsHome }}{{ .Title }} - {{ end }}{{ site.Title }}</title>
   {{ $site_author := or site.Author.name site.Params.name site.Title }}
@@ -14,7 +13,7 @@
   <meta name="description" content="{{ $summary }}">
   
   {{ end }}
-  <link rel="canonical" href="{{ .Permalink }}">
+
   {{ block "styles" . }} {{ end }}
   <!-- Styles & Scripts -->
   {{ $main := resources.Get "css/styles.css" }}
