@@ -42,7 +42,6 @@
     {{ else }}
       {{ $image = $image.Resize "x350 webp" }}
     {{ end }}
-    {{ $image := $image.Crop "350x150 center q75" }}
     {{ with $image }}
 <!---->
 
