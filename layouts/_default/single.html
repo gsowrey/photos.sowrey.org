@@ -213,8 +213,7 @@
     });
   document.addEventListener("DOMContentLoaded", function (event) {
     var el = document.querySelector('div.hover-pinch-zoom-img');
-    console.log(el);
-    init_zoom(el);
+    if (typeof init_zoom === 'function') init_zoom(el);
   });
 </script>
 

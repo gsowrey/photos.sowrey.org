@@ -42,7 +42,6 @@
     {{ else }}
       {{ $image = $image.Resize "x350 webp" }}
     {{ end }}
-    {{ $image := $image.Crop "350x150 center q75" }}
     {{ with $image }}
   <div class="album-item my-10 first-of-type:mt-0 last-of-type:mb-0">
     <h2 class="!my-0 pb-1 !leading-none">{{ $title }}</h2>
