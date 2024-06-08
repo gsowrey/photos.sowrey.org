@@ -6,18 +6,18 @@
             {{ $imagepath := .Param "Filename" }}
             {{ $imagepath := $imagepath | printf "/photos/%s" }}
             {{ $image := resources.GetMatch $imagepath }}
-            {{/* $imageClass := "" */}}
-            {{/* if $image */}}
-                {{/* if ge $image.Height $image.Width */}}
-                {{/* $image = $image.Resize "350x webp" */}}
-                {{/* else */}}
-                {{/* $image = $image.Resize "x350 webp" */}}
-                {{/* end */}}
+            {{ $imageClass := "" }}
+            {{ if $image }}
+                {{ if ge $image.Height $image.Width }}
+                {{ $image = $image.Resize "350x webp" }}
+                {{ else }}
+                {{ $image = $image.Resize "x350 webp" }}
+                {{ end }}
 
-                {{/* with $image */}}
+                {{ with $image }}
             <a href="{{ $pagepath }}"><img src="{{ $image.RelPermalink }}" height="{{ $image.Height }}" width="{{ $image.Width }}" title="{{ $title }}" alt="{{ $title }}" loading="lazy"></a>
-                {{/* end */}}
-            {{/* end */}}
+                {{ end }}
+            {{ end }}
         {{ end }}
 </div>
 <p>You can always look through the <a href="/photos/">full photo list</a> or see the <a href="/tags/">list of tags I've used</a>.</p>
