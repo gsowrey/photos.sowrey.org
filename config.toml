@@ -6,6 +6,7 @@ theme = "paper"
 pluralizelisttitles = "false"
 paginate = 40
 canonifyURLs = true
+timeout=60
 
 [imaging]
   anchor = 'Smart'
@@ -14,8 +15,7 @@ canonifyURLs = true
   quality = 80
   resampleFilter = 'Lanczos'
 
-[author]
-  name = 'Geoff Sowrey'
+params.author.name = 'Geoff Sowrey'
 
 [params]
   description = 'Photography by Geoff Sowrey'

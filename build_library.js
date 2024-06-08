@@ -3,6 +3,9 @@ const ExifReader = require('exifreader');
 const fs = require("fs");
 const path = require("path");
 
+// Force all time to be based off Mountain Standard Time
+process.env.TZ ="GMT-0700";
+
 const getAllFiles = function(dirPath, arrayOfFiles) {
     files = fs.readdirSync(dirPath)
   
