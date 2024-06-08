@@ -1,0 +1,1 @@
+Further to the west from Mînî Thnî is Ozada, another former Canadian Pacific station set in the Stoney nation. Today there is little more than a crossing and the start of the Ozada siding on the railway. 

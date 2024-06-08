@@ -1,0 +1,1 @@
+A former Hudson's Bay trading post, Rocky Mountain House is a large town about an hour west of Red Deer, roughly halfway between Red Deer and the Rocky Mountains. Rocky Mountain House features its eponymous National Historic Site, where the fort once stood. 

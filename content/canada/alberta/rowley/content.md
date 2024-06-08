@@ -1,0 +1,1 @@
+Rowley is one of many ghost towns in Alberta. Once an agricultural town, complete with grain elevator, it started to wane as grain was taken to larger and larger grain collections, and the railways stopped coming to the local elevators. Its fate was sealed when the former Canadian Northern line was abandoned in the early 2000s, cutting Rowley off forever. 

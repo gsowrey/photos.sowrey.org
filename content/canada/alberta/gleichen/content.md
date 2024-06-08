@@ -1,0 +1,1 @@
+On the north side of the expansive Siksika Nation lies the town of Gleichen, a former railway town founded by the Canadian Pacific Railway as it rolled across the prairies towards the mountains. A small agricultural town today, the only times I've been to Gleichen are to follow trains -- usually CP 2816 -- as they wind their way through the terrain. 

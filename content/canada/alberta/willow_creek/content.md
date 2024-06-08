@@ -1,0 +1,1 @@
+Amongst the foothills, far to the south of Calgary, is a lovely space called Willow Creek. The view across the fields and hills makes it clear why settlers fell in love with this area. 

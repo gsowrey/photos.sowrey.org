@@ -1,0 +1,1 @@
+Warden was a junction on the Canadian Northern network, connecting the Battle River Subdivision running north-south, with the Brazeau Subdivision (running west to Nordegg), and the later Canadian National Endiang subdivision. There is now only a small yard, typically filled with stored railcars, and a large maintenance shed for railway equipment.

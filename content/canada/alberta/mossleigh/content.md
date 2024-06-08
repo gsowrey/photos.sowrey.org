@@ -1,0 +1,1 @@
+About forty minutes east of Okotoks is the little town of Mossleigh. It's remarkable largely as it's a rarity in the prairies, having three (now unused) grain elevators in a row, a popular site for photographers, rail fans, landscape artists, and sightseers alike. 

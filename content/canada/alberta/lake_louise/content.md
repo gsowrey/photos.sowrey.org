@@ -1,0 +1,1 @@
+Originally called Laggan by the Canadian Pacific, Lake Louise is a significant tourist stop to witness the robin's egg blue glacial water, go on hikes into the surrounding hills, and fight immense amounts of traffic as people attempt to get into one of Alberta's most famous (and crowed) destinations. 

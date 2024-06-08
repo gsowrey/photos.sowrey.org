@@ -1,0 +1,1 @@
+Pecten is unknown, but for a geographical marker in some maps. To see it on a satellite, there's but a single railway bridge crossing over Hwy 6, and little else. 

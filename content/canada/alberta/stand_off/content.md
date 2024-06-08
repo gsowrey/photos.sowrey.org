@@ -1,0 +1,1 @@
+I would love to know the history behind the name of this point in the province, not bestowed by the railways, likely a conflict between settlers and the local indigenous people. Today, it's quiet farmland and windmills.

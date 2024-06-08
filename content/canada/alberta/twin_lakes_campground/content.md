@@ -1,0 +1,1 @@
+It's not Crimson Lake, a popular campground near Rocky Mountain House, but I argue the bareness of Twin Lakes might actually be more appealing due to its quietness and isolation. With a bit more grass, instead of gravel, it would be better. 

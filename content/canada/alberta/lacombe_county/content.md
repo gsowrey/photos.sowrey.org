@@ -1,0 +1,1 @@
+Named for the town of Lacombe, the county contains many smaller towns and villages that extend to the east. 

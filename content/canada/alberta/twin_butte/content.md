@@ -1,0 +1,1 @@
+North of Waterton National Park is a point on the map where, from a bend in Highway 6, offers the most fantastic view over the southern foothills, grasslands, and distant mountains, heading into the United States. 

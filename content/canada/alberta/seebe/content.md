@@ -1,0 +1,1 @@
+Another of Canadian Pacific's named but otherwise unknown points on a map, Seebe is where Highway 1X (a connector between Highway 1 -- the Trans Canada -- and Highway 1A) crosses over the Canadian Pacific line. 

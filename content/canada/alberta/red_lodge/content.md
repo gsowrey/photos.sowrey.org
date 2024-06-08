@@ -1,0 +1,1 @@
+The most defining point of Red Lodge is its Provincial Park, well away from everything urban, a quiet place for camping and day get-aways. Of most interest is Little Red Deer River, a meandering brook that's perfect for floating down. 

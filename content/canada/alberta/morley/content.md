@@ -1,0 +1,1 @@
+Morley is the settler name for Mînî Thnî, a part of the Stoney Nation to the west of Calgary. Named by the Canadian Pacific as a station along the route into the mountains, Mînî Thnî is now little more than a historic placename, the site of Mînî Thnî being more important in modern context. 

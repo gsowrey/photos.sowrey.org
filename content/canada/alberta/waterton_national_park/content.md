@@ -1,0 +1,1 @@
+One of Western Canada's southernmost national parks -- it butts up against the United States, extending across the border as Glacier National Park -- it's a small haven in the mountain passes, filled with a large, cold lake, overlooked by a Great Northern Railroad hotel, the Prince of Wales. 

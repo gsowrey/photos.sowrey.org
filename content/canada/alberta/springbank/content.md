@@ -1,0 +1,1 @@
+Springbank lies on the western side of Calgary, an expansive area of Rocky View County full of more homes and the odd amusement park. 

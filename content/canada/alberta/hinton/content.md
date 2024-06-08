@@ -1,0 +1,1 @@
+On the eastern edge of Jasper National Park lies the small town of Hinton. I've only visited it once, the starting point of CN 6060's passenger excursion into Jasper in 2001. 

@@ -1,0 +1,1 @@
+Red Deer is Alberta's third largest city after Calgary and Edmonton, though it's less than a tenth the size of its big brothers. Roughly halfway between the two cities, it's a center for rural life, a key point for the oil and gas industry, and was a significant point on Alberta's historic rail lines, before most were abandoned. 

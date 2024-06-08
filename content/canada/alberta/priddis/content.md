@@ -1,0 +1,1 @@
+Priddis sits on the southern edge of the Tsuu T'ina nation, southwest of Calgary. A rural village area, it's mostly rural estates, some farms, acreages, and a particularly posh boutique hotel that used to be the home of one of Calgary's multimillionaires.  

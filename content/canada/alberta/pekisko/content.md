@@ -1,0 +1,1 @@
+Highway 22 is known as the Cowboy Trail, which roughly follows an old route for moving cattle from the mountain ranges to the extensive cattle yards in the cities. Like so many other places in Alberta, it's but a name on a map, without much else to mark what had once been there. 

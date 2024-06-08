@@ -1,0 +1,1 @@
+This is a large region to the east of Edmonton, along the Yellowhead Highway. Mostly farmland and forested areas, it's crossed by the former Grand Trunk Pacific/Canadian Northern lines, which were amalgamated into the present Canadian National railway.

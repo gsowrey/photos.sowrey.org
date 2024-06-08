@@ -1,0 +1,1 @@
+Rosebud is a hamlet about 25 kilometres southwest from Drumheller. The actual townsite sits in an eroded river valley, a small stop, a former station on the Canadian Northern (later Canadian National) Railway heading towards Calgary.  

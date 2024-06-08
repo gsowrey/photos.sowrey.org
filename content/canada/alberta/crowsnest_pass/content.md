@@ -1,0 +1,1 @@
+The Crowsnest Pass is a break in the mountains in the southern end of Alberta and British Columbia, the so-called "southern access" route. On the Alberta side, this is a district that covers basically everything west of the foothills to the British Columbia border.

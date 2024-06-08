@@ -1,0 +1,1 @@
+A rural center for agriculture and industry, Stettler is a former junction of the Canadian Northern and the Canadian Pacific, once home to a staggering seven grain elevators. Most of the rails are now gone, with only the Alberta Prairie Railway still running on the remaining rails, with a tenuous connection on a Canadian Pacific spur line to the outside world. 

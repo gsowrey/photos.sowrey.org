@@ -1,0 +1,1 @@
+This is a large county about 100 kilometres to the west of Calgary, which as its name suggests, is highly agricultural. 

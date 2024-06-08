@@ -1,0 +1,1 @@
+Named for the Roman god of fire, the town of Vulcan has wholly embraced its alternate source, the home planet of the Vulcan race from Star Trek. From the Federation Starship model on the highway to its United Federation of Planets logos painted on the streets, it's a science fiction mecca for anyone in the area. 
