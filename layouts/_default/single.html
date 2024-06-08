@@ -70,8 +70,12 @@
                 {{ if not $isFilm }}
                 <tr>
                     <td>Capture Date</td>
-                    <td class="capdatenote">{{ .Params.DateTimeOriginal }}{{/* (.Params.DateTimeOriginal | time).Format .Site.Params.dateFormat */}} GMT -7</td>
-                </tr>
+                    {{ if and ((.Params.DateTimeOriginal | time)) (.Site.Params.dateFormat) }}
+                    <td class="capdatenote">{{ (.Params.DateTimeOriginal | time).Format .Site.Params.dateFormat }} GMT -7</td>
+                    {{ else }}
+                    <td class="capdatenote">{{ .Params.DateTimeOriginal }} GMT -7</td>
+                    {{ end }}
+                  </tr>
                 {{ else }}
                 <tr>
                   <td>Capture Date</td>
