@@ -68,6 +68,7 @@
     {{ $title := .Title }}
     {{ $pageurl := .RelPermalink }}
     {{ $page := .Site.GetPage "geolist" (add .RelPermalink "index.md") }}
+    {{ if and ($page.Params.pictures) ((index $page.Params.pictures 0).filename) }}
     {{ $image := resources.GetMatch (add "photos/" (index $page.Params.pictures 0).filename) }}
     {{ if $image }}
       {{ if ge $image.Height $image.Width }}
@@ -82,6 +83,7 @@
   </div>
         {{ end }}
       {{ end }}
+    {{ end }}
     {{ end }}
   {{ end }}
 
