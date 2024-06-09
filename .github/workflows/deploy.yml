@@ -20,11 +20,6 @@ jobs:
           submodules: true  # Fetch Hugo themes (true OR recursive)
           fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
 
-      - name: Library versions
-        run: |
-          go version
-          node -v
-
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
@@ -32,7 +27,15 @@ jobs:
           extended: true
 
       - name: Install NPM Modules
-        run: npm install
+        run: |
+          npm install
+          npm install -g n
+          n stable
+
+      - name: Library versions
+        run: |
+          go version
+          node -v
 
       - name: Create Image Data Files
         run: node build_library.js

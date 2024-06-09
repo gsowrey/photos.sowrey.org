@@ -70,7 +70,8 @@
                 {{ if not $isFilm }}
                 <tr>
                     <td>Capture Date</td>
-                    {{ if and ((.Params.DateTimeOriginal | time)) (.Site.Params.dateFormat) }}
+                    {{/* For some stupid reason, the key must be lowercase when searched */}}
+                    {{ if (isset .Params "datetimeoriginal" ) }}
                     <td class="capdatenote">{{ (.Params.DateTimeOriginal | time).Format .Site.Params.dateFormat }} GMT -7</td>
                     {{ else }}
                     <td class="capdatenote">{{ .Params.DateTimeOriginal }} GMT -7</td>
