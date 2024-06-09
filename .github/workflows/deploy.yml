@@ -27,10 +27,7 @@ jobs:
           extended: true
 
       - name: Install NPM Modules
-        run: |
-          npm install
-          sudo npm install -g n
-          n stable
+        run: npm install
 
       - name: Library versions
         run: |
