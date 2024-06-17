@@ -5,6 +5,7 @@ content/**/index.md
 content/unavailable/*
 data/*
 node_modules
+.hugo_build.lock
 
 # OS
 .DS_Store

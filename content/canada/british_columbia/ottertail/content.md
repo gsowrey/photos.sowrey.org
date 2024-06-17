@@ -1,0 +1,1 @@
+Railways have names for points long their lines, typically as stations, but quite a few exist as a place marker. Such is Ottertail, whose name I have no official source for. It is known by railfans as a particularly nice location to spy trains passing over a bridge. 

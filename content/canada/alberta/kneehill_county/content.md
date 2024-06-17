@@ -1,0 +1,1 @@
+Kneehill County, what I can only assume is nod to (or parody of) "foothills" (despite which the land in Kneehill is decidedly less mountainous than foothill) is entirely agricultural, save for the few towns and hamlets spattered about its territory. 

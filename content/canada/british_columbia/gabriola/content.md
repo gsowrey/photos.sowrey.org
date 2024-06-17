@@ -1,0 +1,1 @@
+Gabriola is an island just off the coast of Nanaimo on Vancouver Island. It's passed by BC Ferries many times a day as they ply the Georgia Strait between Nanaimo and Horseshoe Bay or Tsawwassen.

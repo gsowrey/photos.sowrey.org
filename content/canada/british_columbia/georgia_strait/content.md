@@ -1,0 +1,1 @@
+Georgia Strait (more specifically, the Strait of Georgia) is a long body of water that lies between Canada's mainland and Vancouver Island. Ongoing conversation from local Indigenous groups have started to see the use of "Salish Sea", which encompasses a wider, more meaningful area than merely a navigation channel, including a majority of the range of Southern Resident orca. 

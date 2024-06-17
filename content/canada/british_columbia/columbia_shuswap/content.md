@@ -1,0 +1,1 @@
+British Columbia seems to have a practice of naming otherwise unincorporated areas after nearby bodies of water. How Columbia-Shuswap got it's name isn't really clear to me; although the Columbia River isn't too far away, the Shuswap is two mountain ranges and a whole mess of rivers distant. But I suppose "Columbia-Kicking Horse" didn't fly with someone.

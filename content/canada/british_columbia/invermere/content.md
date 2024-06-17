@@ -1,0 +1,1 @@
+Invermere is a large town on the northwestern corner of Lake Windermere, where the lake ends and the Columbia River resumes its northerly flow. Like several places in this part of the Columbia Valley, it's almost as common to see cars with Alberta plates as it is BC plates, frequented by Albertans for recreation and second homes. 

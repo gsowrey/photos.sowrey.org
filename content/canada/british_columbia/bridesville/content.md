@@ -1,0 +1,1 @@
+A few kilometers away to the west of Midway, someone shouted: "OSTRICH!" You don't normally hear that sort of thing as you drive through the mountains, so it necessitated an about-face and a look-see. Yup, ostriches. You don't see that every day. 

@@ -1,0 +1,1 @@
+Contained within the Pacific Rim National Park Reserve, Long Beach is exactly how it sounds -- a 5.5 km-long Pacific Ocean-facing beach. The waters here are cold, and it's not an easy trip from the east side of Vancouver Island, so it's not exactly full of sunbathers. It is, however, home to grey whales that often come here to feed on bottom dwelling crustaceans. 
