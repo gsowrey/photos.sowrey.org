@@ -1,0 +1,1 @@
+Not be confused with the more famous Australian city, Sidney is a small city on Saanish Peninsula, north of Victoria on the southern end of Vancouver Island. Still a port city -- ferries to Washington State still depart from Sidney -- it's mostly residential with smatterings of industrial adjacent to Sidney's western neighbour, Victoria International Airport. 

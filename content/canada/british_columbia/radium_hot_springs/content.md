@@ -1,0 +1,1 @@
+The Canadian Rockies have a number of hot springs, most famously Banff, but also Miette, Fairmont, and lesser known ones like Lussier Creek and Ram Creek. Like with Banff, Kootenay National Park has its own hot springs, which is at Radium, where Highway 93 meet Highway 95 after slicing its way through two valleys and three passes. 

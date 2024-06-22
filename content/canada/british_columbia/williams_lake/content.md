@@ -1,0 +1,1 @@
+Tucked away in the mountains, a few kilometres east of the Fraser River, not quite halfway from Prince George and Vancouver, is the town of Williams Lake. A resource town, for there is little else for the settler community to achieve from this land, it supports two massive sawmills for the intensive lumber industry. 

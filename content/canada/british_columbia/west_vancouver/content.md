@@ -1,0 +1,1 @@
+As its name implies, West Vancouver lies to the west of Vancouver ... though, it's really more to the north and west. Mostly a residential community, housing large houses and even larger cars, it's also home to Horseshoe Bay, one of the major BC Ferries terminals that take people in large bidirectional ro-ro ferries over to Nanaimo and the rest of Vancouver Island. 

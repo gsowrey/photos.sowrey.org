@@ -1,0 +1,1 @@
+At the northern end of Howe Sound is the town of Squamish. A port for local goods (mainly lumber, including log booms bound for points elsewhere), the town is at the mouth of the Cheakamus Canyon, which leads to Whistler. 

@@ -1,0 +1,1 @@
+Porteau Cove is a Provincial Park roughly halfway up the Sea to Sky Highway from Horseshoe Bay to Squamish. It has a fairly nice view of Howe Sound and Anvil Island. It was, for a time, the stop for the Pacific Starlight dinner train operated by BC Rail, as there is a siding there where they could swap the locomotives to the other end of the train.

@@ -1,0 +1,1 @@
+One of the largest Gulf Islands and the only one to have its own hospital. A short ferry trip from Vancouver Island's Swartz Bay terminal, it's a quiet place without much sense of urgency. It's a place I'd love to retire to, but I doubt I could ever afford to live there.
