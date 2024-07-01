@@ -1,0 +1,1 @@
+One of the most aptly-named places I've ever been, Harbourville is a hamlet built around its harbour, providing fishermen (fisherpeople?) easy access to the Bay of Fundy and its riches. 

@@ -1,0 +1,1 @@
+Manitoba, particularly the interlakes area, was settled by farmers determined to eke out an existence in what was fertile, but harsh land. Heavy in shrubs, dense trees, and brutal winters, the area was difficult to tame. Alex's forbearers came here near the turn of the previous century, living for a number of years on a homestead that is scarcely visible today. 

@@ -58,9 +58,6 @@ function writeData(filename,data) {
         if (err) {
             console.error(err);
         }
-        else {
-            //console.log('Written.');
-        }
     });
 }
 
@@ -192,6 +189,14 @@ async function showMeta(image) {
                         tags['tags'] = keywords;
                     }
                     break;   
+                case 'City':
+                    break;
+                case 'State':
+                    if (tagsAvailable['Province/State'] !== undefined && tagsAvailable['Province/State'].description !== undefined) tagData = tagsAvailable['Province/State'].description;
+                    break;
+                case 'Country':
+                    if (tagsAvailable['Country/Primary Location Name'] !== undefined && tagsAvailable['Country/Primary Location Name'].description !== undefined) tagData = tagsAvailable['Country/Primary Location Name'].description;
+                    break;
             }
         }
         // And sometimes, it doesn't come out at all, even though it's there...
@@ -236,8 +241,16 @@ async function buildAlbums(files) {
         //let exif = await getEXIF(files[i]);
         let exif = await showMeta(files[i]);
 
-        if (exif === undefined || exif.Country === undefined || exif.Country === 'Unavailable') {
-            console.log('No data for ' + exif.Filename);
+        if (exif === undefined || 
+            exif.City === undefined || 
+            exif.State === undefined || 
+            exif.Country === undefined || 
+            exif.City === 'Unavailable' || 
+            exif.State === 'Unavailable' || 
+            exif.Country === 'Unavailable') {
+            console.log('\n\nNo data for ' + exif.Filename + '\n\n');
+            process.exitCode = 1;
+            process.exit();
         }
         else {
             // Build country data

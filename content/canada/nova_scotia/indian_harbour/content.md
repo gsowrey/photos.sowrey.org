@@ -1,0 +1,1 @@
+Just a bit further northwest from Peggy's Cove is a place you'd probably not notice, even if you'd somehow seen the signs as you were whipping your way to the more famous destination to the southeast. Indian Harbour is one of hundreds of little places along Nova Scotia's erratic coast, more filled with weekend houses and getaways than anything of tourist note. 

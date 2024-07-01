@@ -1,0 +1,1 @@
+Ever seen Dirty Dancing? That upper class resort? That's what White Point feels like, one of those places where everyone was always nicely dressed and unable to relax. It's come a long way from that, but the resort still has the aura of upturned noses. 

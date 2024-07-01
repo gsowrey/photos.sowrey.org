@@ -1,0 +1,1 @@
+Though the name sounds considerably more romantic, Portage la Prairie is nonetheless one of the major settlements west of the 100th parallel, a point along the Assiniboine River where there was rest and respite from the difficulties in the early European exploration and settlement. 

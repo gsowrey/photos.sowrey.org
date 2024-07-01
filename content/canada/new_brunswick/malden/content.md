@@ -1,0 +1,1 @@
+If you travel south from the Confederation Bridge, having just left Prince Edward Island, pay close attention to the giant anamorphic potato on the west side, beckoning you to have a taste of the local vodka. 

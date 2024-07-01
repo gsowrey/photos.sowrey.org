@@ -1,0 +1,1 @@
+Drive for a while. Take a random turn for no other reason than it goes the way you need to eventually go, but you know nothing else about it. What are the odds you find a bright spot hidden in the countryside that you'd have never otherwise had heard of, let alone visited? Such is how we found River John. 

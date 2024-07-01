@@ -1,0 +1,1 @@
+Across the Bedford Basin from Halifax, Dartmouth is almost as much "the city" as it's watery neighbour. By far less famous, Dartmouth is a quieter, if not more industrial city, than Halifax. But if you want to truly see Halifax at night, there is only one place you can go to see it. 
