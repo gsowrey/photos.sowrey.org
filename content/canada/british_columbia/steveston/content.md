@@ -1,0 +1,1 @@
+Steveston is a former fishing port and cannery on the southwest corner of the City of Richmond, south of Vancouver. Today it's a sleeper community with some of the fishing remaining mostly in name only, though the harbour still houses the remnants of the fishing fleets of yore. 

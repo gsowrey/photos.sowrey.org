@@ -1,0 +1,1 @@
+Burnaby was the first place I lived when I moved to British Columbia back in 1998. It reminded me a lot of Mississauga in that there isn't a "downtown", as Burnaby was formed of several smaller towns. It's the third largest city in British Columbia after Vancouver and Surrey, and home to Simon Fraser University, which sits atop Burnaby Mountain. 
