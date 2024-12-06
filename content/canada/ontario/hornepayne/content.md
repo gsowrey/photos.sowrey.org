@@ -1,0 +1,1 @@
+Hornepayne is isolated in Northern Ontario, save for the lone CN line (Hornepayne is the divisional point between Ruel and Caramat subdivisions, with a large rail yard), and Highway 631 (White River to Palmquist). 

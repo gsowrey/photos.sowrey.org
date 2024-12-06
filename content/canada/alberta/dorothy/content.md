@@ -1,0 +1,1 @@
+As close to a ghost hamlet as one can get while still having residents, Dorothy is a tiny, nearly-forgettable spot on the long-abandoned CP Rosemary subdivision, sitting near the edge of the Red Deer River, south of Drumheller. The only notable thing left in Dorothy is its barely-preserved and very dilapidated grain elevator.

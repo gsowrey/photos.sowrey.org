@@ -1,0 +1,1 @@
+Our nation's capital. I lived in and around Ottawa for nearly two years during my university era, so I gained a bit of knowledge of life in what was originally a swamp [insert political joke here]. 

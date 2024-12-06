@@ -1,0 +1,1 @@
+The centre of the Badlands and home to the Royal Tyrell Museum, Drumheller is a sizeable town situated entirely in the Red Deer River valley. Formerly a junction of the Canadian Pacific and Canadian National railways, today the town is entirely railway-free, both lines having been abandoned by the early 2000s. 

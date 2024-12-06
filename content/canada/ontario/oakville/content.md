@@ -1,0 +1,1 @@
+Oakville is where was I born and raised, though I could never call it "home" ever again. The Oakville I grew up in no longer exists, only echoes remain of old haunts. Still, there is a connection I'll always have, with some familiar sights lasting like the retinal glow of a camera flash. 

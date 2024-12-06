@@ -1,0 +1,1 @@
+One of countless small places that exist due to a former railway line, Standard lies on what was the CP Irricana subdivision, and a large surrounding agricultural area. 

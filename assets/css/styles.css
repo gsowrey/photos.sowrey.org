@@ -1042,6 +1042,13 @@ body {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+div.btn {
+  background: none;
+  border: none;
+  box-shadow: none;
+  min-width: 100px;
+}
+
 .dark .btn {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
@@ -1536,6 +1543,24 @@ body {
 
 .nav-wrapper {
   background: var(--bg);
+}
+
+ul.pagination.pagination-default {
+  list-style: none;
+  padding: 0;
+  margin:  0 auto;
+}
+
+ul.pagination.pagination-default li {
+      
+  display:inline-block;
+}
+ul.pagination.pagination-default li a {
+  text-decoration: none;
+  font-size: 1.1em;
+  font-weight: bold;
+  display: block;
+  padding: 5px;
 }
 
 .open {

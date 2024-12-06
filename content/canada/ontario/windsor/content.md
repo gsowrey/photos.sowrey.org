@@ -1,0 +1,1 @@
+Across the river from Detroit (it could potentially be the "South Detroit" from Journey's "Don't Stop Believin'"), Windsor is a post-industry city, still containing some of the businesses that support the automotive mecca to the north, and the home of Canadian Club rye whiskey, but it's more residential and remote working than the blue collar days of yore. 

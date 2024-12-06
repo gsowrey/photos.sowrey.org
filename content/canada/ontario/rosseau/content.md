@@ -1,0 +1,1 @@
+One of the many lakes in the Muskokas, Rosseau is one of the larger ones, which attracts larger boats, and therefore, more money. 

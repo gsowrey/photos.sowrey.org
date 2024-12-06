@@ -1,0 +1,1 @@
+Sudbury is a major mining centre in Northern Ontario, known primarily for nickel (hence the Big Nickel monument) and the Inco Supertack, the tallest chimney in the Western Hemisphere and second in the world. 

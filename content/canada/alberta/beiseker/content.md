@@ -1,0 +1,1 @@
+Beiseker is a small town about 45 minutes northwest of Calgary, a centre for agriculture and where both Canadian National and Canadian Pacific (Kansas City) used to run parallel through its core; only CN remains today. 
