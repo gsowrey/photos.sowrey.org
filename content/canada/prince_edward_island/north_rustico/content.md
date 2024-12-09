@@ -1,0 +1,1 @@
+North Rustico is the entrance to North Rustico Harbour, a short drive from Rusticoville, across from Anglo Rustico. It's easy to get confused with some of the road signs. 

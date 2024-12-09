@@ -1,0 +1,1 @@
+One local song we learned while visiting PEI was "The Red Dirt Road", which was not specific to any one road, as nearly all unpaved roads are red dirt, a defining characteristic of PEI. 

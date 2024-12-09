@@ -1,0 +1,1 @@
+At the far eastern end of PEI, you'll find Elmira, which also appears to be the geographical name for the East Point Lighthouse. 

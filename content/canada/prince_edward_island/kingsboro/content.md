@@ -1,0 +1,1 @@
+Found on the east coast, Kingsboro was a small fishing village until the fisheries collapsed. It's feature point is Basin Head Provincial Park, which has the preserved remnants of the fishing docks and harbour, and one heck of a nice beach.

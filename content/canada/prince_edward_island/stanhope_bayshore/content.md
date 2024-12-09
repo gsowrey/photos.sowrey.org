@@ -1,0 +1,1 @@
+The north shores of PEI are particularly spectacular, being exposed to the waters and winds of the Gulf of St. Lawrence. 

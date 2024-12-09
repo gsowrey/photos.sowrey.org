@@ -1,0 +1,1 @@
+I don't know if those who named New Glasgow expected it to one day be like (Old) Glasgow in Scotland, but PEI's Glasgow is a far cry from its industrial namesake. Today, it's known mostly for the Green Gables Heritage Place and Avonlea Village, not far away from the area centre.

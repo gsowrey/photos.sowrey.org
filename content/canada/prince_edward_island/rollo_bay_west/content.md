@@ -1,0 +1,1 @@
+What's PEI most famous for, other than a certain girl with pig tails? Potatoes. And during the summer, there are endless lines of dead-straight potatoes, as far as the eye can see. 

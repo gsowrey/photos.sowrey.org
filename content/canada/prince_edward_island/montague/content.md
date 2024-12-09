@@ -1,0 +1,1 @@
+Montague sits on the eastern side of the island, straddling one of the tidal inlets. It's a gorgeous little town, especially in the summer, with its heritage railway station still intact, astride the Confederation Trail that swings through on its way west. 

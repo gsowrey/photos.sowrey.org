@@ -1,0 +1,1 @@
+Once the end of the PEI rail line that took you to the ferries to the mainland, it's now the start of the Confederation Bridge that crosses the Northumberland Strait between PEI and New Brunswick.

@@ -1,0 +1,1 @@
+Just into the western half of PEI is the town of Kensington. Small by nearly any other province's standards, Kensington is one of the larger places outside of Charlottetown. 
