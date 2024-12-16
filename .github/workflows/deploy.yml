@@ -23,6 +23,7 @@ jobs:
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
         with:
+          ACTIONS_STEP_DEBUG: true
           hugo-version: 'latest'
           extended: true
 
