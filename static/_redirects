@@ -1,3 +1,4 @@
+www.photos.sowrey.org/* https://photos.sowrey.org/$1  301
 /alberta/  /canada/alberta/  301
 /banff/  /canada/alberta/banff/  301
 /british+columbia/  /canada/british_columbia/  301
@@ -59,4 +60,3 @@
 /villa+blanca/*  /photos/:splat  301
 /westgate/*  /photos/:splat  301
 /york/*  /photos/:splat  301
-
