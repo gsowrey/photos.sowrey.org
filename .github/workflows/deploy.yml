@@ -35,6 +35,11 @@ jobs:
           go version
           node -v
 
+      - name: Clean any old build Data
+        run: |
+          rm -Rf ./data
+          rm -Rf ./public
+          
       - name: Create Image Data Files
         run: node build_library.js
 
