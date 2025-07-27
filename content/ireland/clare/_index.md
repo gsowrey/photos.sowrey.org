@@ -1,5 +1,5 @@
 ---
-title: County Clare, Ireland
+title: Clare
 type: geolist
 region: true
 ---
