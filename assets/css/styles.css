@@ -1017,6 +1017,22 @@ body {
   --tw-prose-invert-td-borders: #404040;
 }
 
+@media (max-width: 640px) {
+  main nav.flex {
+    display: grid;
+    grid-template-columns: 30% 40% 30%;
+  }
+  main article nav.flex {
+    grid-template-columns: 50% 50%;
+  }
+  div.btn {
+    min-width: 0;
+  }
+  .btn {
+    height: 40px
+  }
+}
+
 .btn {
   border-radius: 9999px;
   --tw-bg-opacity: 1;
