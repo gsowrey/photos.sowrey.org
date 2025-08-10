@@ -32,5 +32,5 @@ params.author.name = 'Geoff Sowrey'
   rss = true                                # show rss icon
 
 [pagination]
-  paginate = 100
+  pagerSize = 100
   path='photos'
