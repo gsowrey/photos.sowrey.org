@@ -20,4 +20,4 @@ if [[ $? != 0 ]]; then
   exit 1
 fi
 
-hugo --ignoreCache --logLevel debug
+hugo --gc --logLevel debug
