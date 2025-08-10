@@ -1,6 +1,6 @@
 <div class="recent">
         {{ $recent := where .Site.Pages "Type" "article" }}
-        {{ range first 60 (sort $recent ".Params.UnixTime" "desc") }}
+        {{ range first 100 (sort $recent ".Params.UnixTime" "desc") }}
             {{ $pagepath := .Permalink }}
             {{ $title := .Param "Title" }}
             {{ $imagepath := .Param "Filename" }}

@@ -1,4 +1,4 @@
-resources/_gen
+# resources/_gen Hugo needs this to store built thumbnails, which should speed up deploys
 assets/.sass-cache
 assets/scss/*.css
 content/**/index.md

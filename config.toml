@@ -11,7 +11,7 @@ timeout=60
   anchor = 'Smart'
   bgColor = '#ffffff'
   hint = 'photo'
-  quality = 80
+  quality = 70
   resampleFilter = 'Lanczos'
 
 params.author.name = 'Geoff Sowrey'
@@ -32,5 +32,5 @@ params.author.name = 'Geoff Sowrey'
   rss = true                                # show rss icon
 
 [pagination]
-  paginate = 40
+  paginate = 100
   path='photos'
